@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} signup {% endblock title %}
+
+
+{% block body %}
+
+{% load static %}
+
+
+<div class="container">
+    <div class="d-grid justify-content-center mt-5">
+        <img class="mx-auto logo" src="{% static 'images/logo.png' %}" alt="">
+        <form class="d-grid justify-content-center mt-3 p-5 border border-success rounded" style="width:23rem;">
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="You Name">
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Username">
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Address">
+            </div>
+            <div class="mb-3">
+                <input type="email" class="form-control" placeholder="Email">
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Phone No">
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="password">
+            </div>
+            <div class="mb-5">
+                <input type="text" class="form-control" placeholder="Confirm Password">
+            </div>
+            <button type="submit" class="btn btn-success">Sign Up</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock body %}

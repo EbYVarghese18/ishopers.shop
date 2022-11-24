@@ -1,0 +1,26 @@
+*{
+    text-decoration: none !important;
+    color: white !important;
+   
+}
+
+p{
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+a{
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+
+/* navbar */
+
+.logo{
+    height: 50px;
+}
+
+.navbar_custom{
+    justify-content: space-evenly !important;
+}
