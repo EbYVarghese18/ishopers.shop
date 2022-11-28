@@ -17,15 +17,15 @@
         <div class="col-sm-2 col-md-2" style="height: 85vh;">
             <div style="height:25% ;"></div>
             <div class="d-flex flex-column justify-content-start" style="height: 50%;">
-                <a href="" class="px-2 me-2 d-flex align-items-center" style="background-color: rgb(47, 48, 48); border-radius: 10px;"> 
+                <a href="#" class="px-2 me-2 d-flex align-items-center" style="background-color: rgb(47, 48, 48); border-radius: 10px;"> 
                     <img src="{% static 'images/dash.png' %}" alt="" style="height: 15px;">
                     <p class="p-2">Dashboard</p>
                 </a>
-                <a href="" class="px-2 d-flex align-items-center">
+                <a href="{% url 'admin_orders' %}" class="px-2 d-flex align-items-center">
                     <img src="{% static 'images/orders.png' %}" alt="" style="height: 15px;">
                     <p class="p-2">Orders</p>
                 </a>
-                <a href="" class="px-2 d-flex align-items-center">
+                <a href="{% url 'admin_products' %}" class="px-2 d-flex align-items-center">
                     <img src="{% static 'images/search.png' %}" alt="" style="height: 15px;">
                     <p class="p-2">Products</p>
                 </a>
@@ -33,11 +33,11 @@
                     <img src="{% static 'images/addproducts.png' %}" alt="" style="height: 15px;">
                     <p class="p-2">Add Products</p>
                 </a>
-                <a href="" class="px-2 d-flex align-items-center">
+                <a href="{% url 'admin_users' %}" class="px-2 d-flex align-items-center">
                     <img src="{% static 'images/users.png' %}" alt="" style="height: 15px;">
                     <p class="p-2">Users</p>
                 </a>
-                <a href="" class="px-2 d-flex align-items-center">
+                <a href="{% url 'admin_signin' %}" class="px-2 d-flex align-items-center">
                     <img src="{% static 'images/logout.png' %}" alt="" style="height: 15px;">
                     <p class="p-2">Logout</p>
                 </a>

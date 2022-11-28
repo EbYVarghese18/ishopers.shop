@@ -11,29 +11,37 @@
 <div class="container">
     <div class="d-grid justify-content-center mt-5">
         <img class="mx-auto logo" src="{% static 'images/logo.png' %}" alt="">
-        <form class="d-grid justify-content-center mt-3 p-5 border border-success rounded" style="width:23rem;">
+        <form method="POST" action="signup" class="d-grid justify-content-center mt-3 p-5 border border-success rounded" style="width:23rem;">
+            {% csrf_token %}
             <div class="mb-3">
-                <input type="text" class="form-control" placeholder="You Name">
+                <input name="fullname" type="text" class="form-control" placeholder="You Name">
             </div>
             <div class="mb-3">
-                <input type="text" class="form-control" placeholder="Username">
+                <input name="username" type="text" class="form-control" placeholder="Username">
             </div>
             <div class="mb-3">
-                <input type="text" class="form-control" placeholder="Address">
+                <input name="address" type="text" class="form-control" placeholder="Address">
             </div>
             <div class="mb-3">
-                <input type="email" class="form-control" placeholder="Email">
+                <input name="email" type="email" class="form-control" placeholder="Email">
             </div>
             <div class="mb-3">
-                <input type="text" class="form-control" placeholder="Phone No">
+                <input name="phoneno" type="text" class="form-control" placeholder="Phone No">
             </div>
             <div class="mb-3">
-                <input type="text" class="form-control" placeholder="password">
+                <input name="password" type="text" class="form-control" placeholder="password">
             </div>
             <div class="mb-5">
-                <input type="text" class="form-control" placeholder="Confirm Password">
+                <input name="confirmpassword" type="text" class="form-control" placeholder="Confirm Password">
             </div>
             <button type="submit" class="btn btn-success">Sign Up</button>
+            {% if messages %}
+            <div class="alert alert-danger mt-5 text-center" role="alert">
+              {% for e in messages %}
+              {{ e }}
+              {% endfor %}
+            </div>
+            {% endif %}
         </form>
     </div>
 </div>

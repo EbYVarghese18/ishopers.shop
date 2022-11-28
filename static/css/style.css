@@ -1,7 +1,5 @@
 *{
-    text-decoration: none !important;
-    color: white !important;
-   
+    text-decoration: none !important;   
 }
 
 p{
@@ -15,6 +13,11 @@ a{
 }
 
 
+input:focus{
+    color: black;
+}
+
+
 /* navbar */
 
 .logo{
@@ -24,3 +27,5 @@ a{
 .navbar_custom{
     justify-content: space-evenly !important;
 }
+
+

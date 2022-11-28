@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Store {% endblock title %}
+{% block title %} index {% endblock title %}
 
 
 {% block body %}
@@ -19,19 +19,14 @@
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
-            <a class="px-3 text-white" href=""><b>Store</b></a>
-            <div class="px-3 d-flex align-items-center">
+            <a class="text-white" href="">Store</a>
+            <div class="px-4 d-flex align-items-center">
                 <img class="" src="{% static 'images/location.png' %}" alt="" style="height: 15px; margin-right: 3px;">
                 <p>673579</p>
                 <a href=""><img src="{% static 'images/edit.png' %}" alt=""
                         style="height: 14px; margin-left: 3px ;"></a>
             </div>
-            <div class="px-3">
-                <img src="{% static 'images/profile.png' %}" alt="" style="height: 20px;">
-            </div>
-            <div class="px-3">
-                <img src="{% static 'images/cart.png' %}" alt="" style="height: 20px;">
-            </div>
+            <a class="text-white" href="{% url 'signin' %}"></a>
         </div>
 
     </div>
@@ -42,32 +37,12 @@
 
 
 
-<!-- cards starts -->
-
-<div class="container">
-    {% for product in products %}
-    <div class="card border-dark text-center" style="width: 18rem;">
-        <img src="{{ product.images.url }}" class="card-img-top" alt="...">
-        <div class="card-body" style="background-color: #282d32;">
-            <p class="text-white card-text pb-2">{{ product.product_name }}</p>
-            <h5 class="text-white card-title">₹{{ product.price }}</h5>
-            <a href="#" class="p-2 mt-2 btn btn-primary">add to cart</a>
-        </div>
-    </div>
-    {% endfor %}
-</div>
-
-<!-- cards ends -->
-
-
-
-
 <!-- footer starts -->
 
 <div class="bg-dark p-4 text-center">
-    <hr>
+    <hr class="text-white">
     <div>
-        <p class="py-3">CONNECT WITH US</p>
+        <p class="py-3 text-white">CONNECT WITH US</p>
     </div>
     <div>
         <a href=""><img class="px-2" src="{% static 'images/instagram.png' %}" alt="" style="height: 20px;"></a>
@@ -77,7 +52,7 @@
         <a href=""><img class="px-2" src="{% static 'images/youtube.png' %}" alt="" style="height: 18px;"></a>
     </div>
     <div>
-        <p class="py-3">© Copyright 2022 ishop. All rights reserved</p>
+        <p class="py-3 text-white">© Copyright 2022 ishop. All rights reserved</p>
     </div>
 </div>
 
