@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} index {% endblock title %}
+{% block title %} home {% endblock title %}
 
 
 {% block body %}
@@ -19,14 +19,14 @@
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
-            <a class="text-white" href="">Store</a>
+            <a class="text-white" href="{% url 'store' %}">Store</a>
             <div class="px-4 d-flex align-items-center">
                 <img class="" src="{% static 'images/location.png' %}" alt="" style="height: 15px; margin-right: 3px;">
                 <p>673579</p>
                 <a href=""><img src="{% static 'images/edit.png' %}" alt=""
                         style="height: 14px; margin-left: 3px ;"></a>
             </div>
-            <a class="text-white" href="{% url 'cart' %}"></a>
+            <a class="text-white" href=""></a>
         </div>
 
     </div>
@@ -62,7 +62,7 @@
             <h5 class="p-4 text-white">
                 Experience the world at your fingertips!<br> Work, socialise, book a ride, play games,
                 listen to music, watch your favourite shows, take a photo, or simply make a call!<br>
-                Buy a mobile phone from ishop that does it all and then some.
+                Buy a mobile phone from iShop that does it all and then some.
             </h5>
         </div>
         <div class="col-md-2 col-lg-3"></div>
@@ -93,11 +93,11 @@
         <div class="col-12 col-md-8 col-lg-6">
             <h5 class="p-4 text-white">
                 Whether you are about to buy your first mobile phone or upgrading
-                to the latest smartphone, ishop's range of mobile phones is all
+                to the latest smartphone, iShop's range of mobile phones is all
                 you need. You can browse from a collection of mobile phones across
                 storage capacities, camera specifications, and colours. While mobile
                 phone prices differ according to features, you will always find the
-                best deal at ishop.com.
+                best deal at iShop.com.
             </h5>
         </div>
         <div class="col-md-2 col-lg-3"></div>
@@ -132,7 +132,7 @@
         <a href=""><img class="px-2" src="{% static 'images/youtube.png' %}" alt="" style="height: 18px;"></a>
     </div>
     <div>
-        <p class="py-3 text-white">© Copyright 2022 ishop. All rights reserved</p>
+        <p class="py-3 text-white">© Copyright 2022 iShop. All rights reserved</p>
     </div>
 </div>
 

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %} Store {% endblock title %}
+
+
+{% block body %}
+
+{% load static %}
+
+
+<!-- navbar starts -->
+
+<nav class="navbar navbar-light bg-dark">
+    <div class="navbar_custom container-fluid">
+
+        <a class="p-4 navbar-brand" href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}" alt=""></a>
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+        <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
+            <a class="text-white" href="{% url 'store' %}">Store</a>
+            <div class="px-4 d-flex align-items-center">
+                <img class="" src="{% static 'images/location.png' %}" alt="" style="height: 15px; margin-right: 3px;">
+                <p>673579</p>
+                <a href="#"><img src="{% static 'images/edit.png' %}" alt="" style="height: 14px; margin-left: 3px ;"></a>
+            </div>
+            <a class="text-white" href=""></a>
+        </div>
+
+    </div>
+    <hr>
+</nav>
+
+<!-- navbar ends -->
+
+
+
+<!-- product description section starts -->
+
+
+<div class="container text-white">
+    <div class="row gx-0 align-items-center">
+
+        <div class="col-12 col-md-6 p-5 d-flex justify-content-center">
+            <img src="{{ single_product.images.url }}" alt="" style="width: 20rem;">
+        </div>
+        <div class="col-12 col-md-6 p-5">
+            <p>
+            <h3>{{ single_product.product_name }}</h3>
+            </p>
+            <br>
+            <h3>₹{{ single_product.price }}</h3>
+            <p class="pb-3">(incl. all Taxes)</p>
+            <div>
+                <b>Key Features:</b>
+                <p class="pt-2">
+                    {{ single_product.description }}
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row gx-0">
+        <div class="col d-flex justify-content-center mt-5">
+            {% if single_product.stock <= 0 %}
+            <h3 class="text-danger">Out of Stock</h3>
+            {% else %}            
+            <button class="btn btn-primary">Buy Now</button>
+            <button class="btn btn-primary ms-3">Add to Cart</button>
+            {% endif %}
+            
+        </div>
+    </div>
+
+</div>
+
+
+<!-- product description section ends -->
+
+
+<!-- footer starts -->
+
+<div class="bg-dark p-4 text-center">
+    <hr class="text-white">
+    <div>
+        <p class="py-3 text-white">CONNECT WITH US</p>
+    </div>
+    <div>
+        <a href=""><img class="px-2" src="{% static 'images/instagram.png' %}" alt="" style="height: 20px;"></a>
+        <a href=""><img class="px-2" src="{% static 'images/fb.png' %}" alt="" style="height: 20px;"></a>
+        <a href=""><img class="px-2" src="{% static 'images/twitter.png' %}" alt="" style="height: 20px;"></a>
+        <a href=""><img class="px-2" src="{% static 'images/linkedin.png' %}" alt="" style="height: 20px;"></a>
+        <a href=""><img class="px-2" src="{% static 'images/youtube.png' %}" alt="" style="height: 18px;"></a>
+    </div>
+    <div>
+        <p class="py-3 text-white">© Copyright 2022 iShop. All rights reserved</p>
+    </div>
+</div>
+
+<!-- footer ends -->
+
+
+{% endblock body %}
