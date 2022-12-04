@@ -26,7 +26,29 @@
                 <a href=""><img src="{% static 'images/edit.png' %}" alt=""
                         style="height: 14px; margin-left: 3px ;"></a>
             </div>
-            <a class="text-white" href=""></a>
+            
+            {% if user.id is None %}
+            {% if user.is_superadmin %}
+            <a class="text-white" href="{% url 'signin' %}">Login</a>
+            {% else %}
+            <p>Welcome <b>{{ user.first_name }}</b></p>
+            <div class="px-3">
+                <a href="#"><img src="{% static 'images/profile.png' %}" alt="" style="height: 20px;"></a>
+            </div>
+            <div class="">
+                <a href="{% url 'cart' %}" class="widget-header">
+                    <div class="text-white">
+                     <i class="fa fa-shopping-cart fa-lg"></i>
+                     <span><b>{{ cart_count }}</b></span>
+                    </div>
+                 </a>
+            </div>
+            <div class="px-3">
+                <a href="{% url 'signout' %}"><img src="{% static 'images/logout.png' %}" alt=""
+                        style="height: 20px;"></a>
+            </div>
+            {% endif %}
+            {% endif %}
         </div>
 
     </div>
@@ -38,7 +60,7 @@
 
 <!-- banner starts -->
 
-<div class="row gx-0 pb-5">
+<div class="row gx-0 py-3">
     <div class="bg-dark col-12 col-sm-12 col-md-6 p-5 d-flex align-items-center justify-content-center text-center">
         <p class="text-white" style="font-size:50px ;">A MOBILE PHONE FOR EVERY NEED</p>
     </div>
@@ -86,7 +108,7 @@
 
 <div class="d-grid bg-dark p-5 mt-5 text-center align-items-center" style="height:400px ;">
     <h1 class="text-white">
-        Stay Connected With Whe Best Mobile Phones From iShop
+        Stay Connected With The Best Mobile Phones From iShop
     </h1>
     <div class="row gx-0">
         <div class="col-md-2 col-lg-3"></div>

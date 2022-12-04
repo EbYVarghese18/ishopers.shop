@@ -1,10 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from store.models import Products
+from django.views.decorators.cache import cache_control
+from accounts.models import Account
 
 # Create your views here.
 
-def index(request):
-    return render(request, 'index.html')
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def home(request):
-    return render(request, 'home.html')
+    if 'usersession' in request.session:
+        return render(request, 'home.html')
+    else:
+        return redirect('signin')

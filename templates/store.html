@@ -15,24 +15,39 @@
 
         <a class="p-4 navbar-brand" href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}"
                 alt=""></a>
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <form action="{% url 'search' %}" method="GET" class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
-            <a class="px-3 text-white" href="#"><b>Store</b></a>
-            <div class="px-3 d-flex align-items-center">
+            <a class="px-3 text-white" href="{% url 'store' %}"><b>Store</b></a>
+            <div class="d-flex align-items-center">
                 <img class="" src="{% static 'images/location.png' %}" alt="" style="height: 15px; margin-right: 3px;">
                 <p>673579</p>
                 <a href=""><img src="{% static 'images/edit.png' %}" alt=""
                         style="height: 14px; margin-left: 3px ;"></a>
             </div>
+            {% if user.id is None %}
+            {% if user.is_superadmin %}
+            <a class="text-white" href="{% url 'signin' %}">Login</a>
+            {% else %}
             <div class="px-3">
-                <img src="{% static 'images/profile.png' %}" alt="" style="height: 20px;">
+                <a href="#"><img src="{% static 'images/profile.png' %}" alt="" style="height: 20px;"></a>
+            </div>
+            <div class="">
+                <a href="{% url 'cart' %}" class="widget-header">
+                    <div class="text-white">
+                        <i class="fa fa-shopping-cart fa-lg"></i>
+                        <span><b>{{ cart_count }}</b></span>
+                    </div>
+                </a>
             </div>
             <div class="px-3">
-                <img src="{% static 'images/cart.png' %}" alt="" style="height: 20px;">
+                <a href="{% url 'signout' %}"><img src="{% static 'images/logout.png' %}" alt=""
+                        style="height: 20px;"></a>
             </div>
+            {% endif %}
+            {% endif %}
         </div>
 
     </div>
@@ -42,11 +57,21 @@
 <!-- navbar ends -->
 
 
+<div class="d-flex justify-content-center p-3">
+    {% if 'search' in request.path %}
+    <h4 class="text-white">Search Results</h4>
+    {% else %}
+    <h4 class="text-white">OUR STORE</h4>
+    {% endif %}
+</div>
+
+
 <!-- Category and filter section starts-->
 
 <div class="d-flex justify-content-evenly m-3">
     <div class="dropdown">
-        <button type="button" class="btn dropdown-toggle text-white" style="background-color: #282d32;" data-bs-toggle="dropdown">
+        <button type="button" class="btn dropdown-toggle text-white" style="background-color: #282d32;"
+            data-bs-toggle="dropdown">
             Select Category
         </button>
         <ul class="dropdown-menu">
@@ -69,21 +94,71 @@
     </div>
     <hr class="text-white">
     <div class="row gx-0 justify-content-center">
+        {% if products %}
         {% for product in products %}
         <div class="col-12 col-md-4 col-lg-3 card border-dark text-center m-3" style="width: 18rem;">
-            <a href="{{ product.get_url }}"><img src="{{ product.images.url }}" class="card-img-top p-4" style="background-color: #282d32;" alt="..."></a>
+            <a href="{{ product.get_url }}"><img src="{{ product.images.url }}" class="card-img-top p-4"
+                    style="background-color: #282d32;" alt="..."></a>
             <div class="card-body" style="background-color: #282d32;">
-                <a href="{{ product.get_url }}"><p class="text-white card-text pb-2">{{ product.product_name }}</p></a>
-                <h5 class="text-white card-title">{{ product.price }}</h5>
-                <a href="#" class="p-2 mt-2 btn btn-primary">add to cart</a>
+                <a href="{{ product.get_url }}">
+                    <p class="text-white card-text pb-2">{{ product.product_name }}</p>
+                </a>
+                <h5 class="text-white card-title">₹{{ product.price }}</h5>
+                <a href="{{ product.get_url }}" class="p-2 mt-2 btn btn-primary">View Details</a>
             </div>
         </div>
         {% endfor %}
+        {% else %}
+        <div class="text-center p-3">
+            <h2 class="text-white">No Result Found. Please try again.</h2>
+        </div>
+        {% endif %}
+    </div>
+    <div class="">
+        <nav aria-label="Page navigation example">
+            {% if products.has_other_pages %}
+            <ul class="pagination justify-content-center">
+                {% if products.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{products.previous_page_number}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% for i in products.paginator.page_range %}
+                {% if products.number == i %}
+                <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if products.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{products.next_page_number}}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </nav>
     </div>
 </div>
 
-<!-- cards ends -->
 
+<!-- cards ends -->
 
 
 

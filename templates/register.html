@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %} signup {% endblock title %}
+
+
+{% block body %}
+
+{% load static %}
+
+
+<div class="container">
+    <div class="d-grid justify-content-center mt-5">
+        <a class="p-4 navbar-brand text-center" href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}"
+            alt=""></a>
+        <form method="POST" action="{% url 'register' %}"
+            class="d-grid justify-content-center mt-2 border border-success rounded" style="width:23rem;">
+            {% csrf_token %}
+            <div>
+                <h5 class="text-center text-white py-4">Sign Up</h5>
+            </div>
+            <div>
+                {% include 'alerts.html' %}
+            </div>
+            <div class="mb-3">
+                {{ form.first_name }}
+            </div>
+            <div class="mb-3">
+                {{ form.last_name }}
+            </div>
+            <div class="mb-3">
+                {{ form.email }}
+            </div>
+            <div class="mb-3">
+                {{ form.phone_number }}
+            </div>
+            <div class="mb-3">
+                {{ form.password }}
+            </div>
+            <div class="mb-4">
+                {{ form.confirm_password }}
+            </div>
+            <button type="submit" class="px-5 btn btn-success">Sign Up</button>
+            <div class="text-center mt-4">
+                <p class="mb-4 text-white">Have an account?<a href="{% url 'signin' %}" class="text-white"><b>  Login</b></a></p>
+            </div>
+            <div class="text-center text-white">
+                {{ form.email.errors }}
+                {{ form.non_field_errors }}
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock body %}

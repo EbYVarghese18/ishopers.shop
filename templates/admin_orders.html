@@ -8,7 +8,7 @@
 {% load static %}
 
 
-<div class="container-fluid p-4">
+<div class="container-fluid p-4 text-white">
     <div class="text-center">
         <img class="mx-auto logo mb-2" src="{% static 'images/logo.png' %}" alt="">
     </div>
@@ -19,31 +19,31 @@
             <div class="d-flex flex-column justify-content-start" style="height: 50%;">
                 <a href="{% url 'admin_home' %}" class="px-2 d-flex align-items-center"> 
                     <img src="{% static 'images/dash.png' %}" alt="" style="height: 15px;">
-                    <p class="p-2">Dashboard</p>
+                    <p class="p-2 text-white">Dashboard</p>
                 </a>
                 <a href="#" class="px-2 me-2 d-flex align-items-center" style="background-color: rgb(47, 48, 48); border-radius: 10px;">
                     <img src="{% static 'images/orders.png' %}" alt="" style="height: 15px;">
-                    <p class="p-2">Orders</p>
+                    <p class="p-2 text-white">Orders</p>
                 </a>
                 <a href="{% url 'admin_products' %}" class="px-2 d-flex align-items-center">
                     <img src="{% static 'images/search.png' %}" alt="" style="height: 15px;">
-                    <p class="p-2">Products</p>
+                    <p class="p-2 text-white">Products</p>
                 </a>
-                <a href="" class="px-2 d-flex align-items-center">
-                    <img src="{% static 'images/addproducts.png' %}" alt="" style="height: 15px;">
-                    <p class="p-2">Add Products</p>
+                <a href="{% url 'admin_categories' %}" class="px-2 d-flex align-items-center">
+                    <img src="{% static 'images/category.png' %}" alt="" style="height: 15px;">
+                    <p class="p-2 text-white">Categories</p>
                 </a>
                 <a href="{% url 'admin_users' %}" class="px-2 d-flex align-items-center">
                     <img src="{% static 'images/users.png' %}" alt="" style="height: 15px;">
-                    <p class="p-2">Users</p>
+                    <p class="p-2 text-white">Users</p>
                 </a>
-                <a href="{% url 'admin_signin' %}" class="px-2 d-flex align-items-center">
+                <a href="{% url 'admin_signout' %}" class="px-2 d-flex align-items-center">
                     <img src="{% static 'images/logout.png' %}" alt="" style="height: 15px;">
-                    <p class="p-2">Logout</p>
+                    <p class="p-2 text-white">Logout</p>
                 </a>
             </div>
         </div>
-        <div class="col-sm-10 col-md-10 overflow-auto" style="background-color: rgb(47, 48, 48); border-radius: 10px;">
+        <div class="col-sm-10 col-md-10 overflow-auto" style="background-color: rgb(15, 15, 15); border-radius: 10px;">
             
            
         </div>

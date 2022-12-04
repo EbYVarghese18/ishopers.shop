@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} index {% endblock title %}
+{% block title %} Cart {% endblock title %}
 
 
 {% block body %}
@@ -13,20 +13,35 @@
 <nav class="navbar navbar-light bg-dark">
     <div class="navbar_custom container-fluid">
 
-        <a class="p-4 navbar-brand" href="#"><img class="logo" src="{% static 'images/logo.png' %}" alt=""></a>
+        <a class="p-4 navbar-brand" href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}"
+                alt=""></a>
         <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
-            <a class="text-white" href="">Store</a>
-            <div class="px-4 d-flex align-items-center">
+            <a class="text-white" href="{% url 'store' %}">Store</a>
+            <div class="px-3 d-flex align-items-center">
                 <img class="" src="{% static 'images/location.png' %}" alt="" style="height: 15px; margin-right: 3px;">
                 <p>673579</p>
                 <a href=""><img src="{% static 'images/edit.png' %}" alt=""
                         style="height: 14px; margin-left: 3px ;"></a>
             </div>
-            <a class="text-white" href="{% url 'signin' %}"></a>
+            <div class="">
+                <a href="#"><img src="{% static 'images/profile.png' %}" alt="" style="height: 20px;"></a>
+            </div>
+            <div class="px-3">
+                <a href="#" class="widget-header">
+                    <div class="text-white">
+                     <i class="fa fa-shopping-cart fa-lg"></i>
+                     <span><b>{{ cart_count }}</b></span>
+                    </div>
+                 </a>
+            </div>
+            <div class="">
+                <a href="{% url 'signout' %}"><img src="{% static 'images/logout.png' %}" alt=""
+                        style="height: 20px;"></a>
+            </div>
         </div>
 
     </div>
@@ -35,6 +50,110 @@
 
 <!-- navbar ends -->
 
+
+
+<!-- cart starts -->
+
+<section class="h-100 h-custom text-white">
+    <div class="container py-5 h-100">
+
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12">
+                <div class="card card-registration card-registration-2"
+                    style="border-radius: 15px; background-color: #282d32;">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="d-flex align-items-center justify-content-center mb-5">
+                                        <h1 class="fw-bold mb-0 text-black text-white">Your Cart</h1>
+                                    </div>
+                                    <hr class="my-4">
+                                    {% if not cart_items %}
+                                    <h2 class="text-center mb-5">Your Cart is Empty!</h2>
+                                    <div class="text-center">
+                                        <a href="{% url 'store' %}" class="btn btn-success p-2">Continue Shopping</a>
+                                    </div>
+                                    {% else %}
+                                    {% for cart_item in cart_items %}
+                                    <div class="row mb-4 p-2 d-flex justify-content-between align-items-center">
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            <img src="{{ cart_item.product.image.url }}" class="img-fluid rounded-3"
+                                                alt="Phone Image">
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-3">
+                                            <p class="text-white mb-2">Product Name:</p>
+                                            <a class="text-white" href="{{ cart_item.product.get_url }}"><h6 class="text-wite mb-0">{{ cart_item.product.product_name }}</h6></a>
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-2">
+                                            <p class="text-white mb-2">Qty:</p>
+                                            <h6 class="text-wite mb-0 d-flex">
+                                                <a href="{% url 'remove_cart' cart_item.product.id %}"><b
+                                                        class="text-white">-</b></a>
+                                                <p class="px-2">{{ cart_item.quantity }}</p>
+                                                <a href="{% url 'add_cart' cart_item.product.id %}"><b
+                                                        class="text-white">+</b></a>
+                                            </h6>
+                                        </div>
+                                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                            <p class="text-white mb-2">Price:</p>
+                                            <h6 class="mb-0">₹{{ cart_item.product.price }}</h6>
+                                        </div>
+                                        <div class="col-md-1 col-lg-1 col-xl-1 text-white">
+                                            <a href="{% url 'remove_cart_item' cart_item.product.id %}" class="px-2 text-white">X</a>
+                                        </div>
+                                    </div>
+                                    <hr class="my-4">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                                    <hr class="my-4">
+
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <h5 class="text-uppercase">Sub Total:</h5>
+                                        <h5>₹{{ cart_item.sub_total }}</h5>
+                                    </div>
+
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <h5 class="text-uppercase">Tax:</h5>
+                                        <h5>₹{{ tax }}</h5>
+                                    </div>
+
+                                    <h5 class="text-uppercase mb-3">Give code</h5>
+
+                                    <div class="mb-5">
+                                        <div class="form-outline">
+                                            <input type="text" id="form3Examplea2"
+                                                class="form-control form-control-lg" />
+                                            <label class="form-label" for="form3Examplea2">Enter your code</label>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-4">
+
+                                    <div class="d-flex justify-content-between mb-5">
+                                        <h5 class="text-uppercase">Grand Total:</h5>
+                                        <h5>₹{{ grand_total }}</h5>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <button type="button" class="btn btn-success btn-block btn-lg"
+                                        data-mdb-ripple-color="dark">Checkout</button>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- cart ends -->
 
 
 <!-- footer starts -->

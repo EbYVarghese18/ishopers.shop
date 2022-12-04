@@ -13,19 +13,41 @@
 <nav class="navbar navbar-light bg-dark">
     <div class="navbar_custom container-fluid">
 
-        <a class="p-4 navbar-brand" href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}" alt=""></a>
+        <a class="p-4 navbar-brand" href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}"
+                alt=""></a>
         <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
-            <a class="text-white" href="{% url 'store' %}">Store</a>
-            <div class="px-4 d-flex align-items-center">
+            <a class="px-3 text-white" href="{% url 'store' %}"><b>Store</b></a>
+            <div class="px-3 d-flex align-items-center">
                 <img class="" src="{% static 'images/location.png' %}" alt="" style="height: 15px; margin-right: 3px;">
                 <p>673579</p>
-                <a href="#"><img src="{% static 'images/edit.png' %}" alt="" style="height: 14px; margin-left: 3px ;"></a>
+                <a href=""><img src="{% static 'images/edit.png' %}" alt=""
+                        style="height: 14px; margin-left: 3px ;"></a>
             </div>
-            <a class="text-white" href=""></a>
+            {% if user.id is None %}
+            {% if user.is_superadmin %}
+            <a class="text-white" href="{% url 'signin' %}">Login</a>
+            {% else %}
+            <div class="px-3">
+                <a href="#"><img src="{% static 'images/profile.png' %}" alt="" style="height: 20px;"></a>
+            </div>
+            <div class="">
+                <a href="{% url 'cart' %}" class="widget-header">
+                    <div class="text-white">
+                     <i class="fa fa-shopping-cart fa-lg"></i>
+                     <span><b>{{ cart_count }}</b></span>
+                    </div>
+                 </a>
+            </div>
+            <div class="px-3">
+                <a href="{% url 'signout' %}"><img src="{% static 'images/logout.png' %}" alt=""
+                        style="height: 20px;"></a>
+            </div>
+            {% endif %}
+            {% endif %}
         </div>
 
     </div>
@@ -37,7 +59,6 @@
 
 
 <!-- product description section starts -->
-
 
 <div class="container text-white">
     <div class="row gx-0 align-items-center">
@@ -64,13 +85,15 @@
 
     <div class="row gx-0">
         <div class="col d-flex justify-content-center mt-5">
-            {% if single_product.stock <= 0 %}
-            <h3 class="text-danger">Out of Stock</h3>
-            {% else %}            
-            <button class="btn btn-primary">Buy Now</button>
-            <button class="btn btn-primary ms-3">Add to Cart</button>
-            {% endif %}
-            
+            {% if single_product.stock <= 0 %} <h3 class="text-danger">Out of Stock</h3>
+                {% else %}
+                {% if in_cart %}
+                <a href="#" class="btn btn-success ms-3 p-2"> <span class="text">Added to Cart</span> <i class="fa fa-check"></i> </a>
+                <a href="{% url 'cart' %}"class="text-white btn btn-outline-primary ms-3 p-2"> <span class="text">View Cart</span> <i class="fa fa-eye"></i> </a>
+                {% else %}
+                <a href="{% url 'add_cart' single_product.id %}" class="btn btn-primary ms-3 p-2"> <span class="text">Add to Cart</span> <i class="fa fa-shopping-cart"></i> </a>
+                {% endif %}
+                {% endif %}
         </div>
     </div>
 
