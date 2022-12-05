@@ -27,11 +27,10 @@
                         style="height: 14px; margin-left: 3px ;"></a>
             </div>
             
-            {% if user.id is None %}
-            {% if user.is_superadmin %}
+            {% if user is None %}
             <a class="text-white" href="{% url 'signin' %}">Login</a>
             {% else %}
-            <p>Welcome <b>{{ user.first_name }}</b></p>
+            <p>Welcome, <b>{{ user.first_name }}</b></p>
             <div class="px-3">
                 <a href="#"><img src="{% static 'images/profile.png' %}" alt="" style="height: 20px;"></a>
             </div>
@@ -47,7 +46,6 @@
                 <a href="{% url 'signout' %}"><img src="{% static 'images/logout.png' %}" alt=""
                         style="height: 20px;"></a>
             </div>
-            {% endif %}
             {% endif %}
         </div>
 

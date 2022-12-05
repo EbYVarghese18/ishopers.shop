@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate,login,logout
 from django.views.decorators.cache import cache_control
 from .models import Account
 from .forms import RegistrationForm
+
 
 
 # Create your views here.
@@ -51,6 +52,7 @@ def signin(request):
                 messages.warning(request, 'Try with user account!')
                 return redirect('signin')
             else:
+                login(request, user)
                 request.session['usersession'] = email  # creating session
                 return redirect('home')
         else:
@@ -59,6 +61,30 @@ def signin(request):
 
     else:
         return render(request, 'signin.html')
+
+
+
+
+
+    #  if request.method == 'POST':
+    #     email = request.POST['email']
+    #     password = request.POST['password']
+
+    #     user = authenticate(email=email, password=password)
+    #     if user is not None:
+    #         auth.login(request, user)
+    #         messages.success(request, 'Logged in')
+    #         return redirect('home')
+    #     else:
+    #         messages.error(request, 'Invalid')
+    #         return redirect('signin')
+
+
+
+
+
+    
+    
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -130,84 +156,6 @@ def admin_users(request):
 def admin_categories(request):
     return render(request, 'admin_categories.html')
 
-
-# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# def adduser(request):
-#     if 'adminsession' in request.session:
-#         if request.method == 'POST':
-#             first_name = request.POST['firstname']
-#             last_name = request.POST['lastname']
-#             user_name = request.POST['username']
-#             email = request.POST['email']
-#             password = request.POST['password']
-#             if User.objects.filter(username=user_name).exists():
-#                 messages.info(request, 'Username Taken !')
-#                 return redirect('adduser')
-#             elif User.objects.filter(email=email).exists():
-#                 messages.info(request, 'Email Taken !')
-#                 return redirect('adduser')
-#             else:
-#                 user = User.objects.create_user(
-#                     first_name=first_name, last_name=last_name, username=user_name, password=password, email=email)
-#                 user.save()
-#                 messages.success(request, 'The user created succesfully')
-#                 return redirect('adminhome')
-#         else:
-#             return render(request, 'admin_adduser.html')
-#     else:
-#         return redirect('adminsignin')
-
-
-# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# def deleteuser(request, username):
-#     if 'usersession' in request.session:
-#         try:
-#             del request.session['usersession']
-#         except KeyError:
-#             pass
-#     try:
-#         u = User.objects.get(username=username)
-#         u.delete()
-#         messages.success(request, "The user is deleted")
-#         return redirect('adminhome')
-#     except:
-#         pass
-
-# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# def edituser(request, id):
-#     if 'adminsession' in request.session:
-#         if request.method == 'POST':
-#             firstname = request.POST['firstname']
-#             lastname = request.POST['lastname']
-#             username = request.POST['username']
-#             email = request.POST['email']
-#             updateuser = User.objects.get(id=id)
-#             updateuser.first_name = firstname
-#             updateuser.last_name = lastname
-#             updateuser.username = username
-#             updateuser.email = email
-#             updateuser.save()
-#             messages.success(request, "User updated successfully")
-#             return redirect('adminhome')
-#         else:
-#             user = User.objects.get(id=id)
-#             args = {
-#                 'users': user
-#             }
-#             return render(request, "admin_edituser.html", args)
-#     else:
-#         return redirect('adminsignin')
-
-# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# def searchuser(request):
-#     if 'adminsession' in request.session:
-#         username = request.GET['searchuser']
-#         searchuser = User.objects.filter(username__icontains=username)
-#         return render(request, "admin_searchuser.html", {
-#             'users': searchuser
-#         })
-#     else:
-#         return render(request, 'adminsignin.html')
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def admin_signout(request):
