@@ -43,8 +43,50 @@
                 </a>
             </div>
         </div>
-        <div class="col-sm-10 col-md-10 overflow-auto" style="background-color: rgb(15, 15, 15); border-radius: 10px;">
-                       
+
+
+        <div class="p-5 col-sm-10 col-md-10 overflow-auto" style="background-color: rgb(15, 15, 15); border-radius: 10px;">
+
+            <div class="vh-100 mx-auto">
+    
+                <div class="header_admin_body">
+                    <div>
+                        <h5 class=""><u>Category Management:</u></h5>
+                    </div>
+    
+                    <form class="d-flex mb-4" role="search" action="searchuser" method="get">
+                        <input class="form-control" type="search" placeholder="Search Product" aria-label="Search"
+                            name="searchuser">
+                        <a href=""><button class="ms-2 btn btn-primary" type="submit">Search</button></a>
+                    </form>
+                </div>
+    
+                <div class="overflow-auto">
+                    <table class="text-white table table-striped table-bordered table-hover text-center align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Category Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in categories %}
+                            {% if user.is_superadmin %}
+                            {% else %}
+                            <tr>
+                                <td class="text-white">{{category.category_name}}</td>
+                                <td class="text-white">{{category.description}}</td>
+                                <td> <a class="text-white" href="">Edit</a></td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+    
+            </div>
+    
         </div>
 
     </div>

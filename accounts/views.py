@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import cache_control
-from .models import Account
-from .forms import RegistrationForm
-
+from accounts.models import Account
+from accounts.forms import RegistrationForm
+from store.models import Products
+from category.models import Category
 
 
 # Create your views here.
 
-# user side starts
+# user view starts
 
 # @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def register(request):
@@ -63,30 +64,6 @@ def signin(request):
         return render(request, 'signin.html')
 
 
-
-
-
-    #  if request.method == 'POST':
-    #     email = request.POST['email']
-    #     password = request.POST['password']
-
-    #     user = authenticate(email=email, password=password)
-    #     if user is not None:
-    #         auth.login(request, user)
-    #         messages.success(request, 'Logged in')
-    #         return redirect('home')
-    #     else:
-    #         messages.error(request, 'Invalid')
-    #         return redirect('signin')
-
-
-
-
-
-    
-    
-
-
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def signout(request):
     if 'usersession' in request.session:
@@ -126,20 +103,32 @@ def admin_signin(request):
         return render(request, 'admin_signin.html')
 
 
+
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def admin_home(request):
     if 'adminsession' in request.session:
-        return render(request, 'admin_home.html')
+        context = {
+            'users': Account.objects.all()
+        }
+        return render(request, 'admin_home.html', context)
     else:
         return redirect('admin_signin')
 
 
 def admin_orders(request):
     return render(request, 'admin_orders.html')
+    
 
 
 def admin_products(request):
-    return render(request, 'admin_products.html')
+    if 'adminsession' in request.session:
+        context = {
+            'products': Products.objects.all()
+        }
+        return render(request, 'admin_products.html', context)
+    else:
+        return redirect('admin_signin')
+
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -153,8 +142,16 @@ def admin_users(request):
         return redirect('admin_signin')
 
 
+
 def admin_categories(request):
-    return render(request, 'admin_categories.html')
+    if 'adminsession' in request.session:
+        context = {
+            'categories': Category.objects.all()
+        }
+        return render(request, 'admin_categories.html', context)
+    else:
+        return redirect('admin_signin')
+    
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)

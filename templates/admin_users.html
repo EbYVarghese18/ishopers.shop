@@ -55,15 +55,11 @@
                         <h5 class=""><u>User Management:</u></h5>
                     </div>
 
-                    <form class="d-flex " role="search" action="searchuser" method="get">
+                    <form class="d-flex mb-4" role="search" action="searchuser" method="get">
                         <input class="form-control" type="search" placeholder="Search User" aria-label="Search"
                             name="searchuser">
                         <a href=""><button class="ms-2 btn btn-primary" type="submit">Search</button></a>
                     </form>
-                </div>
-
-                <div class="adduser d-flex justify-content-end my-3">
-                    <a class="text-white" href="adduser"><b>+ Adduser</b></a>
                 </div>
 
                 <div class="overflow-auto">
@@ -86,9 +82,11 @@
                                 <td class="text-white">{{user.last_name}}</td>
                                 <td class="text-white">{{user.username}}</td>
                                 <td class="text-white">{{user.email}}</td>
-                                <td> <a class="text-white" href="deleteuser/{{ user.username }}">Delete</a>
-                                    &nbsp;&nbsp;&nbsp; <a class="text-white" href="edituser/{{ user.id }}">Edit</a>
-                                </td>
+                                {% if user.is_active %}
+                                <td><a class="text-white" href="deleteuser/{{ user.username }}">Block</a></td>
+                                    {% else %}
+                                    <td><a class="text-white" href="deleteuser/{{ user.username }}">Unblock</a></td>
+                               {% endif %}
                             </tr>
                             {% endif %}
                             {% endfor %}
