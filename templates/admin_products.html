@@ -46,31 +46,36 @@
         </div>
 
 
-        <div class="p-5 col-sm-10 col-md-10 overflow-auto"
+        <div class="col-sm-10 col-md-10 overflow-auto"
             style="background-color: rgb(15, 15, 15); border-radius: 10px;">
 
-            <div class="vh-100 mx-auto">
+            <div class="mx-auto">
 
                 <div class="header_admin_body">
                     <div>
-                        <h5 class=""><u>Product Management:</u></h5>
+                        <h5 class="p-3"><u>Product Management:</u></h5>
                     </div>
 
-                    <form class="d-flex mb-4" role="search" action="searchuser" method="get">
+                    {% comment %} <form class="d-flex mb-4" role="search" action="searchuser" method="get">
                         <input class="form-control" type="search" placeholder="Search Product" aria-label="Search"
                             name="searchuser">
                         <a href=""><button class="ms-2 btn btn-primary" type="submit">Search</button></a>
-                    </form>
+                    </form> {% endcomment %}
                 </div>
 
-                <div class="overflow-auto">
+                <div class="overflow-auto px-2">
                     <table class="text-white table table-striped table-bordered table-hover text-center align-middle">
                         <thead>
                             <tr>
+                                <th scope="col">Product ID</th>
                                 <th scope="col">Product Name</th>
+                                <th scope="col">Slug</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Price</th>
+                                {% comment %} <th scope="col">Images</th> {% endcomment %}
                                 <th scope="col">Stock</th>
+                                <th scope="col">Availability</th>
+                                <th scope="col">Category</th>
                                 <th scope="col">Edit</th>
                             </tr>
                         </thead>
@@ -79,19 +84,26 @@
                             {% if user.is_superadmin %}
                             {% else %}
                             <tr>
+                                <td class="text-white">{{product.id}}</td>
                                 <td class="text-white">{{product.product_name}}</td>
+                                <td class="text-white">{{product.slug}}</td>
                                 <td class="text-white">{{product.description}}</td>
                                 <td class="text-white">{{product.price}}</td>
-                                <td class="text-white">{{product.stock}}</td>
+                                <td class="text-white">{{product.product_name}}</td>
+                                <td class="text-white">{{product.is_available}}</td>
+                                <td class="text-white">{{product.category}}</td>
                                 <td class="d-flex align-items-center" style="height: 150px;">
-                                    <a href="" class="text-white fa fa-edit"></a> &nbsp;&nbsp;
-                                    <a class="text-white fa fa-trash" href=""></a>
+                                    {% comment %} <a href="{% url 'admin_editproduct' product.id %}" class="text-white fa fa-edit"></a> &nbsp;&nbsp; {% endcomment %}
+                                    {% comment %} <a href="{% url 'admin_deleteproduct' product.id %}" class="text-white fa fa-trash"></a> {% endcomment %}
                                 </td>
                             </tr>
                             {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>
+                    <div class="p-3 d-flex justify-content-end">
+                        <a class="p-2 text-white btn btn-primary" href="{% url 'admin_addproduct' %}">+ Add Product</a>
+                    </div>
                 </div>
 
             </div>

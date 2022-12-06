@@ -51,22 +51,25 @@
     
                 <div class="header_admin_body">
                     <div>
-                        <h5 class=""><u>Category Management:</u></h5>
+                        <h5 class="py-3"><u>Category Management:</u></h5>
                     </div>
     
-                    <form class="d-flex mb-4" role="search" action="searchuser" method="get">
+                    <!-- <form class="d-flex mb-4" role="search" action="searchuser" method="get">
                         <input class="form-control" type="search" placeholder="Search Product" aria-label="Search"
                             name="searchuser">
                         <a href=""><button class="ms-2 btn btn-primary" type="submit">Search</button></a>
-                    </form>
+                    </form> -->
                 </div>
     
                 <div class="overflow-auto">
                     <table class="text-white table table-striped table-bordered table-hover text-center align-middle">
                         <thead>
                             <tr>
+                                <th scope="col">Category ID</th>
                                 <th scope="col">Category Name</th>
+                                <th scope="col">Slug</th>
                                 <th scope="col">Description</th>
+                                {% comment %} <th scope="col">Image</th> {% endcomment %}
                                 <th scope="col">Edit</th>
                             </tr>
                         </thead>
@@ -75,15 +78,21 @@
                             {% if user.is_superadmin %}
                             {% else %}
                             <tr>
+                                <td class="text-white">{{category.id}}</td>
                                 <td class="text-white">{{category.category_name}}</td>
+                                <td class="text-white">{{category.slug}}</td>
                                 <td class="text-white">{{category.description}}</td>
-                                <td><a class="text-white" href=""><i class="fa fa-edit"></i></a>&nbsp;
-                                    <a class="text-white" href=""><i class="fa fa-trash"></i></a></td>
+                                {% comment %} <td class="text-white">{{category.image}}</td> {% endcomment %}
+                                <td><a class="text-white" href="{% url 'admin_editcategory' category.id %}"><i class="fa fa-edit"></i></a>&nbsp;
+                                    <a class="text-white" href="{% url 'admin_deletecategory' category.id %}"><i class="fa fa-trash"></i></a></td>
                             </tr>
                             {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>
+                    <div class="p-3 d-flex justify-content-end">
+                        <a class="p-2 text-white btn btn-primary" href="{% url 'admin_addcategory' %}">+ Add Category</a>
+                    </div>
                 </div>
     
             </div>

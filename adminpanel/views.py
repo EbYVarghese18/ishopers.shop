@@ -4,7 +4,9 @@ from django.contrib.auth import authenticate
 from django.contrib import messages
 from accounts.models import Account
 from store.models import Products
+from django.utils.text import slugify
 from category.models import Category
+from .forms import CategoryForm
 
 # Create your views here.
 
@@ -45,17 +47,6 @@ def admin_home(request):
 
 def admin_orders(request):
     return render(request, 'admin_orders.html')
-    
-
-
-def admin_products(request):
-    if 'adminsession' in request.session:
-        context = {
-            'products': Products.objects.all()
-        }
-        return render(request, 'admin_products.html', context)
-    else:
-        return redirect('admin_signin')
 
 
 
@@ -70,6 +61,18 @@ def admin_users(request):
     else:
         return redirect('admin_signin')
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def admin_signout(request):
+    if 'adminsession' in request.session:
+        try:
+            del request.session['adminsession']
+            return redirect('admin_signin')
+        except KeyError:
+            pass
+
+
+
+# Category
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -81,17 +84,73 @@ def admin_categories(request):
         return render(request, 'admin_categories.html', context)
     else:
         return redirect('admin_signin')
-    
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def admin_signout(request):
+def admin_editcategory(request, id):    
+    editcategory = Category.objects.get(pk=id)
+    categoryform = CategoryForm(instance=editcategory)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST,instance=editcategory)
+        if form.is_valid():
+            editcategory.slug = slugify(editcategory.category_name)
+            form.save()
+            return redirect('admin_categories')
+
+    context = {
+        'categoryform': categoryform,
+        }
+    return render(request, "admin_editcategory.html", context)
+
+
+def admin_deletecategory(request, id):
+    deletecategory = Category.objects.get(pk=id)
+    deletecategory.delete()
+    # messages.info(request, "The category item is deleted")
+    return redirect("admin_categories")
+
+
+def admin_addcategory(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("admin_categories")
+
+    else:
+        categoryform = CategoryForm()
+        context = {
+            'categoryform': categoryform
+            }
+        return render(request, "admin_addcategory.html", context)
+
+
+
+# Products
+
+
+def admin_products(request):
     if 'adminsession' in request.session:
-        try:
-            del request.session['adminsession']
-            return redirect('admin_signin')
-        except KeyError:
-            pass
+        context = {
+            'products': Products.objects.all()
+        }
+        return render(request, 'admin_products.html', context)
+    else:
+        return redirect('admin_signin')
+
+def admin_addproduct(request):
+    return
+
+# def admin_editproduct(request, id):
+#     return
+
+# def admin_deleteproduct(requset, id):
+#     return
+
+
+
+
+
+
 
 
 
