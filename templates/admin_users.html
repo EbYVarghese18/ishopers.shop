@@ -60,6 +60,7 @@
                             name="searchuser">
                         <a href=""><button class="ms-2 btn btn-primary" type="submit">Search</button></a>
                     </form> {% endcomment %}
+                    
                 </div>
 
                 <div class="overflow-auto">
@@ -84,9 +85,9 @@
                                 <td class="text-white">{{user.email}}</td>
 
                                 {% if user.is_active %}
-                                <td><a href="#"><button class="text-white btn btn-primary">Block</button></a></td>
+                                <td><a href="{% url 'user_block' user.id %}"><button class="text-white btn btn-primary">Block</button></a></td>
                                 {% else %}
-                                <td><a href="#"><button class="text-white btn btn-primary">Unblock</button></a></td>
+                                <td><a href="{% url 'user_unblock' user.id %}"><button class="text-white btn btn-primary">Unblock</button></a></td>
                                 {% endif %}
 
                             </tr>

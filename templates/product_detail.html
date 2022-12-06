@@ -63,9 +63,11 @@
     <form action="{% url 'add_cart' single_product.id %}" method="GET">
 
         <div class="row gx-0 align-items-center">
+
             <div class="col-12 col-md-6 p-5 d-flex justify-content-center">
                 <img src="{{ single_product.images.url }}" alt="image" style="width: 20rem;">
             </div>
+
             <div class="col-12 col-md-6 p-5">
                 <h3>{{ single_product.product_name }}</h3>
                 <h4>₹{{ single_product.price }}</h4>
@@ -104,11 +106,10 @@
                     {% if in_cart %}
                     <a href="#" class="btn btn-success ms-3 p-2"> <span class="text">Added to Cart</span> <i
                             class="fa fa-check"></i> </a>
-                    <a href="{% url 'cart' %}" class="text-white btn btn-outline-primary ms-3 p-2"> <span
+                    <a href="#" class="text-white btn btn-outline-primary ms-3 p-2"> <span
                             class="text">View
                             Cart</span> <i class="fa fa-eye"></i> </a>
                     {% else %}
-                    <a href=""></a>
                     <button type="submit" class="btn btn-primary ms-3 p-2"> <span class="text">Add to Cart</span> <i
                             class="fa fa-shopping-cart"></i> </button>
                     {% endif %}

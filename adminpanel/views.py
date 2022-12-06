@@ -11,6 +11,9 @@ from .forms import CategoryForm, ProductsForm
 # Create your views here.
 
 
+# admin user views starts
+
+
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def admin_signin(request):
     if 'adminsession' in request.session:
@@ -70,6 +73,33 @@ def admin_signout(request):
         except KeyError:
             pass
 
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def user_unblock(request, id):
+    if 'adminsession' in request.session:
+        try:
+            user = Account.objects.get(pk=id)
+            user.is_active = True
+            user.save()
+            # messages.info(request, "The user is unblocked")
+            return redirect('admin_users')
+        except:
+            return redirect('admin_signin')
+            
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def user_block(request, id):
+    if 'adminsession' in request.session:
+        try:
+            user = Account.objects.get(pk=id)
+            user.is_active = False
+            user.save()
+            # messages.info(request, "The user is unblocked")
+            # del request.session['usersession']
+            return redirect('admin_users')
+        except:
+            return redirect('admin_signin')
+    
 
 
 # Category view starts
@@ -172,21 +202,3 @@ def admin_deleteproduct(requset, id):
     deleteproduct.delete()
     # messages.info(request, "The product item is deleted")
     return redirect("admin_products")
-
-
-
-# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# def block_user(request, id):
-#     blockuser=Account.objects.get(pk=id)
-#     blockuser.is_active=False
-#     blockuser.save()
-#     return redirect("admin_users")
-
-
-
-# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-# def unblock_user(request, id):
-#     unblockuser=Account.objects.get(pk=id)
-#     unblockuser.is_active=True
-#     unblockuser.save()
-#     return redirect("admin_users")
