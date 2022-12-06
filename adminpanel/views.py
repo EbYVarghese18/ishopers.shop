@@ -6,7 +6,7 @@ from accounts.models import Account
 from store.models import Products
 from django.utils.text import slugify
 from category.models import Category
-from .forms import CategoryForm
+from .forms import CategoryForm, ProductsForm
 
 # Create your views here.
 
@@ -72,7 +72,7 @@ def admin_signout(request):
 
 
 
-# Category
+# Category view starts
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -125,7 +125,7 @@ def admin_addcategory(request):
 
 
 
-# Products
+# Products view starts
 
 
 def admin_products(request):
@@ -137,20 +137,41 @@ def admin_products(request):
     else:
         return redirect('admin_signin')
 
+
 def admin_addproduct(request):
-    return
+    if request.method == 'POST':
+        form = ProductsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("admin_products")
+    else:
+        productform=ProductsForm()
+        context={
+            'productform':productform,
+            }
+        return render(request,"admin_addproduct.html", context)
 
-# def admin_editproduct(request, id):
-#     return
 
-# def admin_deleteproduct(requset, id):
-#     return
+def admin_editproduct(request, id):    
+    editproduct=Products.objects.get(pk=id)
+    productform=ProductsForm(instance=editproduct)
+    if request.method == 'POST':
+        form = ProductsForm(request.POST, instance=editproduct)
+        if form.is_valid():
+            editproduct.slug=slugify(editproduct.product_name)
+            form.save()
+            return redirect("admin_products")     
+    context={
+        'productform':productform,
+        }
+    return render(request,"admin_editproduct.html",context)
 
 
-
-
-
-
+def admin_deleteproduct(requset, id):
+    deleteproduct=Products.objects.get(pk=id)
+    deleteproduct.delete()
+    # messages.info(request, "The product item is deleted")
+    return redirect("admin_products")
 
 
 

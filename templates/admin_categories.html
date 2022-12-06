@@ -53,6 +53,9 @@
                     <div>
                         <h5 class="py-3"><u>Category Management:</u></h5>
                     </div>
+                    <div class="p-2 d-flex justify-content-end">
+                        <a class="p-2 text-white btn btn-primary" href="{% url 'admin_addcategory' %}">+ Add Category</a>
+                    </div>
     
                     <!-- <form class="d-flex mb-4" role="search" action="searchuser" method="get">
                         <input class="form-control" type="search" placeholder="Search Product" aria-label="Search"
@@ -90,9 +93,6 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                    <div class="p-3 d-flex justify-content-end">
-                        <a class="p-2 text-white btn btn-primary" href="{% url 'admin_addcategory' %}">+ Add Category</a>
-                    </div>
                 </div>
     
             </div>

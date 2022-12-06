@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Add_Category {% endblock title %}
+{% block title %} Edit Product {% endblock title %}
 
 
 {% block body %}
@@ -17,18 +17,15 @@
 
             <div class="header_admin_body">
                 <div>
-                    <h5 class="my-3"><u>Add Category:</u></h5>
+                    <h5 class="my-3"><u>Edit Product:</u></h5>
                 </div>
             </div>
-
             <div class="vh-100 admin_body m-5">
-
                 <form action="#" method="POST" class="row g-0">
                     {% csrf_token %}
-                   {{ categoryform.as_p }}
+                   {{productform.as_p}}
                     <a href="#"> <button type="submit" class="btn btn-primary">Save</button></a>
                 </form>
-
             </div>
 
         </div>

@@ -18,8 +18,8 @@ urlpatterns = [
 
     path('admin_products/', views.admin_products, name='admin_products'),
     path('admin_addproduct/', views.admin_addproduct, name='admin_addproduct'),
-    # path('admin_editproduct/<int:id>', views.admin_editproduct, name='admin_editproduct'),
-    # path('admin_deleteproduct/<int:id>', views.admin_deleteproduct, name='admin_deleteproduct'),
+    path('admin_editproduct/<int:id>', views.admin_editproduct, name='admin_editproduct'),
+    path('admin_deleteproduct/<int:id>', views.admin_deleteproduct, name='admin_deleteproduct'),
     
 
     # path('block_user/<int:id>/', views.block_user, name='block_user'),
