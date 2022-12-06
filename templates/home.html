@@ -10,42 +10,47 @@
 
 <!-- navbar starts -->
 
+
 <nav class="navbar navbar-light bg-dark">
     <div class="navbar_custom container-fluid">
 
-        <a class="p-4 navbar-brand" href="#"><img class="logo" src="{% static 'images/logo.png' %}" alt=""></a>
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <a class="p-4 navbar-brand" href="#"><img class="logo" src="{% static 'images/logo.png' %}"
+                alt=""></a>
+        <form action="{% url 'search' %}" method="GET" class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
-            <a class="text-white" href="{% url 'store' %}">Store</a>
-            <div class="px-4 d-flex align-items-center">
+            <a class="px-3 text-white" href="{% url 'store' %}"><b>Store</b></a>
+            <div class="d-flex align-items-center">
                 <img class="" src="{% static 'images/location.png' %}" alt="" style="height: 15px; margin-right: 3px;">
                 <p>673579</p>
                 <a href=""><img src="{% static 'images/edit.png' %}" alt=""
                         style="height: 14px; margin-left: 3px ;"></a>
             </div>
-            
-            {% if user is None %}
+            {% if user is not None %}
+            {% if user.is_superadmin %}
             <a class="text-white" href="{% url 'signin' %}">Login</a>
             {% else %}
-            <p>Welcome, <b>{{ user.first_name }}</b></p>
             <div class="px-3">
-                <a href="#"><img src="{% static 'images/profile.png' %}" alt="" style="height: 20px;"></a>
+                <p>Welcome, {{ user.first_name }}</p>
             </div>
             <div class="">
-                <a href="{% url 'cart' %}" class="widget-header">
-                    <div class="text-white">
-                     <i class="fa fa-shopping-cart fa-lg"></i>
-                     <span><b>{{ cart_count }}</b></span>
-                    </div>
-                 </a>
+                <a href="#"><img src="{% static 'images/profile.png' %}" alt="" style="height: 20px;"></a>
             </div>
             <div class="px-3">
+                <a href="{% url 'cart' %}" class="widget-header">
+                    <div class="text-white">
+                        <i class="fa fa-shopping-cart fa-lg"></i>
+                        <span><b>{{ cart_count }}</b></span>
+                    </div>
+                </a>
+            </div>
+            <div class="">
                 <a href="{% url 'signout' %}"><img src="{% static 'images/logout.png' %}" alt=""
                         style="height: 20px;"></a>
             </div>
+            {% endif %}
             {% endif %}
         </div>
 

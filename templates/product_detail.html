@@ -15,8 +15,8 @@
 
         <a class="p-4 navbar-brand" href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}"
                 alt=""></a>
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <form action="{% url 'search' %}" method="GET" class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
@@ -61,6 +61,7 @@
 <div class="container text-white">
 
     <form action="{% url 'add_cart' single_product.id %}" method="GET">
+
         <div class="row gx-0 align-items-center">
             <div class="col-12 col-md-6 p-5 d-flex justify-content-center">
                 <img src="{{ single_product.images.url }}" alt="image" style="width: 20rem;">
@@ -75,21 +76,21 @@
                         {{ single_product.description }}
                     </p>
                 </div>
-                <hr>    
-                {% comment %} <div class="row m-2">
+                {% comment %}
+                <hr>
+                <div class="row m-2">
                     <b>Choose Color:</b>
-                    <select name="color" class="form-control" required> 
+
+                    <select name="color" class="form-control">
                         <option value="" disabled selected>Select</option>
-                        {% for i in single_product.variation_set.colors %}
-                        <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
+                        {% for i in single_product.variation_set.all %}
+                        <option value="{{ i.variation_value }}">{{ i.variation_value }}</option>
                         {% endfor %}
                     </select>
                     <b>Choose Storage:</b>
                     <select name="storage" class="form-control">
                         <option value="" disabled selected>Select</option>
-                        {% for i in single_product.variation_set.storages %}
-                        <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
-                        {% endfor %}
+                        <option value="128GB">128GB</option>
                     </select>
                 </div> {% endcomment %}
                 <hr>
@@ -107,14 +108,15 @@
                             class="text">View
                             Cart</span> <i class="fa fa-eye"></i> </a>
                     {% else %}
-                    <button type="submit" class="btn btn-primary ms-3 p-2"> <span
-                            class="text">Add to Cart</span> <i class="fa fa-shopping-cart"></i> </button>
+                    <a href=""></a>
+                    <button type="submit" class="btn btn-primary ms-3 p-2"> <span class="text">Add to Cart</span> <i
+                            class="fa fa-shopping-cart"></i> </button>
                     {% endif %}
                     {% endif %}
             </div>
         </div>
-    </form>
 
+    </form>
 </div>
 
 <!-- product description section ends -->

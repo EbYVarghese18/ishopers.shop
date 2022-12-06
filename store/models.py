@@ -22,7 +22,7 @@ class Products(models.Model):
     class Meta:
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
-
+   
     def __str__(self):
         return self.product_name 
 
@@ -35,7 +35,7 @@ class VariationManager(models.Model):
 
 variation_category_choice = (
     ('color', 'color'),
-    ('storage', 'storage')
+    ('storage', 'storage'),
 )
 
 class Variation(models.Model):

@@ -3,7 +3,7 @@ from store.models import Products
 from .models import Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
-
+from django.views.decorators.cache import cache_control
 
 # Create your views here.
 
@@ -18,9 +18,8 @@ def _cart_id(request):
 def add_cart(request, product_id):
     # color = request.GET['color']
     # storage = request.GET['storage']
-    return HttpResponse('cart page')
+    # return HttpResponse(color +' '+ storage)
     # exit()
-     
     product = Products.objects.get(id=product_id)  # get the product
     try:
         # get the cart using cart id present in the session
@@ -30,7 +29,6 @@ def add_cart(request, product_id):
             cart_id=_cart_id(request)
         )
     cart.save()
-
     try:
         cart_item = CartItem.objects.get(product=product, cart=cart)
         cart_item.quantity += 1
@@ -73,6 +71,9 @@ def remove_cart_item(request, product_id):
 
 def cart(request, total=0, quantity=0, cart_item=None):
     try:
+        tax = 0
+        grand_total = 0
+        cart_items = 0
         cart = Cart.objects.get(cart_id=_cart_id(request))
         cart_items = CartItem.objects.filter(cart=cart, is_active=True)
         for cart_item in cart_items:
@@ -91,3 +92,32 @@ def cart(request, total=0, quantity=0, cart_item=None):
         'grand_total': grand_total,
     }
     return render(request, 'cart.html', context)
+
+
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+def checkout(request, total=0, quantity=0, cart_items=None):
+    if 'usersession' in request.session:
+        try:
+            tax = 0
+            grand_total = 0
+            cart = Cart.objects.get(cart_id=_cart_id(request))
+            cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+            for cart_item in cart_items:
+                total += (cart_item.product.price * cart_item.quantity)
+                quantity += cart_item.quantity
+                tax = (2 * total)/100
+                grand_total = total + tax
+        except ObjectDoesNotExist:
+            pass
+
+        context = {
+            'total': total,
+            'quantity': quantity,
+            'cart_items': cart_items,
+            'tax': tax,
+            'grand_total': grand_total,
+            }
+        return render(request, 'checkout.html', context) 
+    else:
+        return redirect('signin')

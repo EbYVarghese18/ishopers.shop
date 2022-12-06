@@ -17,7 +17,7 @@
         <div class="col-sm-2 col-md-2" style="height: 85vh;">
             <div style="height:25% ;"></div>
             <div class="d-flex flex-column justify-content-start" style="height: 50%;">
-                <a href="{% url 'admin_home' %}" class="px-2 d-flex align-items-center"> 
+                <a href="{% url 'admin_home' %}" class="px-2 d-flex align-items-center">
                     <img src="{% static 'images/dash.png' %}" alt="" style="height: 15px;">
                     <p class="p-2 text-white">Dashboard</p>
                 </a>
@@ -25,7 +25,8 @@
                     <img src="{% static 'images/orders.png' %}" alt="" style="height: 15px;">
                     <p class="p-2 text-white">Orders</p>
                 </a>
-                <a href="#" class="px-2 me-2 d-flex align-items-center" style="background-color: rgb(47, 48, 48); border-radius: 10px;">
+                <a href="#" class="px-2 me-2 d-flex align-items-center"
+                    style="background-color: rgb(47, 48, 48); border-radius: 10px;">
                     <img src="{% static 'images/search.png' %}" alt="" style="height: 15px;">
                     <p class="p-2 text-white">Products</p>
                 </a>
@@ -45,53 +46,57 @@
         </div>
 
 
-    <div class="p-5 col-sm-10 col-md-10 overflow-auto" style="background-color: rgb(15, 15, 15); border-radius: 10px;">
+        <div class="p-5 col-sm-10 col-md-10 overflow-auto"
+            style="background-color: rgb(15, 15, 15); border-radius: 10px;">
 
-        <div class="vh-100 mx-auto">
+            <div class="vh-100 mx-auto">
 
-            <div class="header_admin_body">
-                <div>
-                    <h5 class=""><u>Product Management:</u></h5>
+                <div class="header_admin_body">
+                    <div>
+                        <h5 class=""><u>Product Management:</u></h5>
+                    </div>
+
+                    <form class="d-flex mb-4" role="search" action="searchuser" method="get">
+                        <input class="form-control" type="search" placeholder="Search Product" aria-label="Search"
+                            name="searchuser">
+                        <a href=""><button class="ms-2 btn btn-primary" type="submit">Search</button></a>
+                    </form>
                 </div>
 
-                <form class="d-flex mb-4" role="search" action="searchuser" method="get">
-                    <input class="form-control" type="search" placeholder="Search Product" aria-label="Search"
-                        name="searchuser">
-                    <a href=""><button class="ms-2 btn btn-primary" type="submit">Search</button></a>
-                </form>
-            </div>
+                <div class="overflow-auto">
+                    <table class="text-white table table-striped table-bordered table-hover text-center align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                            {% if user.is_superadmin %}
+                            {% else %}
+                            <tr>
+                                <td class="text-white">{{product.product_name}}</td>
+                                <td class="text-white">{{product.description}}</td>
+                                <td class="text-white">{{product.price}}</td>
+                                <td class="text-white">{{product.stock}}</td>
+                                <td class="d-flex align-items-center" style="height: 150px;">
+                                    <a href="" class="text-white fa fa-edit"></a> &nbsp;&nbsp;
+                                    <a class="text-white fa fa-trash" href=""></a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
 
-            <div class="overflow-auto">
-                <table class="text-white table table-striped table-bordered table-hover text-center align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Stock</th>
-                            <th scope="col">Edit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for product in products %}
-                        {% if user.is_superadmin %}
-                        {% else %}
-                        <tr>
-                            <td class="text-white">{{product.product_name}}</td>
-                            <td class="text-white">{{product.description}}</td>
-                            <td class="text-white">{{product.price}}</td>
-                            <td class="text-white">{{product.stock}}</td>
-                            <td> <a class="text-white" href="">Edit</a></td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
             </div>
 
         </div>
-
-    </div>
 
     </div>
 </div>

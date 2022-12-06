@@ -82,11 +82,13 @@
                                 <td class="text-white">{{user.last_name}}</td>
                                 <td class="text-white">{{user.username}}</td>
                                 <td class="text-white">{{user.email}}</td>
+
                                 {% if user.is_active %}
-                                <td><a class="text-white" href="deleteuser/{{ user.username }}">Block</a></td>
-                                    {% else %}
-                                    <td><a class="text-white" href="deleteuser/{{ user.username }}">Unblock</a></td>
-                               {% endif %}
+                                <td><a href="#"><button class="text-white btn btn-primary">Block</button></a></td>
+                                {% else %}
+                                <td><a href="#"><button class="text-white btn btn-primary">Unblock</button></a></td>
+                                {% endif %}
+
                             </tr>
                             {% endif %}
                             {% endfor %}

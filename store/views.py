@@ -17,7 +17,6 @@ def store(request, category_slug=None):
     if 'usersession' in request.session:
         categories = None
         products = None
-
         if category_slug != None:
             categories = get_object_or_404(Category, slug = category_slug)
             products = Products.objects.filter(category = categories, is_available=True)
@@ -65,3 +64,7 @@ def search(request):
             'product_count': product_count,
         } 
     return render(request, 'store.html', context)
+
+
+def editproduct(request):
+    return render(request, 'admin_editproduct.html')
