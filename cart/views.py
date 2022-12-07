@@ -4,6 +4,7 @@ from .models import Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_control
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -16,13 +17,12 @@ def _cart_id(request):
 
 
 def add_cart(request, product_id):
-    # color = request.GET['color']
-    # storage = request.GET['storage']
-    # return HttpResponse(color +' '+ storage)
-    # exit()
+    color = request.GET['color']
+    storage = request.GET['storage']
+    print(color+''+storage)
+
     product = Products.objects.get(id=product_id)  # get the product
     try:
-        # get the cart using cart id present in the session
         cart = Cart.objects.get(cart_id=_cart_id(request))
     except Cart.DoesNotExist:
         cart = Cart.objects.create(
@@ -94,7 +94,7 @@ def cart(request, total=0, quantity=0, cart_item=None):
     return render(request, 'cart.html', context)
 
 
-
+# @login_required(login_url='login')
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def checkout(request, total=0, quantity=0, cart_items=None):
     if 'usersession' in request.session:

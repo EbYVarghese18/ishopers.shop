@@ -4,7 +4,8 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.cache import cache_control
 from accounts.models import Account
 from accounts.forms import RegistrationForm
-
+from cart.models import Cart, CartItem
+from cart.views import _cart_id
 
 # Create your views here.
 
@@ -45,21 +46,31 @@ def signin(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
+
         user = authenticate(email=email, password=password)
         if user is not None:
             if user.is_superadmin:
                 messages.warning(request, 'Try with user account!')
                 return redirect('signin')
             else:
+                try:
+                    cart = Cart.objects.get(cart_id=_cart_id(request))
+                    is_cart_item_exists = CartItem.objects.filter(cart=cart).exists()  
+                    if is_cart_item_exists:
+                        cart_item = CartItem.objects.filter(cart=cart)
+                        for item in cart_item:
+                            item.user = user
+                            item.save()
+                except:
+                    pass
                 login(request, user)
                 request.session['usersession'] = email  # creating session
                 return redirect('home')
         else:
             messages.error(request, 'Invalid credentials!')
             return render(request, 'signin.html')
-
-    else:
-        return render(request, 'signin.html')
+    
+    return render(request, 'signin.html')
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
