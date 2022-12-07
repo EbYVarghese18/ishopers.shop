@@ -26,7 +26,7 @@ class Products(models.Model):
     def __str__(self):
         return self.product_name 
 
-class VariationManager(models.Model):
+class VariationManager(models.Manager):
     def colors(self):
         return super(VariationManager, self).filter(variation_category='color', is_active=True)
     
@@ -47,5 +47,5 @@ class Variation(models.Model):
 
     objects = VariationManager()
     
-    def __unicode__(self):
-        return self.product
+    def __str__(self):
+        return self.variation_value 
