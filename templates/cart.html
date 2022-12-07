@@ -91,6 +91,14 @@
                                             <p class="">Product Name:</p>
                                             <a class="" href="{{ cart_item.product.get_url }}">
                                                 <h6 class="text-dark mt-2">{{ cart_item.product.product_name }}</h6>
+                                                {% if cart_item.variations.all %}
+                                                {% for item in cart_item.variations.all %}
+                                                <div class="d-flex text-muted">
+                                                    <p>{{ item.variation_category | capfirst }}</p> 
+                                                    <p>: {{ item.variation_value | capfirst }}</p>
+                                                </div>
+                                                {% endfor  %}
+                                                {% endif %}
                                             </a>
                                         </div>
                                         <div class="col-md-3 col-lg-3 col-xl-2">

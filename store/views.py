@@ -32,8 +32,8 @@ def store(request, category_slug=None):
             product_count = products.count()
         context = {
             'products': paged_products,
-            'product_count': product_count, 
-        }
+            'product_count': product_count,
+            }
         return render(request, 'store.html', context)
     else:
         return redirect('signin')

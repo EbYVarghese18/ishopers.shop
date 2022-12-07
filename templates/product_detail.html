@@ -77,13 +77,13 @@
                 </div>
                 <div class="mt-3">
                     <b>Choose Color:</b>
-                    <select name="color" class="form-control mb-2"> 
+                    <select name="color" class="form-control mb-2">
                         <option value="" disabled selected required>Select</option>
                         {% for i in single_product.variation_set.colors %}
                         <option value="{{ i.variation_value | lower }}">{{ i.variation_value | capfirst }}</option>
                         {% endfor %}
                     </select>
-                    <b>Choose Storage:</b> 
+                    <b>Choose Storage:</b>
                     <select name="storage" class="form-control">
                         <option value="" disabled selected required>Select</option>
                         {% for i in single_product.variation_set.storages %}
@@ -92,17 +92,13 @@
                     </select>
                 </div>
                 <div class="d-flex justify-content-center mt-5">
-                    {% if single_product.stock <= 0 %} <h3 class="text-danger">Out of Stock</h3>
+                    {% if single_product.stock <= 0 %} 
+                    <h3 class="text-danger">Out of Stock</h3>
                         {% else %}
-                        {% if in_cart %}
-                        <a href="#" class="btn btn-success ms-3 p-2"> <span class="text">Added to Cart</span> <i
-                                class="fa fa-check"></i> </a>
-                        <a href="{% url 'cart' %}" class="text-white btn btn-outline-primary ms-3 p-2"> <span class="text">View
-                                Cart</span> <i class="fa fa-eye"></i> </a>
-                        {% else %}
-                        <button type="submit" class="btn btn-primary ms-3 p-2"><span class="text">Add to Cart</span> <i
-                                class="fa fa-shopping-cart"></i> </button>
-                        {% endif %}
+                        <button type="submit" class="btn btn-primary ms-3 p-2">
+                            <span class="text">Add to Cart</span>
+                            <i class="fa fa-shopping-cart"></i>
+                        </button>
                         {% endif %}
                 </div>
             </form>
