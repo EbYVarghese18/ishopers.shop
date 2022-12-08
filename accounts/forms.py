@@ -7,10 +7,12 @@ class RegistrationForm(forms.ModelForm):
     }))
     confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder':'Confirm Password',
-    }))
+    })) 
+
     class Meta:
         model = Account
         fields = ['first_name', 'last_name', 'email', 'phone_number', 'password']
+
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].widget.attrs['placeholder'] = 'Enter First Name'
@@ -28,4 +30,4 @@ class RegistrationForm(forms.ModelForm):
         if password!= confirm_password:
             raise forms.ValidationError(
                 "password does not matching!"
-            )
+             )

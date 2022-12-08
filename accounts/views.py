@@ -1,11 +1,20 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from django.views.decorators.cache import cache_control
 from accounts.models import Account
 from accounts.forms import RegistrationForm
 from cart.models import Cart, CartItem
 from cart.views import _cart_id
+
+#useractivation
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import EmailMessage
 
 # Create your views here.
 
@@ -28,7 +37,23 @@ def register(request):
                 first_name=first_name, last_name=last_name, email=email, username=username, password=password)
             user.phone_number = phone_number
             user.save()
-            messages.success(request, 'User created successfully')
+
+            #user activation
+            current_site = get_current_site(request)
+            mail_subject = 'Plesae activate your account'
+            message = render_to_string('accountactivationemail.html', {
+                'user': user,
+                'domain': current_site,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+            })
+            to_email = email
+            send_email = EmailMessage(mail_subject, message, to=[to_email])
+            send_email.send()
+
+
+
+            messages.success(request, 'Registration Successful. Please verify the Email.')
             return redirect('register')
     else:
         form = RegistrationForm()
@@ -81,3 +106,7 @@ def signout(request):
             return redirect('signin')
         except KeyError:
             pass
+  
+
+def activate(request, uidb64, token):
+    return HttpResponse('okay')

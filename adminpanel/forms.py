@@ -22,7 +22,7 @@ class ProductsForm(forms.ModelForm):
 
     class Meta:
         model = Products
-        fields = ['product_name', 'slug', 'description', 'price', 'stock', 'is_available', 'category']
+        fields = ['product_name', 'slug', 'description', 'price', 'stock', 'category']
     def __init__(self,*args,**kwargs):
         super(ProductsForm,self).__init__(*args,**kwargs)
         self.fields['product_name'].widget.attrs['placeholder']='Enter Product Name' 
@@ -31,7 +31,7 @@ class ProductsForm(forms.ModelForm):
         self.fields['price'].widget.attrs['placeholder']='Enter Product price'
         # self.fields['images'].widget.attrs['placeholder']='Enter Product Description'
         self.fields['stock'].widget.attrs['placeholder']='Enter Product stock'
-        self.fields['is_available'].widget.attrs['placeholder']='Enter Product is_available'
+        # self.fields['is_available'].widget.attrs['placeholder']='Enter Product is_available'
         self.fields['category'].widget.attrs['placeholder']='Enter Product category'
     
         for field in self.fields:

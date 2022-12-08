@@ -32,7 +32,8 @@
             <a class="text-white" href="{% url 'signin' %}">Login</a>
             {% else %}
             <div class="px-3">
-                <a href="#"><img src="{% static 'images/profile.png' %}" alt="" style="height: 20px;"></a>
+                <a href="{% url 'user_home' %}"><img src="{% static 'images/profile.png' %}" alt=""
+                        style="height: 20px;"></a>
             </div>
             <div class="">
                 <a href="{% url 'cart' %}" class="widget-header">
@@ -53,6 +54,9 @@
     </div>
     <hr>
 </nav>
+<div class="d-flex justify-content-center">
+    <hr class="text-white" style="width:80%;">
+</div>
 
 <!-- navbar ends -->
 
@@ -68,19 +72,10 @@
             <div class="col-lg-6">
                 <div class="card" style="border-radius: 15px; background-color: #282d32;">
                     <div class="card-body">
-                        <h4 class="card-title">Payment Details</h4>
+                        <h4 class="card-title">Payment Details:</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="card" style="border-radius: 15px; background-color: #282d32;">
-                    <div class="card-body">
-                        <h4 class="card-title">Shipping Address</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row py-3">
             <div class="col-lg-6">
                 <div class="card" style="border-radius: 15px; background-color: #282d32;">
                     <div class="card-body">
@@ -102,11 +97,19 @@
                                 <p class="">Product Name:</p>
                                 <a class="" href="{{ cart_item.product.get_url }}">
                                     <h6 class="text-white mt-2">{{ cart_item.product.product_name }}</h6>
+                                    {% if cart_item.variations.all %}
+                                    {% for item in cart_item.variations.all %}
+                                    <div class="d-flex text-muted text-white-50">
+                                        <p>{{ item.variation_category | capfirst }}</p>
+                                        <p>: {{ item.variation_value | capfirst }}</p>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
                                 </a>
                             </div>
                             <div class="col-md-3 col-lg-3 col-xl-2">
-                                <p class="text-center">Qty:</p>
-                                <h6 class="mt-2 text-center">{{ cart_item.quantity }}</h6>
+                                <p class="">Qty:</p>
+                                <h6 class="mt-2">{{ cart_item.quantity }}</h6>
                             </div>
                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                 <p class="">Price:</p>
@@ -114,8 +117,26 @@
                             </div>
                         </div>
                         {% endfor %}
-                        {% endif %}
                         <hr class="my-4">
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="text-uppercase">Tax:</h5>
+                            <h5>₹{{ tax }}</h5>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="text-uppercase">Grand Total:</h5>
+                            <h5>₹{{ grand_total }}</h5>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row py-3">
+            <div class="col-lg-12">
+                <div class="card" style="border-radius: 15px; background-color: #282d32;">
+                    <div class="card-body">
+                        <h4 class="card-title">Shipping Address:</h4>
                     </div>
                 </div>
             </div>
@@ -137,12 +158,14 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-success btn-block btn-lg me-2"
-                                            data-mdb-ripple-color="dark">Place Order
-                                        </button>
+                                        <a href="">
+                                            <button type="submit" class="btn btn-success btn-block btn-lg me-2"
+                                                data-mdb-ripple-color="dark">Place Order
+                                            </button>
+                                        </a>
                                         <a href="#"><button type="button" class="btn btn-primary btn-block btn-lg"
-                                            data-mdb-ripple-color="dark">Continue Shopping
-                                        </button></a>
+                                                data-mdb-ripple-color="dark">Continue Shopping
+                                            </button></a>
                                     </div>
                                 </div>
                             </div>
