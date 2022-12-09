@@ -83,14 +83,12 @@
                                         </div>
                                     </div>
                                     <hr class="my-4">
+                                    {% endfor %}
                                     <div class="pt-5">
                                         <h6 class="mb-0"><a href="{% url 'store' %}" class="text-white"><i
                                                     class="fa fa-arrow-left me-2"></i>Back to shop</a></h6>
                                     </div>
-                                    {% endfor %}
-                                    {% endif %}
-
-                                   
+                                    {% endif %}                          
                                 </div>
                             </div>
                             {% if cart_items %}
