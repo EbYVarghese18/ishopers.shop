@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import cache_control
+from django.contrib.auth.decorators import login_required
 from accounts.models import Account
 from accounts.forms import RegistrationForm
 from cart.models import Cart, CartItem
@@ -20,10 +21,7 @@ from django.core.mail import EmailMessage
 
 # user view starts
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def register(request):
-    if 'usersession' in request.session:
-        return redirect('home')
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -51,8 +49,6 @@ def register(request):
             send_email = EmailMessage(mail_subject, message, to=[to_email])
             send_email.send()
 
-
-
             messages.success(request, 'Registration Successful. Please verify the Email.')
             return redirect('register')
     else:
@@ -64,10 +60,8 @@ def register(request):
     return render(request, 'register.html', context)
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+
 def signin(request):
-    if 'usersession' in request.session:
-        return redirect('home')
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
@@ -98,14 +92,11 @@ def signin(request):
     return render(request, 'signin.html')
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='login')
 def signout(request):
-    if 'usersession' in request.session:
-        try:
-            del request.session['usersession']
-            return redirect('signin')
-        except KeyError:
-            pass
+    logout(request)
+    messages.success(request, "You are logged out")
+    return redirect('signin')
   
 
 def activate(request, uidb64, token):

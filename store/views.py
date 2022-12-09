@@ -12,31 +12,28 @@ from django.db.models import Q
 # Create your views here.
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def store(request, category_slug=None):
-    if 'usersession' in request.session:
-        categories = None
-        products = None
-        if category_slug != None:
-            categories = get_object_or_404(Category, slug = category_slug)
-            products = Products.objects.filter(category = categories, is_available=True)
-            paginator = Paginator(products, 8)
-            page = request.GET.get('page')
-            paged_products = paginator.get_page(page)
-            product_count = products.count()
-        else:
-            products = Products.objects.all().filter(is_available=True).order_by('id')
-            paginator = Paginator(products, 8)
-            page = request.GET.get('page')
-            paged_products = paginator.get_page(page)
-            product_count = products.count()
-        context = {
-            'products': paged_products,
-            'product_count': product_count,
-            }
-        return render(request, 'store.html', context)
+    categories = None
+    products = None
+    if category_slug != None:
+        categories = get_object_or_404(Category, slug = category_slug)
+        products = Products.objects.filter(category = categories, is_available=True)
+        paginator = Paginator(products, 8)
+        page = request.GET.get('page')
+        paged_products = paginator.get_page(page)
+        product_count = products.count()
     else:
-        return redirect('signin')
+        products = Products.objects.all().filter(is_available=True).order_by('id')
+        paginator = Paginator(products, 8)
+        page = request.GET.get('page')
+        paged_products = paginator.get_page(page)
+        product_count = products.count()
+    context = {
+        'products': paged_products,
+        'product_count': product_count,
+        }
+    return render(request, 'store.html', context)
+ 
     
  
 def product_detail(request, category_slug, product_slug):

@@ -8,61 +8,6 @@
 {% load static %}
 
 
-<!-- navbar starts -->
-
-
-<nav class="navbar navbar-light bg-dark">
-    <div class="navbar_custom container-fluid">
-
-        <a class="p-4 navbar-brand" href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}"
-                alt=""></a>
-        <form action="{% url 'search' %}" method="GET" class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
-            <a class="px-3 text-white" href="{% url 'store' %}"><b>Store</b></a>
-            <div class="d-flex align-items-center">
-                <img class="" src="{% static 'images/location.png' %}" alt="" style="height: 15px; margin-right: 3px;">
-                <p>673579</p>
-                <a href=""><img src="{% static 'images/edit.png' %}" alt=""
-                        style="height: 14px; margin-left: 3px ;"></a>
-            </div>
-            {% if user is not None %}
-            {% if user.is_superadmin %}
-            <a class="text-white" href="{% url 'signin' %}">Login</a>
-            {% else %}
-            <div class="px-3">
-                <a href="{% url 'user_home' %}"><img src="{% static 'images/profile.png' %}" alt="" style="height: 20px;"></a>
-            </div>
-            <div class="">
-                <a href="{% url 'cart' %}" class="widget-header">
-                    <div class="text-white">
-                        <i class="fa fa-shopping-cart fa-lg"></i>
-                        <span><b>{{ cart_count }}</b></span>
-                    </div>
-                </a>
-            </div>
-            <div class="px-3">
-                <a href="{% url 'signout' %}"><img src="{% static 'images/logout.png' %}" alt=""
-                        style="height: 20px;"></a>
-            </div>
-            {% endif %}
-            {% endif %}
-        </div>
-
-    </div>
-    <hr>
-</nav>
-
-<div class="d-flex justify-content-center">
-    <hr class="text-white" style="width:80%;">
-</div>
-
-<!-- navbar ends -->
-
-
-
 
 <!-- cart starts -->
 
@@ -78,13 +23,14 @@
                                     <div class="d-flex justify-content-between align-items-center mb-5">
                                         <h1 class="fw-bold mb-0 text-white">Your Cart</h1>
                                     </div>
-                                    <hr class="my-4">
                                     {% if not cart_items %}
                                     <h2 class="text-center mb-5">Your Cart is Empty!</h2>
-                                    <div class="text-center">
-                                        <a href="{% url 'store' %}" class="btn btn-success p-2">Continue Shopping</a>
+                                    <div class="pt-5">
+                                        <h6 class="mb-0"><a href="{% url 'store' %}" class="text-white"><i
+                                                    class="fa fa-arrow-left me-2"></i>Back to shop</a></h6>
                                     </div>
                                     {% else %}
+                                    <hr class="my-4">
                                     {% for cart_item in cart_items %}
                                     <div class="row mb-4 d-flex justify-content-between align-items-center">
                                         <div class="col-md-2 col-lg-2 col-xl-2">
@@ -137,15 +83,17 @@
                                         </div>
                                     </div>
                                     <hr class="my-4">
-                                    {% endfor %}
-                                    {% endif %}
-
                                     <div class="pt-5">
                                         <h6 class="mb-0"><a href="{% url 'store' %}" class="text-white"><i
                                                     class="fa fa-arrow-left me-2"></i>Back to shop</a></h6>
                                     </div>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                   
                                 </div>
                             </div>
+                            {% if cart_items %}
                             <div class="col-lg-4 text-white" style="background-color: #30373d; border-radius: 0px 15px 15px 0px;">
                                 <div class="p-5">
                                     <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
@@ -184,6 +132,7 @@
 
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -194,27 +143,6 @@
 
 <!-- cart ends -->
 
-
-<!-- footer starts -->
-
-<div class="bg-dark p-4 text-center">
-    <hr class="text-white">
-    <div>
-        <p class="py-3 text-white">CONNECT WITH US</p>
-    </div>
-    <div>
-        <a href=""><img class="px-2" src="{% static 'images/instagram.png' %}" alt="" style="height: 20px;"></a>
-        <a href=""><img class="px-2" src="{% static 'images/fb.png' %}" alt="" style="height: 20px;"></a>
-        <a href=""><img class="px-2" src="{% static 'images/twitter.png' %}" alt="" style="height: 20px;"></a>
-        <a href=""><img class="px-2" src="{% static 'images/linkedin.png' %}" alt="" style="height: 20px;"></a>
-        <a href=""><img class="px-2" src="{% static 'images/youtube.png' %}" alt="" style="height: 18px;"></a>
-    </div>
-    <div>
-        <p class="py-3 text-white">© Copyright 2022 iShop. All rights reserved</p>
-    </div>
-</div>
-
-<!-- footer ends -->
 
 
 {% endblock body %}  
