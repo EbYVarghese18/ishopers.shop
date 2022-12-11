@@ -8,54 +8,71 @@
 {% load static %}
 
 
-<!-- Billing Address & payment method starts-->
+<!-- checkout starts -->
+
+<!-- Order Summary,Shipping Details,Payment Details -->
 
 <section class="h-100 text-white">
-    <div class="container pt-4">
-        
-        <!-- billing address -->
+    <div class="container py-5">
+
         <div class="row">
-            <div class="col-lg-6 py-2">
+            <div class="col-lg-6">
                 <div class="card" style="border-radius: 15px; background-color: #282d32;">
                     <div class="card-body">
-                        <h4 class="card-title">Billing Address:</h4>
-                        <div class="p-3">
-                            <h6 class="mt-2">{{ order.full_name }}</h6>
-                            <h6 class="mt-2">{{ order.full_address }}</h6>
-                            <h6 class="mt-2">{{ order.city }}</h6>
-                            <h6 class="mt-2">{{ order.state }}</h6>
-                            <h6 class="mt-2">{{ order.country }}</h6>
-                            <h6 class="mt-2">{{ order.email }}</h6>
-                            <h6 class="mt-2">{{ order.phone }}</h6>
-                            {% if order.order_note %}
-                            <b>Order Note: {{ order.order_note }}</b>
-                            {% endif %}
-                        </div>
+                        <h4 class="card-title">Add Address:</h4>
+                        <form action="#" method="POST" class="text-white p-3">
+                            {% csrf_token %}
+                            <div class="col form-group">
+                                <label for="">First Name </label>
+                                <input type="text" name="first_name" class="form-control" required>
+                            </div>
+                            <div class="col form-group">
+                                <label for="">Last Name </label>
+                                <input type="text" name="last_name" class="form-control" required>
+                            </div>
+                             <div class="col form-group">
+                                <label for="">Phone Number</label>
+                                <input type="text" name="phone" class="form-control" required>
+                            </div>
+                            <div class="col form-group">
+                                <label for="">Email </label>
+                                <input type="text" name="email" class="form-control" required>
+                            </div>
+                            <div class="col form-group">
+                                <label for="">Address Line 1 </label>
+                                <input type="text" name="address_line_1" class="form-control" required>
+                            </div>
+                            <div class="col form-group">
+                                <label for="">Address Line 2 </label>
+                                <input type="text" name="address_line_2" class="form-control">
+                            </div>
+                            <div class="col form-group">
+                                <label for="">City</label>
+                                <input type="text" name="city" class="form-control" required>
+                            </div>
+                            <div class="col form-group">
+                                <label for="">State</label>
+                                <input type="text" name="state" class="form-control" required>
+                            </div>
+                            <div class="col form-group">
+                                <label for="">Country</label>
+                                <input type="text" name="country" class="form-control">
+                            </div>
+                            <div class="col form-group">
+                                <label for="">Order Note</label>
+                                <input type="text" name="order_note" class="form-control">
+                            </div>
+                            <!-- <div class="col form-group text-center pt-4">
+                                <button class="btn btn-primary">Save</button>
+                            </div>
+                         -->
                     </div>
                 </div>
             </div>
-        <!-- payement method -->
-            <div class="col-lg-6 py-2">
+            <div class="col-lg-6">
                 <div class="card" style="border-radius: 15px; background-color: #282d32;">
                     <div class="card-body">
-                        <h4 class="card-title">Payment Method:</h4>
-                        <div class="p-3">
-                            <input type="radio" name="payment_method"> Paypal <br>
-                            <input type="radio" name="payment_method"> Razorpay <br>
-                            <input type="radio" name="payment_method"> UPI or Bank <br>
-                            <input type="radio" name="payment_method"> Credit/Debit Card <br>
-                            <img src="{% static 'images/payment_methods.png' %}" alt="" style="width:100%;" class="p-4 mt-4">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- review products -->
-        <div class="row py-2">
-            <div class="col-lg-12">
-                <div class="card" style="border-radius: 15px; background-color: #282d32;">
-                    <div class="card-body p-5">
-                        <h4 class="card-title mb-4">Review products:</h4>
+                        <h4 class="card-title mb-4">Order Summary:</h4>
                         {% if not cart_items %}
                         <h2 class="text-center mb-5">Your Cart is Empty!</h2>
                         <div class="text-center">
@@ -97,7 +114,7 @@
                         <div class="d-flex justify-content-between mb-4">
                             <h5 class="text-uppercase">Tax:</h5>
                             <h5>₹{{ tax }}</h5>
-                        </div>
+                        </div> 
                         <div class="d-flex justify-content-between">
                             <h5 class="text-uppercase">Grand Total:</h5>
                             <h5>₹{{ grand_total }}</h5>
@@ -106,19 +123,17 @@
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
+        
     </div>
 </section>
 
-<!-- Billing address & payment method ends -->
-
-
-<!-- starts -->
+<!-- place Order, continue Shoppping -->
 
 <section class="h-100 h-custom text-white">
-    <div class="container h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100 py-2">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12">
                 <div class="card card-registration card-registration-2"
                     style="border-radius: 15px; background-color: #282d32;">
@@ -127,14 +142,12 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="d-flex justify-content-center">
-
-                                        <button type="submit" name="submit"
-                                            class="btn btn-primary btn-block btn-lg me-2"
-                                            data-mdb-ripple-color="dark">Make Payment
-                                        <!-- </button>
-                                        <a href="#"><button type="button" class="btn btn-primary btn-block btn-lg"
-                                                data-mdb-ripple-color="dark">Continue Shopping
-                                            </button></a> -->
+                                        <a href="{% url 'payments' %}">
+                                            <button type="submit" name="submit" class="btn btn-success btn-block btn-lg me-2"
+                                                data-mdb-ripple-color="dark">Use This Address
+                                            </button>
+                                        </a>
+                                    </form>
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +159,7 @@
     </div>
 </section>
 
-<!-- ends -->
+<!-- checkout ends -->
 
 
 {% endblock body %}

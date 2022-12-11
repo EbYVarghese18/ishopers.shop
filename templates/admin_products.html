@@ -85,7 +85,6 @@
                         <tbody>
                             {% for product in products %}
                             {% if user.is_superadmin %}
-                            {% else %}
                             <tr>
                                 <td class="text-white">{{product.id}}</td>
                                 <td class="text-white">{{product.product_name}}</td>

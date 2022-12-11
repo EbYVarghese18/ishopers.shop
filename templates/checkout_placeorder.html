@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block title %} Checkout {% endblock title %}
+
+
+{% block body %}
+
+{% load static %}
+
+
+<!-- Billing Address, payment method & review products starts-->
+
+<section class="h-100 text-white">
+    <div class="container pt-4">
+
+        <!-- billing address -->
+        <div class="row">
+            <div class="col-lg-6 py-2">
+                <div class="card" style="border-radius: 15px; background-color: #282d32;">
+                    <div class="card-body">
+                        <h4 class="card-title">Billing Address:</h4>
+                        <div class="p-3">
+                            <h6 class="mt-2">{{ order.full_name }}</h6>
+                            <h6 class="mt-2">{{ order.full_address }}</h6>
+                            <h6 class="mt-2">{{ order.city }}</h6>
+                            <h6 class="mt-2">{{ order.state }}</h6>
+                            <h6 class="mt-2">{{ order.country }}</h6>
+                            <h6 class="mt-2">{{ order.email }}</h6>
+                            <h6 class="mt-2">{{ order.phone }}</h6>
+                            {% if order.order_note %}
+                            <b>Order Note: {{ order.order_note }}</b>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- payement method -->
+            <div class="col-lg-6 py-2">
+                <div class="card" style="border-radius: 15px; background-color: #282d32;">
+                    <div class="card-body">
+                        <h4 class="card-title">Payment Method:</h4>
+                        <div class="p-3">
+                            <i class="fa fa-check" aria-hidden="true"></i> Online Payment <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- review products -->
+        <div class="row py-2">
+            <div class="col-lg-12">
+                <div class="card" style="border-radius: 15px; background-color: #282d32;">
+                    <div class="card-body p-5">
+                        <h4 class="card-title mb-4">Review products:</h4>
+
+                        {% for cart_item in cart_items %}
+                        <hr class="my-4">
+                        <div class="row mb-4 d-flex justify-content-between align-items-center">
+                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                <img src="{{ cart_item.product.images.url }}" class="img-fluid rounded-3"
+                                    alt="Product Image">
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                <p class="">Product Name:</p>
+                                <a class="" href="{{ cart_item.product.get_url }}">
+                                    <h6 class="text-white mt-2">{{ cart_item.product.product_name }}</h6>
+                                    {% if cart_item.variations.all %}
+                                    {% for item in cart_item.variations.all %}
+                                    <div class="d-flex text-muted text-white-50">
+                                        <p>{{ item.variation_category | capfirst }}</p>
+                                        <p>: {{ item.variation_value | capfirst }}</p>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-xl-2">
+                                <p class="">Qty:</p>
+                                <h6 class="mt-2">{{ cart_item.quantity }}</h6>
+                            </div>
+                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                <p class="">Price:</p>
+                                <h6 class="mt-2">₹{{ cart_item.product.price }}</h6>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <hr class="my-4">
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="text-uppercase">Total:</h5>
+                            <h5>₹{{ total }}</h5>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <h5 class="text-uppercase">Tax:</h5>
+                            <h5>₹{{ tax }}</h5>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="text-uppercase">Grand Total:</h5>
+                            <h5>₹{{ grand_total }}</h5>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Billing Address, payment method & review products ends -->
+
+
+<!-- starts -->
+
+<section class="h-100 h-custom text-white">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100 py-2">
+            <div class="col-12">
+                <div class="card card-registration card-registration-2"
+                    style="border-radius: 15px; background-color: #282d32;">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="d-flex justify-content-center">
+
+                                        <form action="{% url 'success' %}" method="POST">
+                                            {% csrf_token %}
+                                            <button class="btn btn-primary" type="submit" name="submit" data-mdb-ripple-color="dark">Make Payment </button> 
+                                                <script src="https://checkout.razorpay.com/v1/checkout.js"
+                                                    data-key="rzp_test_li9IyzTZMkKzf6"
+                                                    data-amount="50000"
+                                                    data-currency="INR"
+                                                    data-order_id="{{ order_id }}"
+                                                    data-buttontext="Make Payment" 
+                                                    data-name="iShop"
+                                                    data-description="Django and python"
+                                                    data-image="https://example.com/your_logo.jpg"
+                                                    data-prefill.name="user"
+                                                    data-prefill.email="user@gmail.com"
+                                                    data-theme.color="#F37254">
+                                                </script>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ends -->
+
+
+{% endblock body %} 

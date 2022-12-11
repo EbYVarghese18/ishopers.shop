@@ -79,7 +79,6 @@
                         <tbody>
                             {% for category in categories %}
                             {% if user.is_superadmin %}
-                            {% else %}
                             <tr>
                                 <td class="text-white">{{category.id}}</td>
                                 <td class="text-white">{{category.category_name}}</td>

@@ -17,6 +17,10 @@ from django.urls import path
 from orders import views
 
 urlpatterns = [
-    path('place_order/', views.place_order, name='place_order'),
-    path('payments/', views.payments, name='payments'),
+
+    path('checkout_selectaddress/', views.checkout_selectaddress, name='checkout_selectaddress'),
+    path('checkout_selectpayments/', views.checkout_selectpayments, name='checkout_selectpayments'),
+    path('checkout_placeorder/', views.checkout_placeorder, name='checkout_placeorder'),
+    path('success/', views.success, name='success'),
+
 ]
