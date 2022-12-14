@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'paypal.standard.ipn',
     'category',
     'accounts',
     'store',
@@ -158,3 +159,6 @@ EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'ebyblr2k18@gmail.com'
 EMAIL_HOST_PASSWORD = 'ean@byrosH'
 EMAIL_USE_TLS = True
+
+RAZORPAY_API_KEY = 'rzp_test_li9IyzTZMkKzf6'
+RAZORPAY_API_SECRET_KEY = 'W8yNYk7w8opJlsrJxNtjlZTy'

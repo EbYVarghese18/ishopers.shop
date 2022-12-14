@@ -84,7 +84,6 @@
                         </thead>
                         <tbody>
                             {% for product in products %}
-                            {% if user.is_superadmin %}
                             <tr>
                                 <td class="text-white">{{product.id}}</td>
                                 <td class="text-white">{{product.product_name}}</td>
@@ -99,7 +98,6 @@
                                     <a href="{% url 'admin_deleteproduct' product.id %}" class="text-white fa fa-trash"></a>
                                 </td>
                             </tr>
-                            {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>

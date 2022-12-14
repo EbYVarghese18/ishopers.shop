@@ -18,9 +18,8 @@ from orders import views
 
 urlpatterns = [
 
-    path('checkout_selectaddress/', views.checkout_selectaddress, name='checkout_selectaddress'),
-    path('checkout_selectpayments/', views.checkout_selectpayments, name='checkout_selectpayments'),
-    path('checkout_placeorder/', views.checkout_placeorder, name='checkout_placeorder'),
-    path('success/', views.success, name='success'),
-
+    path('checkout_address/', views.checkout_address, name='checkout_address'),
+    # path('checkout_selectpayments/', views.checkout_selectpayments, name='checkout_selectpayments'),
+    path('checkout_review/', views.checkout_review, name='checkout_review'),
+    path('payments/', views.payments, name='payments'),
 ]
