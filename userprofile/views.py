@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
-from orders.models import Order
-from userprofile.forms import UserForm, UserProfileForm
 from django.contrib import messages
+
+from orders.models import Order
+
 from userprofile.models import UserProfile
+from userprofile.forms import UserForm, UserProfileForm
 
 # Create your views here.
 
@@ -31,7 +33,7 @@ def myorders(request):
 
 
 def editprofile(request):
-
+         
     userprofile = get_object_or_404(UserProfile, user=request.user)
 
     if request.method == 'POST':
@@ -40,15 +42,15 @@ def editprofile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, "Your profile has been updated.")
-            return redirect('editprofile') 
+            # messages.success(request, "Your profile has been updated.") 
+            return redirect('user_home') 
     else:
         user_form = UserForm(instance=request.user)
         profile_form = UserProfileForm(instance=userprofile)
-        context = {
+
+    context = {
             'user_form': user_form,
             'profile_form': profile_form,
-        }
-        return render(request, 'editprofile.html', context)
-
- 
+            'userprofile':userprofile
+        } 
+    return render(request, 'editprofile.html', context)

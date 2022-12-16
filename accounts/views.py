@@ -47,9 +47,9 @@ def register(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': default_token_generator.make_token(user),
             })
-            to_email = email
-            send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
+            # to_email = email
+            # send_email = EmailMessage(mail_subject, message, to=[to_email])
+            # send_email.send()
 
             messages.success(request, 'Registration Successful. Please verify the Email.')
             return redirect('register')

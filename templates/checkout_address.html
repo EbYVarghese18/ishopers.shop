@@ -15,29 +15,34 @@
 <section class="h-100 text-white">
     <div class="container py-5">
 
-        <div class="row">
-            <div class="col-lg-8">
+        <div class="row justify-content-evenly">
+            <div class="col-lg-6">
                 <div class="card" style="border-radius: 15px; background-color: #282d32;">
                     <div class="card-body">
                         <h4 class="card-title">Enter Address:</h4>
                         <form action="{% url 'checkout_review' %}" method="POST" class="text-white p-3">
                             {% csrf_token %}
-                            <div class="col form-group">
-                                <label for="">First Name </label>
-                                <input type="text" name="first_name" class="form-control" required>
+                            <div class="d-flex">
+                                <div class="col form-group">
+                                    <label for="">First Name </label>
+                                    <input type="text" name="first_name" class="form-control" required>
+                                </div>
+                                <div class="col form-group ms-2">
+                                    <label for="">Last Name </label>
+                                    <input type="text" name="last_name" class="form-control" required>
+                                </div>
                             </div>
-                            <div class="col form-group">
-                                <label for="">Last Name </label>
-                                <input type="text" name="last_name" class="form-control" required>
+                            <div class="d-flex">
+                                <div class="col form-group">
+                                    <label for="">Phone Number</label>
+                                    <input type="text" name="phone" class="form-control" required>
+                                </div>
+                                <div class="col form-group ms-2">
+                                    <label for="">Email </label>
+                                    <input type="text" name="email" class="form-control" required>
+                                </div>
                             </div>
-                             <div class="col form-group">
-                                <label for="">Phone Number</label>
-                                <input type="text" name="phone" class="form-control" required>
-                            </div>
-                            <div class="col form-group">
-                                <label for="">Email </label>
-                                <input type="text" name="email" class="form-control" required>
-                            </div>
+                             
                             <div class="col form-group">
                                 <label for="">Address Line 1 </label>
                                 <input type="text" name="address_line_1" class="form-control" required>
@@ -46,18 +51,21 @@
                                 <label for="">Address Line 2 </label>
                                 <input type="text" name="address_line_2" class="form-control">
                             </div>
-                            <div class="col form-group">
-                                <label for="">City</label>
-                                <input type="text" name="city" class="form-control" required>
+                            <div class="d-flex">
+                                <div class="col form-group">
+                                    <label for="">City</label>
+                                    <input type="text" name="city" class="form-control" required>
+                                </div>
+                                <div class="col form-group mx-2">
+                                    <label for="">State</label>
+                                    <input type="text" name="state" class="form-control" required>
+                                </div>
+                                <div class="col form-group">
+                                    <label for="">Country</label>
+                                    <input type="text" name="country" class="form-control" required>
+                                </div>
                             </div>
-                            <div class="col form-group">
-                                <label for="">State</label>
-                                <input type="text" name="state" class="form-control" required>
-                            </div>
-                            <div class="col form-group">
-                                <label for="">Country</label>
-                                <input type="text" name="country" class="form-control" required>
-                            </div>
+                            
                             <div class="col form-group">
                                 <label for="">Order Note</label>
                                 <input type="text" name="order_note" class="form-control">
@@ -65,8 +73,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
-                <div class="card" style="border-radius: 15px; background-color: #282d32;">
+            <div class="col-lg-4 d-flex align-items-center">
+                <div class="card" style="border-radius: 15px; background-color: #282d32; width: 100%;">
                     <div class="card-body">
                         <h4 class="card-title mb-4">Order Summary:</h4>
                         {% if not cart_items %}
@@ -101,7 +109,7 @@
 <!-- place Order, continue Shoppping -->
 
 <section class="h-100 h-custom text-white">
-    <div class="container py-5 h-100">
+    <div class="container pb-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12">
                 <div class="card card-registration card-registration-2"
