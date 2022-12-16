@@ -6,10 +6,11 @@ from django.contrib.auth.decorators import login_required
 
 from accounts.models import Account
 
-from orders.models import Order
+from orders.models import Order, OrderProduct
 
 from userprofile.models import UserProfile
 from userprofile.forms import UserForm, UserProfileForm
+
 
 # Create your views here.
 
@@ -90,3 +91,18 @@ def changepassword(request):
             messages.error(request, 'Password does not match')
             return redirect('changepassword')
     return render(request, 'changepassword.html')
+
+
+@login_required(login_url='signin')
+def order_detail(request, order_id):
+    order_detail = OrderProduct.objects.filter(order__order_number = order_id)
+    order = Order.objects.get(order_number=order_id)
+    subtotal = 0
+    for i in order_detail:
+        subtotal += i.product_price * i.quantity
+    context = {
+        'order_detail': order_detail,
+        'order': order,
+        'subtotal': subtotal,
+    }
+    return render(request, 'order_detail.html', context)

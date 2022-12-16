@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %} success {% endblock title %}
+
+
+{% block body %}
+
+{% load static %}
+
+
+<!-- test -->
+
+
+<section class="h-100 gradient-custom">
+    <div class="container pb-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-10 col-xl-8">
+                <div class="card" style="border-radius: 10px; background-color: #181717;">
+                    <div class="card-header px-4 py-5 d-flex justify-content-end">
+                        <div class="px-5">
+                            <p class="text-white mb-0">Invoice To:</p>
+                            <p class="small text-white mb-0">{{ order.full_name }}</p>
+                            <p class="small text-white mb-0">{{ order.full_address }}</p>
+                            <p class="small text-white mb-0">{{ order.city }},{{ order.state }},{{ order.country }}</p>
+                            <p class="small text-white mb-0">{{ order.email }}</p>
+                            <p class="small text-white mb-0">{{ order.phone }}</p>
+
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0 text-white">Order Details</p>
+                        </div>
+                        <div class="card shadow-0 mb-4" style="background-color: #292e32;">
+                            <div class="card-body">
+
+                                <div class="row g-0 p-3 d-flex justify-content-evenly">
+
+                                    {% for item in order_detail %}
+                                    <hr class="m-4" style="color: #fefefe;">
+
+                                    <div class="col-md-4 d-grid text-center align-items-center">
+                                        <p class="text-white mb-0">{{ item.product.product_name }}</p>
+                                        {% if item.variations.all %}
+                                        {% for i in item.variations.all %}
+                                        <div class="d-flex justify-content-center text-white small">
+                                            <p>{{ i.variation_category | capfirst }}:</p>
+                                            <p>{{ i.variation_value | capfirst }}</p>
+                                        </div>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                        <p class="text-white mb-0">Qty: {{ item.quantity }}</p>
+                                    </div>
+                                    <div class="col-md-4 d-flex justify-content-center align-items-center">
+                                        <p class="text-white mb-0 small">Amount: {{ item.product_price }}</p>
+                                    </div>
+                                    {% endfor %}
+                                    <hr class="m-4" style="color: #fefefe;">
+                                </div>
+
+                                {% comment %}
+                                <hr class="mb-4" style="color: #fefefe;">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-md-2">
+                                        <p class="text-white mb-0 small">Track Order</p>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="progress" style="height: 6px; border-radius: 16px;">
+                                            <div class="progress-bar" role="progressbar"
+                                                style="width: 65%; border-radius: 16px; background-color: #09fb52;"
+                                                aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <div class="d-flex justify-content-around mb-1">
+                                            <p class="text-white mt-1 mb-0 small ms-xl-5">Out for delivary</p>
+                                            <p class="text-white mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                        </div>
+                                    </div>
+                                </div> {% endcomment %}
+                            </div>
+                        </div>
+
+
+                        <div class="d-flex justify-content-between">
+                            <p class="text-white mb-0">Order Number: {{ order.order_number }}</p>
+                            <p class="text-white mb-0"><span class="fw-bold me-4">Total:</span>{{ subtotal }}</p>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <p class="text-white mb-0">Invoice Date: {{ order.created_at }}</p>
+                            <p class="text-white mb-0"><span class="fw-bold me-4">GST 18%:</span>{{ order.tax }}</p>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <p class="text-white mb-0">Payment ID: {{ order.payment.payment_id }}</p>
+                            <p class="text-white mb-0"><span class="fw-bold me-4">Grand Total:</span>{{
+                                order.order_total }}</p>
+                        </div>
+                        <div class="d-flex justify-content-between mb-5">
+                            <p class="text-white mb-0">Payment Status: {{ order.payment.status }} </p>
+                            <p class="text-white mb-0"><span class="fw-bold me-4"></span></p>
+                        </div>
+                    </div>
+                    <div class="card-footer border-0 px-4 py-5"
+                        style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                        <h5 class="d-flex align-items-center justify-content-end text-white mb-0">Total
+                            paid: <span class="h2 mb-0 ms-2">Rs. {{ order.order_total }}</span></h5>
+                    </div>
+                    <div class="p-5 d-flex justify-content-start">
+                        <a href="{% url 'myorders' %}">
+                        <p class="text-white"><i class="fa fa-arrow-left"></i> Back to My orders</p></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock body %}
