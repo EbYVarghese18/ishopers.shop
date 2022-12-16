@@ -1,5 +1,6 @@
 {% extends 'baseadmin.html' %}
 
+
 {% block title %} admin_orders {% endblock title %}
 
 
@@ -17,11 +18,12 @@
         <div class="col-sm-2 col-md-2" style="height: 85vh;">
             <div style="height:25% ;"></div>
             <div class="d-flex flex-column justify-content-start" style="height: 50%;">
-                <a href="{% url 'admin_home' %}" class="px-2 d-flex align-items-center"> 
+                <a href="{% url 'admin_home' %}" class="px-2 d-flex align-items-center">
                     <img src="{% static 'images/dash.png' %}" alt="" style="height: 15px;">
                     <p class="p-2 text-white">Dashboard</p>
                 </a>
-                <a href="#" class="px-2 me-2 d-flex align-items-center" style="background-color: rgb(47, 48, 48); border-radius: 10px;">
+                <a href="#" class="px-2 me-2 d-flex align-items-center"
+                    style="background-color: rgb(47, 48, 48); border-radius: 10px;">
                     <img src="{% static 'images/orders.png' %}" alt="" style="height: 15px;">
                     <p class="p-2 text-white">Orders</p>
                 </a>
@@ -44,10 +46,89 @@
             </div>
         </div>
         <div class="col-sm-10 col-md-10 overflow-auto" style="background-color: rgb(15, 15, 15); border-radius: 10px;">
-            
-           
-        </div>
 
+
+            <div class="mx-auto">
+
+                <div class="header_admin_body">
+                    <div>
+                        <h5 class="p-3"><u>Order Management:</u></h5>
+                    </div>
+                </div>
+
+                <div class="overflow-auto px-2">
+                    <table class="text-white table table-striped table-bordered table-hover text-center align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Order Number</th>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Order Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">View/Update</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in orders %}
+                            <tr>
+                                <td class="text-white">{{item.order_number}}</td>
+                                <td class="text-white">{{item.full_name}}</td>
+                                <td class="text-white">{{item.order_total}}</td>
+                                <td class="text-white">{{item.status}}</td>
+
+
+                                <td class="d-flex align-items-center justify-content-center">
+
+                                    <a data-bs-toggle="modal" data-bs-target="#exampleModal-{{item.id}}" href="">
+                                        <div class="modal fade" id="exampleModal-{{item.id}}" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content bg-dark text-white">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Order
+                                                            Number: </h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body d-grid text-white">
+                                                        <p>Order Number: {{item.order_number}}</p>
+                                                        <p>Full Name: {{item.full_name}}</p>
+                                                        <p>Payment: {{item.payment}}</p>
+                                                        <p>Phone: {{item.phone}}</p>
+                                                        <p>Email: {{item.email}}</p>
+                                                        <p>Address: {{item.address_line_1}},{{address_line_2}}</p>
+                                                        <p>City: {{item.city}}</p>
+                                                        <p>State: {{item.state}}</p>
+                                                        <p>Country: {{item.country}}</p>
+                                                        <p>Order Total: {{item.order_total}}</p>
+                                                        <p>Tax: {{item.tax}}</p>
+                                                        <p>Status: {{item.status}}</p>
+                                                        <p>Created At: {{item.created_at}}</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="text-white fa fa-info-circle fa-2x"></p>
+                                    </a>
+
+
+                                    <a href="{% url 'orderstatus' item.order_number %}"
+                                        class="text-white fa fa-edit fa-2x ms-3"></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+
+        </div>
     </div>
 </div>
 

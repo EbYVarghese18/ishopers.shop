@@ -5,7 +5,6 @@ urlpatterns = [
 
    
     path('admin_home/', views.admin_home, name='admin_home'),
-    path('admin_orders/', views.admin_orders, name='admin_orders'),
     
     path('admin_users/', views.admin_users, name='admin_users'),
     path('admin_signin/', views.admin_signin, name='admin_signin'),
@@ -22,4 +21,7 @@ urlpatterns = [
     path('admin_addproduct/', views.admin_addproduct, name='admin_addproduct'),
     path('admin_editproduct/<int:id>', views.admin_editproduct, name='admin_editproduct'),
     path('admin_deleteproduct/<int:id>', views.admin_deleteproduct, name='admin_deleteproduct'),
+
+    path('admin_orders/', views.admin_orders, name='admin_orders'),
+    path('orderstatus/<int:order_number>/', views.orderstatus, name='orderstatus'),
 ]

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %} My Profile {% endblock title %}
+
+
+{% block body %}
+
+{% load static %}
+
+
+
+
+<div class="my-5 container text-white p-5" style="border-radius: 15px; background-color: #2e343a;">
+    <div class="row g-0">
+        <div class="pb-5 text-center">
+            <h4 class="card-title">Edit Your Profile</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form action="" method="POST">
+                {% csrf_token %}
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="">First Name</label>
+                        {{ user_form.first_name }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="">Last Name</label>
+                        {{ user_form.last_name }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="">Profile Picture</label>
+                        {{ profile_form.profile_picture }}
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock body %}

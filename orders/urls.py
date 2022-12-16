@@ -22,4 +22,5 @@ urlpatterns = [
     # path('checkout_selectpayments/', views.checkout_selectpayments, name='checkout_selectpayments'),
     path('checkout_review/', views.checkout_review, name='checkout_review'),
     path('payments/', views.payments, name='payments'),
+    path('order_complete/', views.order_complete, name='order_complete'),
 ]

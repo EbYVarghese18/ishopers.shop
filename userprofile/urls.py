@@ -21,5 +21,5 @@ urlpatterns = [
     path('myaddress/', views.myaddress, name='myaddress'),
     path('mywishlist/', views.mywishlist, name='mywishlist'),
     path('myorders/', views.myorders, name='myorders'),
-
+    path('editprofile/', views.editprofile, name='editprofile'),
 ]

@@ -10,13 +10,31 @@
 
 <!-- userprofile starts -->
 
-<div class="container-fluid p-5 text-white" >
-    <h3 class="pb-5 text-center ">My Account</h3>
+<div class="container-fluid p-5 text-white">
+    <!-- <p>
+        Hello, {{user.first_name}}&nbsp;{{user.last_name}}
+    </p> -->
+    <h3 class="pb-5 text-center ">Your Account</h3>
     <div class="row g-0 d-flex justify-content-evenly">
+        <div class="">
+            <div class="card border-0" style="text-align:center">
+                <div class="card-body bg-dark">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHeu1JU1avFzQtN-az4HZqEpR1VvEBN-SEXfEuOtt8Xg&s"
+                        alt="User Profile Photo" width="100" height="100" style="border-radius:50%;">
+                    <p class="mb-0">{{user.email}}</p>
+                    <p>{{user.phone_number}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+
+<div class="container-fluid px-5 text-white">
+    <div class="row g-0 d-flex justify-content-evenly">
         <div class="col-12 col-sm-6 col-md-3 text-center my-2"
             style="border-radius: 15px; background-color: #2e343a; width:330px;">
-            <a href="" class="text-white p-2">
+            <a href="{% url 'editprofile' %}" class="text-white p-2">
                 <h5>My Profile</h5>
                 <p style="font-size: 12px;">Edit your basic details</p>
             </a>
@@ -37,14 +55,22 @@
         </div>
         <div class="col-12 col-sm-6 col-md-3 text-center my-2"
             style="border-radius: 15px; background-color: #2e343a; width:330px;">
-            <a href="{% url 'mywishlist' %}" class="text-white p-2">
+            <a href="{% url 'myorders' %}" class="text-white p-2">
                 <h5>My Wishlist</h5>
-                <p style="font-size: 12px;">Have a look at your favourite products</p>
+                <p style="font-size: 12px;">View your wishlist and purchase</p>
             </a>
         </div>
-
     </div>
 </div>
+
+
+{% comment %} <div class="col-12 col-sm-6 col-md-3 text-center my-2"
+    style="border-radius: 15px; background-color: #2e343a; width:330px;">
+    <a href="{% url 'mywishlist' %}" class="text-white p-2">
+        <h5>My Wishlist</h5>
+        <p style="font-size: 12px;">Have a look at your favourite products</p>
+    </a>
+</div> {% endcomment %}
 
 <!-- userprofile ends -->
 

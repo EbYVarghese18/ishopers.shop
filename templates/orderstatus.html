@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %} User_profile {% endblock title %}
+
+{% block body %}
+
+{% load static %}
+
+
+
+<!-- userprofile starts -->
+
+
+
+<div class="container-fluid px-5 text-white">
+    <div class="row g-0 d-flex justify-content-evenly">
+        <div class="col-12 col-sm-6 col-md-3 text-center my-2"
+            style="border-radius: 15px; background-color: #2e343a; width:330px;">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                  {{orderform.as_p}}
+                   
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary"> Submit </button>
+                    </div> <!-- form-group// -->      
+                        
+                </form>
+        </div>
+    </div>
+</div>
+
+
+{% comment %} <div class="col-12 col-sm-6 col-md-3 text-center my-2"
+    style="border-radius: 15px; background-color: #2e343a; width:330px;">
+    <a href="{% url 'mywishlist' %}" class="text-white p-2">
+        <h5>My Wishlist</h5>
+        <p style="font-size: 12px;">Have a look at your favourite products</p>
+    </a>
+</div> {% endcomment %}
+
+<!-- userprofile ends -->
+
+
+{% endblock body %}

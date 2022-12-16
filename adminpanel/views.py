@@ -2,11 +2,18 @@ from django.shortcuts import render, redirect
 from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate
 from django.contrib import messages
-from accounts.models import Account
-from store.models import Products
 from django.utils.text import slugify
+
+from accounts.models import Account
+
+from store.models import Products
+
 from category.models import Category
-from .forms import CategoryForm, ProductsForm
+
+from orders.models import Order
+from orders.forms import OrderFormStatus
+
+from adminpanel.forms import CategoryForm, ProductsForm
 
 # Create your views here.
 
@@ -46,10 +53,6 @@ def admin_home(request):
         return render(request, 'admin_home.html', context)
     else:
         return redirect('admin_signin')
-
-
-def admin_orders(request):
-    return render(request, 'admin_orders.html')
 
 
 
@@ -204,3 +207,34 @@ def admin_deleteproduct(requset, id):
     deleteproduct.delete()
     # messages.info(request, "The product item is deleted")
     return redirect("admin_products")
+
+
+
+
+# Order view starts
+
+
+def admin_orders(request):
+    context = {
+            'orders': Order.objects.all()
+        }
+    return render(request, 'admin_orders.html', context)
+
+
+
+def orderstatus(request, order_number):
+    order=Order.objects.get(order_number=order_number)
+    orderform=OrderFormStatus(instance=order)
+
+    if request.method == 'POST':
+        form = OrderFormStatus(request.POST,instance=order)
+        
+        if form.is_valid():
+            form.save()
+            # messages.info(request, "The order status is updated")
+            return redirect('admin_orders')
+    else:
+        context = {
+            'orderform': orderform,
+        }
+        return render(request, 'orderstatus.html', context)
