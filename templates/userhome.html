@@ -10,7 +10,7 @@
 
 <!-- userprofile starts -->
 
-<div class="container-fluid p-5 text-white">
+<div class="container-fluid pt-5 text-white">
     <!-- <p>
         Hello, {{user.first_name}}&nbsp;{{user.last_name}}
     </p> -->
@@ -19,7 +19,7 @@
         <div class="">
             <div class="card border-0" style="text-align:center">
                 <div class="card-body bg-dark">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHeu1JU1avFzQtN-az4HZqEpR1VvEBN-SEXfEuOtt8Xg&s"
+                    <img src="{{ userprofile.profile_picture.url }}"
                         alt="User Profile Photo" width="100" height="100" style="border-radius:50%;">
                     <p class="mb-0">{{user.email}}</p>
                     <p>{{user.phone_number}}</p>
@@ -30,7 +30,7 @@
 </div>
 
 
-<div class="container-fluid px-5 text-white">
+<div class="container-fluid p-5 text-white">
     <div class="row g-0 d-flex justify-content-evenly">
         <div class="col-12 col-sm-6 col-md-3 text-center my-2"
             style="border-radius: 15px; background-color: #2e343a; width:330px;">
@@ -55,9 +55,9 @@
         </div>
         <div class="col-12 col-sm-6 col-md-3 text-center my-2"
             style="border-radius: 15px; background-color: #2e343a; width:330px;">
-            <a href="{% url 'myorders' %}" class="text-white p-2">
-                <h5>My Wishlist</h5>
-                <p style="font-size: 12px;">View your wishlist and purchase</p>
+            <a href="{% url 'changepassword' %}" class="text-white p-2">
+                <h5>Change Password</h5>
+                <p style="font-size: 12px;">Change Your Password Here</p>
             </a>
         </div>
     </div>

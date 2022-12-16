@@ -19,7 +19,8 @@ from userprofile import views
 urlpatterns = [
     path('user_home/', views.user_home, name='user_home'),
     path('myaddress/', views.myaddress, name='myaddress'),
-    path('mywishlist/', views.mywishlist, name='mywishlist'),
+    # path('mywishlist/', views.mywishlist, name='mywishlist'),
     path('myorders/', views.myorders, name='myorders'),
     path('editprofile/', views.editprofile, name='editprofile'),
+    path('changepassword/', views.changepassword, name='changepassword'),
 ]
