@@ -9,6 +9,7 @@
 
 
 <div class="container-fluid p-4 text-white">
+
     <div class="text-center">
         <img class="mx-auto logo mb-2" src="{% static 'images/logo.png' %}" alt="">
     </div>
@@ -17,7 +18,8 @@
         <div class="col-sm-2 col-md-2" style="height: 85vh;">
             <div style="height:25% ;"></div>
             <div class="d-flex flex-column justify-content-start" style="height: 50%;">
-                <a href="#" class="px-2 me-2 d-flex align-items-center" style="background-color: rgb(47, 48, 48); border-radius: 10px;"> 
+                <a href="#" class="px-2 me-2 d-flex align-items-center"
+                    style="background-color: rgb(47, 48, 48); border-radius: 10px;">
                     <img src="{% static 'images/dash.png' %}" alt="" style="height: 15px;">
                     <p class="p-2 text-white ">Dashboard</p>
                 </a>
@@ -43,28 +45,102 @@
                 </a>
             </div>
         </div>
+
         <div class="col-sm-10 col-md-10 overflow-auto" style="background-color: rgb(15, 15, 15); border-radius: 10px;">
-            <div class="m-5 d-flex justify-content-evenly text-center" style="height: 5rem;">
+            <div class="m-5 d-flex justify-content-evenly text-center">
+
                 <div class="m-2" style="background-color: rgb(47, 48, 48); width: 100%; border-radius: 5px;">
-                    <h6 class="p-3">Shipped Orders</h6>
+                    <h6 class="p-3">Total Users</h6>
+                    <h3 class="p-3">{{ user_count }}</h3>
                 </div>
+
                 <div class="m-2" style="background-color: rgb(47, 48, 48); width: 100%; border-radius: 5px;">
-                    <h6 class="p-3">Pending Orders</h6>
+                    <h6 class="p-3">Total Products</h6>
+                    <h3 class="p-3">{{ product_count }}</h3>
                 </div>
+
                 <div class="m-2" style="background-color: rgb(47, 48, 48); width: 100%; border-radius: 5px;">
-                    <h6 class="p-3">New Orders</h6>
+                    <h6 class="p-3">Total Orders</h6>
+                    <h3 class="p-3">{{ order_count }}</h3>
                 </div>
+
+                <div class="m-2" style="background-color: rgb(47, 48, 48); width: 100%; border-radius: 5px;">
+                    <h6 class="p-3">Product Categories</h6>
+                    <h3 class="p-3">{{ category_count }}</h3>
+                </div>
+
             </div>
-            <div class="d-flex mx-5">
-                <h6 class="p-3">Total Revenue:</h6>
+
+            <div class="d-flex p-5 justify-content-evenly">
+
+                <div class="">
+                    <h3 class="text-center pb-3">Overall:</h3>
+                    <canvas id="myChart" width="400px" height="400px"></canvas>
+                </div>
+                <div class="">
+                    <h3 class="text-center pb-3">Orders:</h3>
+                    <canvas id="orderchart" width="400px" height="400px"></canvas>
+                </div>
+
             </div>
-            <div class="d-flex mx-5">
-                <p class="p-3">Order Status:</p>
-            </div>
+                    
         </div>
 
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('myChart');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['User', 'Product', 'Order', 'Category'],
+            datasets: [{
+                label: '',
+                data: [ '{{user_count}}', '{{product_count}}', '{{order_count}}', '{{category_count}}'],
+                borderWidth: 0,
+                backgroundColor: ["#28282B", "#36454F", "#301934",
+                "#023020", "#7FDBFF", "#B10DC9", "#FFDC00",
+                "#001f3f", "#39CCCC", "#01FF70", "#85144b",
+                "#F012BE", "#3D9970", "#111111", "#AAAAAA"]
+            }]
+        },
+        options: {
+            scales: {
+                // y: {
+                //     beginAtZero: true
+                // }
+            }
+        }
+    });
+</script>
+
+<script>
+    const orderchart = document.getElementById('orderchart');
+    new Chart(orderchart, {
+        type: 'bar',
+        data: {
+            labels: ['Completed', 'Accepted', 'Cancelled', 'Total Order'],
+            datasets: [{
+                label: '',
+                data: [ '{{order_completed}}', '{{order_accepted}}', '{{order_cancelled}}','{{order_count}}' ],
+                borderWidth: 0,
+                backgroundColor: ["#28282B", "#36454F", "#301934",
+                "#023020", "#39CCCC", "#01FF70", "#85144b",
+                "#F012BE", "#3D9970", "#111111", "#AAAAAA"],
+            }]
+        },
+        options: {
+            legend: {
+                labels: {
+                    fontColor: "blue",
+                }
+            },
+        }
+    });
+</script>
 
 
 {% endblock body %}s

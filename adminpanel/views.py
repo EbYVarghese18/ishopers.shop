@@ -47,10 +47,25 @@ def admin_signin(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def admin_home(request):
     if 'adminsession' in request.session:
+        user_count = Account.objects.filter(is_admin=False).count()
+        product_count = Products.objects.all().count()
+        order_count = Order.objects.all().count()
+        order_completed = Order.objects.filter(status='Completed').count()
+        order_accepted = Order.objects.filter(status='Accepted').count()
+        order_cancelled = Order.objects.filter(status='Cancelled').count()
+
+        category_count = Category.objects.all().count()
+
         context = {
-            'users': Account.objects.all()
+            'user_count'    : user_count,
+            'product_count' : product_count,
+            'order_count'   : order_count,
+            'category_count' : category_count,
+            'order_completed': order_completed,
+            'order_accepted': order_accepted,
+            'order_cancelled': order_cancelled,
         }
-        return render(request, 'admin_home.html', context)
+        return render(request, 'admin_home.html',context)
     else:
         return redirect('admin_signin')
 
@@ -78,6 +93,9 @@ def admin_signout(request):
         except KeyError:
             pass
 
+
+
+# admin user management view 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def user_unblock(request, id):
@@ -108,7 +126,6 @@ def user_block(request, id):
 
 
 # Category view starts
-
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def admin_categories(request):
