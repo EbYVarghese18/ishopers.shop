@@ -26,7 +26,7 @@ import requests
 def register(request):
     if request.method == 'POST':    
         form = RegistrationForm(request.POST)
-        if form.is_valid():
+        if form.is_valid(): 
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
@@ -47,12 +47,15 @@ def register(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': default_token_generator.make_token(user),
             })
-            # to_email = email
-            # send_email = EmailMessage(mail_subject, message, to=[to_email])
-            # send_email.send()
+            to_email = email
+            send_email = EmailMessage(mail_subject, message, to=[to_email])
+            send_email.send()
 
-            messages.success(request, 'Registration Successful. Please verify the Email.')
-            return redirect('register')
+            messages.success(request, 'Thank you for registering with us. We have sent you a verification mail to your email address. Please verify it.')
+
+            #return redirect('?command=verification&email='+email)
+
+            return redirect('signin')
     else:
         form = RegistrationForm()
 
@@ -137,5 +140,25 @@ def signout(request):
     return redirect('signin')
   
 
+
+def forgotpassword(request):
+    
+    return render(request, 'forgotpassword.html')
+
+
+# user activation through mail
 def activate(request, uidb64, token):
-    return HttpResponse('okay')
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = Account._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
+        user = None
+    
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Congratulations! Your account is activated.')
+        return redirect('signin')
+    else:
+        messages.error(request, 'Invalid activations link')
+        return redirect('register')

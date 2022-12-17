@@ -154,11 +154,11 @@ MESSAGE_TAGS = {
 }
 
 #smtp configuration
-EMAIL_HOST =    'smtp.gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = '587'
 EMAIL_HOST_USER = 'ebyblr2k18@gmail.com'
-EMAIL_HOST_PASSWORD = 'ean@byrosH'
+EMAIL_HOST_PASSWORD = 'pjpepwrzvksdfqxr'
 EMAIL_USE_TLS = True
 
-RAZORPAY_API_KEY = 'rzp_test_li9IyzTZMkKzf6'
-RAZORPAY_API_SECRET_KEY = 'W8yNYk7w8opJlsrJxNtjlZTy'
+# RAZORPAY_API_KEY = 'rzp_test_li9IyzTZMkKzf6'
+# RAZORPAY_API_SECRET_KEY = 'W8yNYk7w8opJlsrJxNtjlZTy'

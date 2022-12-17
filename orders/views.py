@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 import razorpay
-from ishop.settings import RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY
+# from ishop.settings import RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY
 from django.conf import settings
 import json
 from django.core.mail import EmailMessage
