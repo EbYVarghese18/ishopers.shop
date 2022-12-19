@@ -1,6 +1,6 @@
 from django import forms 
 from accounts.models import Account
-from userprofile.models import UserProfile
+from userprofile.models import UserProfile, ShippingAddress
 
 
 class UserForm(forms.ModelForm):
@@ -14,7 +14,6 @@ class UserForm(forms.ModelForm):
             self.fields[field].widget.attrs['class'] = 'form-control'
 
 
-
 class UserProfileForm(forms.ModelForm):
     profile_picture = forms.ImageField(required=False, error_messages={'invalid':('image files only')}, widget=forms.FileInput)
     class Meta:
@@ -23,5 +22,16 @@ class UserProfileForm(forms.ModelForm):
         
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs) 
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+
+
+class ShippingAddressForm(forms.ModelForm):
+    class Meta:
+        model = ShippingAddress
+        fields = ('first_name', 'last_name', 'address_line_1', 'address_line_2', 'city', 'state', 'country', 'pincode', 'phone_number')
+
+    def __init__(self, *args, **kwargs):
+        super(ShippingAddressForm, self).__init__(*args, **kwargs) 
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'

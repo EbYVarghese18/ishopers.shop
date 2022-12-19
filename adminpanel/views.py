@@ -104,7 +104,7 @@ def user_unblock(request, id):
             user = Account.objects.get(pk=id)
             user.is_active = True
             user.save()
-            # messages.info(request, "The user is unblocked")
+            messages.success(request, "The user is unblocked")
             return redirect('admin_users')
         except:
             return redirect('admin_signin')
@@ -117,12 +117,13 @@ def user_block(request, id):
             user = Account.objects.get(pk=id)
             user.is_active = False
             user.save()
-            # messages.info(request, "The user is unblocked")
+            messages.success(request, "The user is blocked")
             # del request.session['usersession']
             return redirect('admin_users')
         except:
             return redirect('admin_signin')
-    
+
+
 
 
 # Category view starts
@@ -131,7 +132,7 @@ def user_block(request, id):
 def admin_categories(request):
     if 'adminsession' in request.session:
         context = {
-            'categories': Category.objects.all()
+            'categories': Category.objects.order_by('id').all()
         }
         return render(request, 'admin_categories.html', context)
     else:
@@ -146,33 +147,36 @@ def admin_editcategory(request, id):
         if form.is_valid():
             editcategory.slug = slugify(editcategory.category_name)
             form.save()
+            messages.success(request, "The category updated successfully")
             return redirect('admin_categories')
-
     context = {
         'categoryform': categoryform,
-        }
+    }
     return render(request, "admin_editcategory.html", context)
 
 
 def admin_deletecategory(request, id):
     deletecategory = Category.objects.get(pk=id)
     deletecategory.delete()
-    # messages.info(request, "The category item is deleted")
+    messages.success(request, "The category item is deleted")
     return redirect("admin_categories")
 
 
 def admin_addcategory(request):
+    
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "The category is added")
             return redirect("admin_categories")
-
+        else:
+            return render(request, "admin_addcategory.html", {'categoryform': form} )
     else:
         categoryform = CategoryForm()
         context = {
             'categoryform': categoryform
-            }
+        }
         return render(request, "admin_addcategory.html", context)
 
 
@@ -183,7 +187,7 @@ def admin_addcategory(request):
 def admin_products(request):
     if 'adminsession' in request.session:
         context = {
-            'products': Products.objects.all()
+            'products': Products.objects.order_by('id').all()
         }
         return render(request, 'admin_products.html', context)
     else:
@@ -192,15 +196,18 @@ def admin_products(request):
 
 def admin_addproduct(request):
     if request.method == 'POST':
-        form = ProductsForm(request.POST)
+        form = ProductsForm(request.POST, request. FILES)
         if form.is_valid():
-            form.save()
+            form.save() 
+            messages.success(request, "The product item is added")
             return redirect("admin_products")
+        else:
+            return render(request,"admin_addproduct.html", {'productform':form})
     else:
         productform=ProductsForm()
         context={
             'productform':productform,
-            }
+        }
         return render(request,"admin_addproduct.html", context)
 
 
@@ -214,7 +221,7 @@ def admin_editproduct(request, id):
             form.save()
             return redirect("admin_products")     
     context={
-        'productform':productform,
+            'productform':productform,
         }
     return render(request,"admin_editproduct.html",context)
 
@@ -233,7 +240,7 @@ def admin_deleteproduct(requset, id):
 
 def admin_orders(request):
     context = {
-            'orders': Order.objects.all()
+            'orders': Order.objects.order_by('order_number').all()
         }
     return render(request, 'admin_orders.html', context)
 

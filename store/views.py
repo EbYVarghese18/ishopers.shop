@@ -61,7 +61,3 @@ def search(request):
             'product_count': product_count,
         } 
     return render(request, 'store.html', context)
-
-
-def editproduct(request):
-    return render(request, 'admin_editproduct.html')

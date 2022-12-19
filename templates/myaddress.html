@@ -9,16 +9,45 @@
 
 
 <div class="container-fluid p-5 text-white" >
-    <h3 class="pb-5 text-center ">My Account</h3>
+    <h3 class="pb-5 text-center ">My Address</h3>
     <div class="row g-0 d-flex justify-content-evenly">
+        <div>
+            {% include 'alerts.html' %}
+        </div>
 
-        <div class="col-12 col-sm-6 col-md-3 text-center my-2"
+
+        {% for address in shippingaddress %}
+        <div class="col-12 col-sm-6 col-md-3 text-center my-2 p-4"
             style="border-radius: 15px; background-color: #2e343a; width:330px;">
-            <p>{{ firstname }}</p>
-            <p>{{ firstname }}</p>
-            <p>{{ firstname }}</p>
-            <p>{{ firstname }}</p>
-            <p>{{ firstname }}</p>
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'deleteshippingaddress' address.id %}"><i class="fas fa-trash-alt fa-bounce text-white"></i></a>
+                <a href="{% url 'editshippingaddress' address.id %}"><i class="fa fa-edit fa-bounce text-white"></i></a>
+            </div>
+            <div class="">
+            {{ address.first_name }}&nbsp;{{ address.last_name }} <br>
+            {{ address.address_line_1 }}, 
+            {{ address.address_line_2 }}<br>
+            {{ address.city }}-
+            {{ address.pincode }} <br>
+            {{ address.country }},
+            {{ address.state }} <br>
+            {{ address.phone_number }}
+            </div>
+            {% if address.is_default %}
+            <div class="pt-3"><i class="fas fa-check fa-2x" style="color:green"></i></div>
+            {% else %}
+            <div class="pt-3"><a href="{% url 'set_default_address' address.id %}" class="text-white"><i class="fa fa-square"></i>  Set default</a></div>
+            {% endif %}
+            
+        </div>
+        {% endfor %}
+
+        <div class="d-flex justify-content-center p-5">
+            <a href="{% url 'addshippingaddress' %}"><button class="btn btn-secondary">+Add a new address</button></a>
+        </div>
+        <div class="p-3 d-flex justify-content-start">
+            <a href="{% url 'user_home' %}">
+            <p class="text-white"><i class="fa fa-long-arrow-left fa-beat-fade"></i> Back to profile</p></a>
         </div>
 
     </div>

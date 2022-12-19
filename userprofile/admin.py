@@ -1,6 +1,7 @@
 from django.contrib import admin
-from userprofile.models import UserProfile
-from django.utils.html import format_html 
+from django.utils.html import format_html
+from userprofile.models import UserProfile, ShippingAddress
+ 
 
 # Register your models here.
 
@@ -10,6 +11,9 @@ class UserProfileAdmin(admin.ModelAdmin):
     thumbnail.short_description = 'Profile Picture'
     list_display= ('thumbnail', 'user', 'city', 'state', 'country')
 
+class ShippingAddressAdmin(admin.ModelAdmin):
+    list_display= ('user', 'first_name', 'last_name', 'city', 'state', 'country', 'is_default')
 
 
 admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(ShippingAddress, ShippingAddressAdmin)

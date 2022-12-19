@@ -18,10 +18,20 @@ from userprofile import views
 
 urlpatterns = [
     path('user_home/', views.user_home, name='user_home'),
+
     path('myaddress/', views.myaddress, name='myaddress'),
+    path('set_default_address/<int:id>/', views.set_default_address, name='set_default_address'),
+    # path('editaddress/<int:id>/', views.editaddress, name='editaddress'),
+    path('addshippingaddress/', views.addshippingaddress, name='addshippingaddress'),
+    path('editshippingaddress/<int:id>/', views.editshippingaddress, name='editshippingaddress'),
+    path('deleteshippingaddress/<int:id>/', views.deleteshippingaddress, name='deleteshippingaddress'),
+
+
     path('order_detail/<int:order_id>/', views.order_detail, name='order_detail'),
     # path('mywishlist/', views.mywishlist, name='mywishlist'),
     path('myorders/', views.myorders, name='myorders'),
+
     path('editprofile/', views.editprofile, name='editprofile'),
+
     path('changepassword/', views.changepassword, name='changepassword'),
 ]

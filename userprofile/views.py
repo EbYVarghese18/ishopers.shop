@@ -3,13 +3,14 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+from userprofile.models import UserProfile, ShippingAddress
+from userprofile.forms import UserForm, UserProfileForm, ShippingAddressForm
+
 
 from accounts.models import Account
 
 from orders.models import Order, OrderProduct
 
-from userprofile.models import UserProfile
-from userprofile.forms import UserForm, UserProfileForm
 
 
 # Create your views here.
@@ -22,8 +23,66 @@ def user_home(request):
     return render(request, 'userhome.html', context)
 
 
+
+# Address views
+
 def myaddress(request):
-    return render(request, 'myaddress.html')
+    shippingaddress = ShippingAddress.objects.order_by('id').filter(user=request.user)
+    context= {
+        'shippingaddress': shippingaddress,
+    }
+    return render(request, 'myaddress.html',context)
+
+
+def set_default_address(request, id):
+    # address_id = id
+    shippingaddressall = ShippingAddress.objects.filter(user=request.user)
+    for item in shippingaddressall:
+        item.is_default = False
+        item.save()
+
+    shippingaddress = ShippingAddress.objects.get(user=request.user, id=id)
+    shippingaddress.is_default = True
+    shippingaddress.save()
+    # messages.success(request, 'Default address changed successfully')
+    return redirect('myaddress')
+
+
+def addshippingaddress(request):
+    shipping_address=ShippingAddress(user=request.user)
+    form = ShippingAddressForm(instance=shipping_address)
+    if request.method == 'POST':    
+        form = ShippingAddressForm(request.POST, instance=shipping_address)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The address is added")
+            return redirect('myaddress')
+    context = {
+        'shippingaddressform':form,
+        }
+    return render(request, 'addshippingaddress.html', context)
+
+
+def editshippingaddress(request, id):
+    shipping_address = ShippingAddress.objects.get(id=id)
+    shippingaddressform = ShippingAddressForm(instance=shipping_address)
+    if request.method == 'POST':
+        form = ShippingAddressForm(request.POST, instance=shipping_address)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your address has been updated.") 
+            return redirect('myaddress') 
+    context = {
+            'form': shippingaddressform,
+        } 
+    return render(request, 'editshippingaddress.html', context)
+
+def deleteshippingaddress(request, id):
+    shipping_address = ShippingAddress.objects.get(id=id)
+    shipping_address.delete()
+    messages.success(request, "The address is deleted")
+    return redirect('myaddress')
+
 
 
 def mywishlist(request):

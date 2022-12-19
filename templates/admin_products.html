@@ -55,15 +55,13 @@
                     <div>
                         <h5 class="p-3"><u>Product Management:</u></h5>
                     </div>
+                    <div>
+                        {% include 'alerts.html' %}
+                    </div>
                     <div class="p-2 d-flex justify-content-end">
                         <a class="p-2 text-white btn btn-primary" href="{% url 'admin_addproduct' %}">+ Add Product</a>
                     </div>
 
-                    {% comment %} <form class="d-flex mb-4" role="search" action="searchuser" method="get">
-                        <input class="form-control" type="search" placeholder="Search Product" aria-label="Search"
-                            name="searchuser">
-                        <a href=""><button class="ms-2 btn btn-primary" type="submit">Search</button></a>
-                    </form> {% endcomment %}
                 </div>
 
                 <div class="overflow-auto px-2">
@@ -94,8 +92,8 @@
                                 <td class="text-white">{{product.is_available}}</td>
                                 <td class="text-white">{{product.category}}</td>
                                 <td class="d-flex align-items-center" style="height: 150px;">
-                                    <a href="{% url 'admin_editproduct' product.id %}" class="text-white fa fa-edit"></a> &nbsp;&nbsp;
-                                    <a href="{% url 'admin_deleteproduct' product.id %}" class="text-white fa fa-trash"></a>
+                                    <a href="{% url 'admin_editproduct' product.id %}" class="text-white fa fa-edit fa-beat-fade"></a> &nbsp;&nbsp;
+                                    <a href="{% url 'admin_deleteproduct' product.id %}" class="text-white fa fa-trash fa-beat-fade"></a>
                                 </td>
                             </tr>
                             {% endfor %}

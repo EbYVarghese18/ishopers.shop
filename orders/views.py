@@ -16,6 +16,8 @@ import json
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
+from userprofile.models import ShippingAddress
+
 # Create your views here.
 
 
@@ -37,14 +39,16 @@ def checkout_address(request, total=0, quantity=0):
     tax = (18 * total/100)  # give the tax percentage here
     grand_total = total + tax
 
+    shippingaddress = ShippingAddress.objects.filter(user=request.user, is_default=True)
+  
     context = {
         'cart_items': cart_items,
         'total': total,
         'tax': tax,
         'grand_total': grand_total,
+        'shippingaddress': shippingaddress,
     }
     return render(request, 'checkout_address.html', context)
-
 
 
 
@@ -66,45 +70,83 @@ def checkout_review(request, total=0):
         'grand_total': grand_total,
     }
     if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            # store all the billing information inside order table
-            data = Order()
-            data.user = current_user
-            data.first_name = form.cleaned_data['first_name']
-            data.last_name = form.cleaned_data['last_name']
-            data.phone = form.cleaned_data['phone']
-            data.email = form.cleaned_data['email']
-            data.address_line_1 = form.cleaned_data['address_line_1']
-            data.address_line_2 = form.cleaned_data['address_line_2']
-            data.city = form.cleaned_data['city']
-            data.state = form.cleaned_data['state']
-            data.country = form.cleaned_data['country']
-            data.order_note = form.cleaned_data['order_note']
-            data.order_total = grand_total
-            data.tax = tax
-            data.ip = request.META.get('REMOTE_ADDR')
-            data.save()
-            # to generate order number
-            yr = int(datetime.date.today().strftime('%y'))
-            dt = int(datetime.date.today().strftime('%d'))
-            mt = int(datetime.date.today().strftime('%m'))
-            d = datetime.date(yr, mt, dt)
-            current_date = d.strftime("%Y%m%d")
-            order_number = current_date + str(data.id)
-            data.order_number = order_number
-            data.save()
 
-            order = Order.objects.get(
-                user=current_user, is_ordered=False, order_number=order_number)
-            context = {
-                'order': order,
-                'cart_items': cart_items,
-                'total': total,
-                'tax': tax,
-                'grand_total': grand_total,
-            }
-            return render(request, 'checkout_review.html', context)
+        shippingaddress = ShippingAddress.objects.get(user=request.user, is_default=True)
+        first_name = shippingaddress.first_name
+        last_name = shippingaddress.last_name
+        
+        addressline1 = shippingaddress.address_line_1
+        addressline2 = shippingaddress.address_line_2
+        city = shippingaddress.city
+        state = shippingaddress.state
+        country = shippingaddress.country
+        # pincode = shippingaddress.pincode
+        phonenumber = shippingaddress.phone_number
+
+        data = Order()
+        print(data.id)
+        data.user = current_user
+        data.first_name = first_name
+        data.last_name = last_name
+        data.address_line_1 = addressline1
+        data.address_line_2 = addressline2
+        data.city = city
+        data.state = state
+        data.country = country
+        # data.pincode = pincode
+        data.phone = phonenumber
+        data.order_total = grand_total
+        data.tax = tax
+        data.save()
+        # to generate order number
+        yr = int(datetime.date.today().strftime('%y'))
+        dt = int(datetime.date.today().strftime('%d'))
+        mt = int(datetime.date.today().strftime('%m'))
+        d = datetime.date(yr, mt, dt)
+        current_date = d.strftime("%Y%m%d")
+        order_number = current_date + str(data.id)
+        data.order_number = order_number
+        data.save()
+
+        # form = OrderForm(request.POST)
+        # if form.is_valid():
+            # # store all the billing information inside order table
+            # data = Order()
+            # data.user = current_user
+            # data.first_name = form.cleaned_data['first_name']
+            # data.last_name = form.cleaned_data['last_name']
+            # data.phone = form.cleaned_data['phone']
+            # data.email = form.cleaned_data['email']
+            # data.address_line_1 = form.cleaned_data['address_line_1']
+            # data.address_line_2 = form.cleaned_data['address_line_2']
+            # data.city = form.cleaned_data['city']
+            # data.state = form.cleaned_data['state']
+            # data.country = form.cleaned_data['country']
+            # data.order_note = form.cleaned_data['order_note']
+            # data.order_total = grand_total
+            # data.tax = tax
+            # data.ip = request.META.get('REMOTE_ADDR')
+            # data.save()
+            # # to generate order number
+            # yr = int(datetime.date.today().strftime('%y'))
+            # dt = int(datetime.date.today().strftime('%d'))
+            # mt = int(datetime.date.today().strftime('%m'))
+            # d = datetime.date(yr, mt, dt)
+            # current_date = d.strftime("%Y%m%d")
+            # order_number = current_date + str(data.id)
+            # data.order_number = order_number
+            # data.save()
+
+        order = Order.objects.get(
+            user=current_user, is_ordered=False, order_number=order_number)
+        context = {
+            'order': order,
+            'cart_items': cart_items,
+            'total': total,
+            'tax': tax,
+            'grand_total': grand_total,
+        }
+        return render(request, 'checkout_review.html', context)
     else:
         return render(request, 'checkout_review.html', context)
 

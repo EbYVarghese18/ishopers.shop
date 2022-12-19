@@ -8,15 +8,8 @@
 {% load static %}
 
 
-<!-- checkout starts -->
 
-<!-- Order Summary,Shipping Details,Payment Details -->
-
-<section class="h-100 text-white">
-    <div class="container py-5">
-
-        <div class="row justify-content-evenly">
-            <div class="col-lg-6">
+<!-- <div class="col-lg-6">
                 <div class="card" style="border-radius: 15px; background-color: #282d32;">
                     <div class="card-body">
                         <h4 class="card-title">Enter Address:</h4>
@@ -72,8 +65,37 @@
                             </div>
                     </div>
                 </div>
+            </div> -->
+
+<!-- Shipping address-->
+
+<section class="h-100 text-white">
+    <div class="container py-5">
+        <div class="row justify-content-evenly">
+
+            {% for address in shippingaddress %}
+            <div class="col-12 col-md-6 my-2 p-4 text-center"
+                style="border-radius: 15px; background-color: #282d32; width:330px;">
+                <div class="d-flex justify-content-end">
+                    <i class="fa fa-check fa-3x" style="color:green;"></i>
+                </div>
+                <div class="d-grid justify-content-center align-items-center">
+                    {{ address.first_name }}&nbsp;{{ address.last_name }} <br>
+                    {{ address.address_line_1 }},
+                    {{ address.address_line_2 }}<br>
+                    {{ address.city }}-
+                    {{ address.pincode }} <br>
+                    {{ address.country }},
+                    {{ address.state }} <br>
+                    {{ address.phone_number }}
+                    {{ address.email }}
+                </div>
             </div>
-            <div class="col-lg-4 d-flex align-items-center">
+            {% endfor %}
+
+            <!-- order summary starts -->
+
+            <div class="col-12 col-md-6 d-flex align-items-center">
                 <div class="card" style="border-radius: 15px; background-color: #282d32; width: 100%;">
                     <div class="card-body">
                         <h4 class="card-title mb-4">Order Summary:</h4>
@@ -87,11 +109,11 @@
                         <div class="d-flex justify-content-between mb-4">
                             <h5 class="text-uppercase">Total:</h5>
                             <h5>₹{{ total }}</h5>
-                        </div> 
+                        </div>
                         <div class="d-flex justify-content-between mb-4">
                             <h5 class="text-uppercase">Tax:</h5>
                             <h5>₹{{ tax }}</h5>
-                        </div> 
+                        </div>
                         <div class="d-flex justify-content-between">
                             <h5 class="text-uppercase">Grand Total:</h5>
                             <h5>₹{{ grand_total }}</h5>
@@ -102,39 +124,38 @@
             </div>
 
         </div>
-        
     </div>
 </section>
 
 <!-- place Order, continue Shoppping -->
 
-<section class="h-100 h-custom text-white">
-    <div class="container pb-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-12">
-                <div class="card card-registration card-registration-2"
-                    style="border-radius: 15px; background-color: #282d32;">
-                    <div class="card-body p-0">
-                        <div class="row g-0">
-                            <div class="col-lg-12">
-                                <div class="p-5">
-                                    <div class="d-flex justify-content-center">
-                                        <a href="#">
-                                            <button type="submit" name="submit" class="btn btn-primary btn-block btn-lg me-2"
-                                                data-mdb-ripple-color="dark">Use This Address
-                                            </button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="container pb-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-6 p-3 card card-registration card-registration-2"
+            style="border-radius: 15px; background-color: #282d32;">
+            <div class="d-flex justify-content-center align-items-center">
+
+                <a href="#">
+                    <form action="{% url 'checkout_review' %}" method="POST" class="text-white p-3">
+                        {% csrf_token %}
+                        <button type="submit" name="submit" class="btn btn-primary me-2"
+                            data-mdb-ripple-color="dark">Use
+                            This Address
+                        </button>
+                    </form>
+                </a>
+
+                <a href="{% url 'myaddress' %}">
+                    <button type="submit" name="submit" class="btn btn-primary me-2" data-mdb-ripple-color="dark">Change
+                        Address
+                    </button>
+                </a>
+
             </div>
         </div>
     </div>
-</form>
-</section>
+</div>
+
 
 <!-- checkout ends -->
 
