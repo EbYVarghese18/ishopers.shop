@@ -50,8 +50,9 @@ def admin_home(request):
         user_count = Account.objects.filter(is_admin=False).count()
         product_count = Products.objects.all().count()
         order_count = Order.objects.all().count()
-        order_completed = Order.objects.filter(status='Completed').count()
-        order_accepted = Order.objects.filter(status='Accepted').count()
+        order_placed = Order.objects.filter(status='Placed').count()
+        order_shipped = Order.objects.filter(status='Shipped').count()
+        order_delivered = Order.objects.filter(status='Delivered').count()
         order_cancelled = Order.objects.filter(status='Cancelled').count()
 
         category_count = Category.objects.all().count()
@@ -61,8 +62,9 @@ def admin_home(request):
             'product_count' : product_count,
             'order_count'   : order_count,
             'category_count' : category_count,
-            'order_completed': order_completed,
-            'order_accepted': order_accepted,
+            'order_placed': order_placed,
+            'order_shipped': order_shipped,
+            'order_delivered': order_delivered,
             'order_cancelled': order_cancelled,
         }
         return render(request, 'admin_home.html',context)

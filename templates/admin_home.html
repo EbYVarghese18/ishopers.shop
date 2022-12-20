@@ -122,10 +122,10 @@
     new Chart(orderchart, {
         type: 'bar',
         data: {
-            labels: ['Completed', 'Accepted', 'Cancelled', 'Total Order'],
+            labels: ['Placed', 'Shipped', 'Delivered', 'Cancelled', 'Total Order'],
             datasets: [{
                 label: '',
-                data: [ '{{order_completed}}', '{{order_accepted}}', '{{order_cancelled}}','{{order_count}}' ],
+                data: [ '{{order_placed}}', '{{order_shipped}}', '{{order_delivered}}','{{order_cancelled}}', '{{order_count}}' ],
                 borderWidth: 0,
                 backgroundColor: ["#28282B", "#36454F", "#301934",
                 "#023020", "#39CCCC", "#01FF70", "#85144b",
