@@ -1,6 +1,7 @@
 from django.db import models
 from store.models import Products, Variation    
 from accounts.models import Account
+from coupon.models import Coupon
 
 # Create your models here.
 
@@ -24,3 +25,4 @@ class CartItem(models.Model):
 
     def __unicode__(self):
         return self.product
+    

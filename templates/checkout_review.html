@@ -149,7 +149,6 @@
 
 <script>
 
-
     function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -164,7 +163,6 @@
     }
     return cookieValue;
     }
-
 
     var amount = "{{ grand_total }}"
     var url = "{% url 'payments' %}"
@@ -222,6 +220,5 @@
     }).render('#paypal-button-container');
 
 </script>
-
-
+ 
 {% endblock body %}

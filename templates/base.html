@@ -15,6 +15,7 @@
     <script src="https://kit.fontawesome.com/31f9404cc8.js" crossorigin="anonymous"></script>
     <script
         src="https://www.paypal.com/sdk/js?client-id=Ac4bqxseK74T1Fc-wmHnojXWigFWvzaiRK1KD0_3NZe0_1p-BFuwJeXs_cK5nhiJkk1fGej-xnl4ymAa&currency=USD"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
 
 </head>
 
@@ -32,6 +33,7 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+
             <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
                 <a class="px-3 text-white" href="{% url 'store' %}"><b>Store</b></a>
                 <div class="d-flex align-items-center">
@@ -41,24 +43,29 @@
                     <a href=""><img src="{% static 'images/edit.png' %}" alt=""
                             style="height: 14px; margin-left: 3px ;"></a>
                 </div>
-                {% if user is not None %}
-                <div class="px-3">
-                    <p>Welcome, {{ user.first_name }}</p>
-                </div>
-                <div class="">
-                    <a href="{% url 'user_home' %}"><i class="fa fa-user text-white fa-lg"></i></a>
-                </div>
-                <div class="px-3">
-                    <a href="{% url 'cart' %}" class="widget-header">
-                        <div class="text-white">
-                            <i class="fa fa-shopping-cart fa-lg fa-flip" style="--fa-animation-duration: 3s;"></i>
-                            <span><b>{{ cart_count }}</b></span>
-                        </div>
-                    </a>
-                </div>
-                <div class="">
-                    <a href="{% url 'signout' %}"><i class="fa fa-sign-out fa-lg text-white"></i></a>
-                </div>
+                {% if user.is_authenticated %}
+                    <div class="px-3">
+                        <p>Welcome, {{ user.first_name }}</p>
+                    </div>
+                    <div class="">
+                        <a href="{% url 'user_home' %}"><i class="fa fa-user text-white fa-lg"></i></a>
+                    </div>
+                    <div class="px-3">
+                        <a href="{% url 'cart' %}" class="widget-header">
+                            <div class="text-white">
+                                {% if cart_count >= 1 %}
+                                <i class="fa fa-shopping-cart fa-lg fa-flip" style="--fa-animation-duration: 3s;"></i>
+                                <span><b>{{ cart_count }}</b></span>
+                                {% else %}
+                                <i class="fa fa-shopping-cart fa-lg"></i>
+                                <span><b>{{ cart_count }}</b></span>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                    <div class="">
+                        <a href="{% url 'signout' %}"><i class="fa fa-sign-out fa-lg text-white"></i></a>
+                    </div>
                 {% else %}
                 <a class="text-white px-3" href="{% url 'signin' %}">Login</a>
                 {% endif %}
@@ -100,6 +107,7 @@
 
 
     <script src="{% static '/js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+    <script src="{% static '/js/script.js' %}" type="text/javascript"></script>
 
 </body>
 

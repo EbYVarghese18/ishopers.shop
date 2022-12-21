@@ -158,7 +158,6 @@ def cod(request):
 
 
 
-
 def payments(request):
     # if request.method == 'POST':
     body = json.loads(request.body)
