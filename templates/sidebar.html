@@ -1,0 +1,12 @@
+<div class="col-sm-2 col-md-2" style="height: 85vh;">
+    <div style="height:25%;"></div>
+    <ul class="d-flex flex-column justify-content-start" style="height: 50%;">
+        <a href="{% url 'admin_home' %}" class="p-2 me-2 d-flex align-items-center text-white" {% if '/adminpanel/admin_home/' == request.path %} style="background-color: #4BB543 ;" {% endif %}><i class="fa fa-tachometer-fast"></i>&nbsp;Dashboard</a>
+        <a href="{% url 'admin_orders' %}" class="p-2 me-2 d-flex align-items-center text-white" {% if '/adminpanel/admin_orders/' == request.path %} style="background-color: #4BB543 ;" {% endif %}><i class="fa fa-sort-amount-up"></i>&nbsp;Orders</a>
+        <a href="{% url 'admin_coupons' %}" class="p-2 me-2 d-flex align-items-center text-white" {% if '/adminpanel/admin_coupons/' == request.path %} style="background-color: #4BB543 ;" {% endif %}><i class="fa fa-user-tag"></i> &nbsp;Coupons</a>
+        <a href="{% url 'admin_products' %}" class="p-2 me-2 d-flex align-items-center text-white" {% if '/adminpanel/admin_products/' == request.path %} style="background-color: #4BB543 ;" {% endif %}><i class="fa fa-product-hunt"></i> &nbsp;Products</a>
+        <a href="{% url 'admin_categories' %}" class="p-2 me-2 d-flex align-items-center text-white" {% if '/adminpanel/admin_categories/' == request.path %} style="background-color: #4BB543 ;" {% endif %}><i class="fa fa-sitemap"></i> &nbsp;Categories</a>
+        <a href="{% url 'admin_users' %}" class="p-2 me-2 d-flex align-items-center text-white" {% if '/adminpanel/admin_users/' == request.path %} style="background-color: #4BB543 ;" {% endif %}><i class="fa fa-users"></i> &nbsp;Users</a>
+        <a href="{% url 'admin_signout' %}" class="p-2 me-2 d-flex align-items-center text-white"><i class="fa fa-sign-out"></i> &nbsp;Logout</a>
+    </ul>
+</div>

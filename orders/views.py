@@ -54,7 +54,7 @@ def checkout_address(request, total=0, quantity=0):
 def order_cancel(request, order_number):
     order_number = order_number
     order = Order.objects.get(order_number=order_number)
-    order.status = "canceled"
+    order.status = "cancelled"
     order.save()
     return redirect('myorders')
 

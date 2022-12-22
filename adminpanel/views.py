@@ -15,12 +15,15 @@ from orders.forms import OrderFormStatus
 
 from adminpanel.forms import CategoryForm, ProductsForm
 
+from coupon.models import Coupon
+from coupon.forms import CouponForm
+
+
+
 # Create your views here.
 
 
 # admin user views starts
-
-
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def admin_signin(request):
     if 'adminsession' in request.session:
@@ -50,10 +53,10 @@ def admin_home(request):
         user_count = Account.objects.filter(is_admin=False).count()
         product_count = Products.objects.all().count()
         order_count = Order.objects.all().count()
-        order_placed = Order.objects.filter(status='Placed').count()
-        order_shipped = Order.objects.filter(status='Shipped').count()
-        order_delivered = Order.objects.filter(status='Delivered').count()
-        order_cancelled = Order.objects.filter(status='Cancelled').count()
+        order_placed = Order.objects.filter(status__iexact='placed').count()
+        order_shipped = Order.objects.filter(status__iexact='shipped').count()
+        order_delivered = Order.objects.filter(status__iexact='delivered').count()
+        order_cancelled = Order.objects.filter(status__iexact='cancelled').count()
 
         category_count = Category.objects.all().count()
 
@@ -98,7 +101,6 @@ def admin_signout(request):
 
 
 # admin user management view 
-
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def user_unblock(request, id):
     if 'adminsession' in request.session:
@@ -127,9 +129,7 @@ def user_block(request, id):
 
 
 
-
 # Category view starts
-
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def admin_categories(request):
     if 'adminsession' in request.session:
@@ -184,8 +184,6 @@ def admin_addcategory(request):
 
 
 # Products view starts
-
-
 def admin_products(request):
     if 'adminsession' in request.session:
         context = {
@@ -236,16 +234,12 @@ def admin_deleteproduct(requset, id):
 
 
 
-
 # Order view starts
-
-
 def admin_orders(request):
     context = {
             'orders': Order.objects.order_by('order_number').all()
         }
     return render(request, 'admin_orders.html', context)
-
 
 
 def orderstatus(request, order_number):
@@ -264,3 +258,51 @@ def orderstatus(request, order_number):
             'orderform': orderform,
         }
         return render(request, 'orderstatus.html', context)
+
+
+# coupon view starts
+def admin_coupons(request):
+    coupons = Coupon.objects.all()
+    context = {
+        'coupons' : coupons,
+    }
+    return render(request, 'admin_coupons.html', context)   
+
+
+def add_coupon(request):
+    if request.method == 'POST':
+        form = CouponForm(request.POST)
+        if form.is_valid():
+            form.save() 
+            messages.success(request, "The coupon is added")
+            return redirect("admin_coupons")
+        else:
+            return render(request,"admin_addcoupon.html", {'couponform':form})
+    else:
+        productform=CouponForm()
+        context={
+            'couponform':productform,
+        }
+        return render(request,"admin_addcoupon.html", context)
+
+
+def edit_coupon(request, id):
+    editcoupon = Coupon.objects.get(pk=id)
+    couponform = CouponForm(instance=editcoupon)
+    if request.method == 'POST':
+        form = CouponForm(request.POST,instance=editcoupon)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "The coupon updated successfully")
+            return redirect('admin_coupons')
+    context = {
+        'couponform': couponform,
+    }
+    return render(request, "admin_editcoupon.html", context)
+
+
+def delete_coupon(request, id):
+    deletecoupon = Coupon.objects.get(pk=id)
+    deletecoupon.delete()
+    messages.success(request, "The coupon is deleted")
+    return redirect('admin_coupons')
