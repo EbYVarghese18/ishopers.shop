@@ -74,7 +74,7 @@
         <div class="row justify-content-evenly">
 
             {% for address in shippingaddress %}
-            <div class="col-12 col-md-6 my-auto p-5 text-center align-items-center"
+            <div class="col-12 col-md-6 my-auto p-3 text-center align-items-center"
                 style="border-radius: 15px; background-color: #282d32; width:330px;">
                 <div class="d-flex justify-content-end">
                     <i class="fa fa-check fa-3x" style="color:green;"></i>
@@ -90,8 +90,12 @@
                     {{ address.phone_number }}
                     {{ address.email }}
                 </div>
+                <div class="pt-2">
+                    <a href="{% url 'myaddress' %}"><button class="btn btn-primary">Change Address</button></a> 
+                </div>
             </div>
             {% endfor %}
+
 
             <!-- order summary starts -->
 

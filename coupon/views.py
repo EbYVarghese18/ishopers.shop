@@ -3,14 +3,13 @@ from coupon.models import Coupon
 from django.core.exceptions import ObjectDoesNotExist
 from cart.models import Cart, CartItem
 
+# Create your views here.
 
 def _cart_id(request):
     cart = request.session.session_key
     if not cart:
         cart = request.session.create()
     return cart
-
-# Create your views here.
 
 def coupon_apply(request, total=0, quantity=0, cart_item=None):
     

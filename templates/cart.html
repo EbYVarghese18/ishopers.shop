@@ -15,7 +15,8 @@
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12">
-                <div class="card card-registration card-registration-2" style="border-radius: 15px; background-color: #282d32;">
+                <div class="card card-registration card-registration-2"
+                    style="border-radius: 15px; background-color: #282d32;">
                     <div class="card-body p-0">
                         <div class="row g-0">
                             <div class="col-lg-8">
@@ -54,12 +55,14 @@
                                         <div class="col-md-3 col-lg-3 col-xl-2">
                                             <p class="">Qty:</p>
                                             <div class="d-flex align-items-center mt-2">
-                                                <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}"><b class="">
-                                                    <button><i class="fa fa-minus"></i></button> </b></a>&nbsp;&nbsp;
+                                                <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}"><b
+                                                        class="">
+                                                        <button><i class="fa fa-minus"></i></button>
+                                                    </b></a>&nbsp;&nbsp;
 
                                                 <input id="form1" min="0" name="quantity"
                                                     value="{{ cart_item.quantity }}" type=""
-                                                    class="form-control form-control-sm" readonly/>&nbsp;&nbsp;
+                                                    class="form-control form-control-sm" readonly />&nbsp;&nbsp;
 
                                                 <form action="{% url 'add_cart' cart_item.product.id %}" method="POST">
                                                     {% csrf_token %}
@@ -77,7 +80,8 @@
                                             <h6 class="mt-2">₹{{ cart_item.product.price }}</h6>
                                         </div>
                                         <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                            <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" onclick="return confirm('Are you sure?')" class="text-white">
+                                            <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}"
+                                                onclick="return confirm('Are you sure?')" class="text-white">
                                                 <i class="fa fa-times"></i>
                                             </a>
                                         </div>
@@ -88,11 +92,12 @@
                                         <h6 class="mb-0"><a href="{% url 'store' %}" class="text-white"><i
                                                     class="fa fa-arrow-left me-2"></i>Back to shop</a></h6>
                                     </div>
-                                    {% endif %}                          
+                                    {% endif %}
                                 </div>
                             </div>
                             {% if cart_items %}
-                            <div class="col-lg-4 text-white" style="background-color: #30373d; border-radius: 0px 15px 15px 0px;">
+                            <div class="col-lg-4 text-white"
+                                style="background-color: #30373d; border-radius: 0px 15px 15px 0px;">
                                 <div class="p-5">
                                     <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
                                     <hr class="my-4">
@@ -106,21 +111,22 @@
                                         <h5 class="text-uppercase">Tax:</h5>
                                         <h5>₹{{ tax }}</h5>
                                     </div>
-                                    
+
                                     <!-- coupen  -->
                                     <h5 class="text-uppercase mb-3">Have a coupen?</h5>
                                     <form action="{% url 'coupon_apply' %}" method="POST">
                                         {% csrf_token %}
                                         <div class="mb-5">
                                             <div class="form-outline d-flex">
-                                                <input type="text" id="coupon"
-                                                    class="form-control form-control-lg" name="coupon"/>
-                                                    <button class="btn btn-primary ms-2" id="apply" type="submit">Apply</button>
+                                                <input type="text" id="coupon" class="form-control form-control-lg"
+                                                    name="coupon" />
+                                                <button class="btn btn-primary ms-2" id="apply"
+                                                    type="submit">Apply</button>
                                             </div>
                                             <label class="form-label">Enter the code</label>
                                         </div>
                                     </form>
-                                    
+
                                     <hr class="my-4">
 
                                     <div class="d-flex justify-content-between mb-5">
@@ -145,6 +151,36 @@
 
 <!-- cart ends -->
 
+<script>
+    $(document).ready(function () {
+
+        $('#apply').on('click', function () {
+
+            $coupon = $('#coupon').val();
+
+            if ($coupon == "") {
+                alert("No coupon added")
+            } else {
+                alert("The coupon added succesfully");
+                $.ajax({
+                    url: 'coupon_apply/',
+                    type: 'POST',
+                    data: {
+                        coupon: $coupon,
+                        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken').val()
+                    },
+                    // success: function(){
+                    //     Read();
+                    //     $('#coupon').val('');
+                    //     alert("The coupon added succesfully");
+                    // }
+                });
+            }
+
+        });
+
+    });
+</script>
 
 
-{% endblock body %}  
+{% endblock body %}

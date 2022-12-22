@@ -129,9 +129,14 @@
                                 <div class="p-5">
                                     <div class="d-flex justify-content-center">
 
-                                        <!-- paypal integration starts -->
-                                        <div id="paypal-button-container"></div>
-                                        <!-- ends -->
+                                        <!-- default -->
+                                        <div id="selectpayment" style="color: red;"><h3>Please select a payment method</h3></div>
+
+                                        <!-- paypal -->
+                                        <div id="paypal-button-container" style="display: none;"></div>
+
+                                        <!-- cod -->
+                                        <a href="{% url 'cod' order.order_number %}"><div class="btn btn-primary" id="cod-continue-button" style="display: none;">Place Order</div></a> 
 
                                     </div>
                                 </div>
@@ -148,7 +153,6 @@
 <!-- paypal integration scripts -->
 
 <script>
-
     function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -218,7 +222,32 @@
         }
 
     }).render('#paypal-button-container');
+</script>
 
+
+<!-- Payment selection -->
+<script>
+    const paypalBtn = document.getElementById("paypal-button-container")
+    const codBtn = document.getElementById("cod-continue-button")
+    const selectpayment = document.getElementById("selectpayment")
+
+    document.querySelectorAll('input[name="payment_method"]').forEach((elem) => {
+        elem.addEventListener("change", function(event) {
+            const item = event.target.value;
+            if(item == ""){
+                paypalBtn.style.display = "none"
+                codBtn.style.display = "none"
+            }else if(item == "cod"){
+                selectpayment.style.display = "none"
+                paypalBtn.style.display = "none"
+                codBtn.style.display = "block"
+            }else {
+                selectpayment.style.display = "none"
+                paypalBtn.style.display = "block"
+                codBtn.style.display = "none"
+            }
+        });
+    });
 </script>
  
 {% endblock body %}
