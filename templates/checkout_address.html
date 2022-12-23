@@ -2,79 +2,18 @@
 
 {% block title %} Checkout {% endblock title %}
 
-
 {% block body %}
 
 {% load static %}
 
 
 
-<!-- <div class="col-lg-6">
-                <div class="card" style="border-radius: 15px; background-color: #282d32;">
-                    <div class="card-body">
-                        <h4 class="card-title">Enter Address:</h4>
-                        <form action="{% url 'checkout_review' %}" method="POST" class="text-white p-3">
-                            {% csrf_token %}
-                            <div class="d-flex">
-                                <div class="col form-group">
-                                    <label for="">First Name </label>
-                                    <input type="text" name="first_name" class="form-control" required>
-                                </div>
-                                <div class="col form-group ms-2">
-                                    <label for="">Last Name </label>
-                                    <input type="text" name="last_name" class="form-control" required>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <div class="col form-group">
-                                    <label for="">Phone Number</label>
-                                    <input type="text" name="phone" class="form-control" required>
-                                </div>
-                                <div class="col form-group ms-2">
-                                    <label for="">Email </label>
-                                    <input type="text" name="email" class="form-control" required>
-                                </div>
-                            </div>
-                             
-                            <div class="col form-group">
-                                <label for="">Address Line 1 </label>
-                                <input type="text" name="address_line_1" class="form-control" required>
-                            </div>
-                            <div class="col form-group">
-                                <label for="">Address Line 2 </label>
-                                <input type="text" name="address_line_2" class="form-control">
-                            </div>
-                            <div class="d-flex">
-                                <div class="col form-group">
-                                    <label for="">City</label>
-                                    <input type="text" name="city" class="form-control" required>
-                                </div>
-                                <div class="col form-group mx-2">
-                                    <label for="">State</label>
-                                    <input type="text" name="state" class="form-control" required>
-                                </div>
-                                <div class="col form-group">
-                                    <label for="">Country</label>
-                                    <input type="text" name="country" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="col form-group">
-                                <label for="">Order Note</label>
-                                <input type="text" name="order_note" class="form-control">
-                            </div>
-                    </div>
-                </div>
-            </div> -->
-
 <!-- Shipping address-->
-
 <section class="h-100 text-white">
-    <div class="container py-5">
+    <div class="container">
         <div class="row justify-content-evenly">
-
             {% for address in shippingaddress %}
-            <div class="col-12 col-md-6 my-auto p-3 text-center align-items-center"
+            <div class="col-12 col-md-6 my-auto p-5 text-center align-items-center"
                 style="border-radius: 15px; background-color: #282d32; width:330px;">
                 <div class="d-flex justify-content-end">
                     <i class="fa fa-check fa-3x" style="color:green;"></i>
@@ -90,15 +29,9 @@
                     {{ address.phone_number }}
                     {{ address.email }}
                 </div>
-                <div class="pt-2">
-                    <a href="{% url 'myaddress' %}"><button class="btn btn-primary">Change Address</button></a> 
-                </div>
             </div>
             {% endfor %}
-
-
             <!-- order summary starts -->
-
             <div class="col-12 col-md-6 my-auto p-5 align-items-center">
                 <div class="card" style="border-radius: 15px; background-color: #282d32; width: 100%;">
                     <div class="card-body">
@@ -126,19 +59,23 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
 
-<!-- place Order, continue Shoppping -->
 
+<!-- place Order, continue Shoppping -->
 <div class="container pb-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-6 p-3 card card-registration card-registration-2"
             style="border-radius: 15px; background-color: #282d32;">
             <div class="d-flex justify-content-center align-items-center">
 
+                <a href="{% url 'myaddress' %}">
+                    <button type="submit" name="submit" class="btn btn-primary me-2" data-mdb-ripple-color="dark">Change
+                        Address
+                    </button>
+                </a>
                 <a href="#">
                     <form action="{% url 'checkout_review' %}" method="POST" class="text-white p-3">
                         {% csrf_token %}
@@ -149,19 +86,11 @@
                     </form>
                 </a>
 
-                <a href="{% url 'myaddress' %}">
-                    <button type="submit" name="submit" class="btn btn-primary me-2" data-mdb-ripple-color="dark">Change
-                        Address
-                    </button>
-                </a>
-
             </div>
         </div>
     </div>
 </div>
 
-
-<!-- checkout ends -->
 
 
 {% endblock body %}

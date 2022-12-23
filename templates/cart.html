@@ -27,8 +27,8 @@
                                     {% if not cart_items %}
                                     <h2 class="text-center mb-5">Your Cart is Empty!</h2>
                                     <div class="pt-5">
-                                        <h6 class="mb-0"><a href="{% url 'store' %}" class="text-white"><i
-                                                    class="fa fa-arrow-left me-2"></i>Back to shop</a></h6>
+                                        <h6 class="mb-0"><a href="{% url 'store' %}"><p class="text-white">
+                                            <i class="fa fa-long-arrow-left fa-beat-fade"></i> Back to shop</p></a></h6>
                                     </div>
                                     {% else %}
                                     <hr class="my-4">
@@ -55,11 +55,17 @@
                                         <div class="col-md-3 col-lg-3 col-xl-2">
                                             <p class="">Qty:</p>
                                             <div class="d-flex align-items-center mt-2">
-                                                <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}"><b
-                                                        class="">
-                                                        <button><i class="fa fa-minus"></i></button>
-                                                    </b></a>&nbsp;&nbsp;
-
+                                                
+                                                    {% if cart_item.quantity == 1 %}
+                                                    <a href="#">
+                                                        <b><button disabled><i class="fa fa-minus"></i></button></b>
+                                                    </a>&nbsp;&nbsp;
+                                                    {% else %}
+                                                    <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}">
+                                                        <b><button><i class="fa fa-minus"></i></button></b>
+                                                    </a>&nbsp;&nbsp;
+                                                    {% endif %}
+                                                
                                                 <input id="form1" min="0" name="quantity"
                                                     value="{{ cart_item.quantity }}" type=""
                                                     class="form-control form-control-sm" readonly />&nbsp;&nbsp;
@@ -72,7 +78,6 @@
                                                     {% endfor %}
                                                     <button type="submit"><i class="fa fa-plus"></i></button>
                                                 </form>
-
                                             </div>
                                         </div>
                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
@@ -89,8 +94,9 @@
                                     <hr class="my-4">
                                     {% endfor %}
                                     <div class="pt-5">
-                                        <h6 class="mb-0"><a href="{% url 'store' %}" class="text-white"><i
-                                                    class="fa fa-arrow-left me-2"></i>Back to shop</a></h6>
+                                        <h6 class="mb-0"><a href="{% url 'store' %}">
+                                            <p class="text-white">
+                                                <i class="fa fa-long-arrow-left fa-beat-fade"></i> Back to shop</p></a></a></h6>
                                     </div>
                                     {% endif %}
                                 </div>
@@ -111,21 +117,6 @@
                                         <h5 class="text-uppercase">Tax:</h5>
                                         <h5>₹{{ tax }}</h5>
                                     </div>
-
-                                    <!-- coupen  -->
-                                    <h5 class="text-uppercase mb-3">Have a coupen?</h5>
-                                    <form action="{% url 'coupon_apply' %}" method="POST">
-                                        {% csrf_token %}
-                                        <div class="mb-5">
-                                            <div class="form-outline d-flex">
-                                                <input type="text" id="coupon" class="form-control form-control-lg"
-                                                    name="coupon" />
-                                                <button class="btn btn-primary ms-2" id="apply"
-                                                    type="submit">Apply</button>
-                                            </div>
-                                            <label class="form-label">Enter the code</label>
-                                        </div>
-                                    </form>
 
                                     <hr class="my-4">
 
@@ -180,6 +171,12 @@
         });
 
     });
+</script>
+
+<script>
+
+
+
 </script>
 
 

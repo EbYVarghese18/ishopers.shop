@@ -62,22 +62,29 @@ def order_cancel(request, order_number):
 @login_required(login_url='signin')
 def checkout_review(request, total=0):
 
-    current_user = request.user
-    cart_items = CartItem.objects.filter(user=current_user)
-    grand_total = 0
-    tax = 0
-    for cart_item in cart_items:
-        total += (cart_item.product.price * cart_item.quantity)
-    tax = (18 * total/100)  # give the tax percentage here instead of 2
-    grand_total = total + tax
-    context = {
-        'cart_items': cart_items,
-        'total': total,
-        'tax': tax,
-        'grand_total': grand_total,
-    }
+    # current_user = request.user
+    # cart_items = CartItem.objects.filter(user=current_user)
+    # grand_total = 0
+    # tax = 0
+    # for cart_item in cart_items:
+    #     total += (cart_item.product.price * cart_item.quantity)
+    # tax = (18 * total/100)  # give the tax percentage here 
+    # grand_total = total + tax
+    # context = {
+    #     'cart_items': cart_items,
+    #     'total': total,
+    #     'tax': tax,
+    #     'grand_total': grand_total,
+    # }
     if request.method == 'POST':
-
+        current_user = request.user
+        cart_items = CartItem.objects.filter(user=current_user)
+        grand_total = 0
+        tax = 0
+        for cart_item in cart_items:
+            total += (cart_item.product.price * cart_item.quantity)
+        tax = (18 * total/100)  # give the tax percentage here 
+        grand_total = total + tax
         shippingaddress = ShippingAddress.objects.get(user=request.user, is_default=True)
         first_name = shippingaddress.first_name
         last_name = shippingaddress.last_name
@@ -113,7 +120,6 @@ def checkout_review(request, total=0):
         order_number = current_date + str(data.id)
         data.order_number = order_number
         data.save()
-
         order = Order.objects.get(
             user=current_user, is_ordered=False, order_number=order_number)
         context = {
@@ -125,7 +131,8 @@ def checkout_review(request, total=0):
         }
         return render(request, 'checkout_review.html', context)
     else:
-        return render(request, 'checkout_review.html', context)
+        # return render(request, 'checkout_review.html', context)
+        return
 
 
 # payment COD
@@ -143,7 +150,7 @@ def cod(request, order_number):
     )
     payment.save()
 
-    # store transactions details inside Order model   
+    # store transactions details inside Order model 
     order.status = 'Placed'
     order.is_ordered = True
     order.save()

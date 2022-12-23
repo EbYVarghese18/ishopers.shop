@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from coupon.models import Coupon
 from django.core.exceptions import ObjectDoesNotExist
 from cart.models import Cart, CartItem
+from orders.models import Order
+from django.contrib import messages
 
 # Create your views here.
 
@@ -11,41 +13,75 @@ def _cart_id(request):
         cart = request.session.create()
     return cart
 
-def coupon_apply(request, total=0, quantity=0, cart_item=None):
+def coupon_apply(request, order_number):
     
     appliedcode = request.POST['coupon']
+    order = Order.objects.get(user=request.user, is_ordered=False, order_number=order_number)
 
-    coupons = Coupon.objects.all()
+    coupons = Coupon.objects.filter(coupon_code__exact=appliedcode)
 
-    try:
-        tax = 0
-        grand_total = 0
-        cart_items = 0
-        if request.user.is_authenticated:
-            cart_items = CartItem.objects.filter(user=request.user, is_active=True)
-        else:
-            cart = Cart.objects.get(cart_id=_cart_id(request))
-            cart_items = CartItem.objects.filter(cart=cart, is_active=True)
-        for cart_item in cart_items:
-            total += (cart_item.product.price * cart_item.quantity)
-            quantity += cart_item.quantity
-        tax = (18 * total)/100
+    tax = 0
+    grand_total = 0
+    cart_items = 0
+    total=0
+    quantity=0
+    cart_item=None
+    
+    if request.user.is_authenticated:
+        cart_items = CartItem.objects.filter(user=request.user, is_active=True)
+    else:
+        cart = Cart.objects.get(cart_id=_cart_id(request))
+        cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+    for cart_item in cart_items:
+        total += (cart_item.product.price * cart_item.quantity)
+        quantity += cart_item.quantity    
+    tax = (18 * total)/100
 
-        for item in coupons:
-            if (item.coupon_code == appliedcode):
-                total = total - 100
+    if coupons:
+        for i in coupons:
+            if(i.is_expired == False):
+                if(total >= i.minimum_amout):
+                    discount = i.discount
+                    grand_total = total + tax - discount
+                    order.order_total = grand_total
+                    order.save()
+                    context = {
+                        'total': total,
+                        'quantity': quantity,
+                        'cart_items': cart_items,
+                        'tax': tax,
+                        'grand_total': grand_total,
+                        'order': order,
+                        'appliedcode': appliedcode,
+                        'discount': discount,
+                    }
+                    msg = 'Coupon applied succesfully'
+                    return render(request, 'checkout_review.html', context)
+                else:
+                    msg = 'Minimum amount is: '+ str(i.minimum_amout)
             else:
-                pass
-
+                msg = 'Coupon Expired'
         grand_total = total + tax
-    except ObjectDoesNotExist:
-        pass
+        context = {
+            'total': total,
+            'quantity': quantity,
+            'cart_items': cart_items,
+            'tax': tax,
+            'grand_total': grand_total,
+            'order': order,
+        }
 
-    context = {
-        'total': total,
-        'quantity': quantity,
-        'cart_items': cart_items,
-        'tax': tax,
-        'grand_total': grand_total,
-    }
-    return render(request, 'cart.html', context)
+        messages.info(request, msg)
+        return render(request, 'checkout_review.html', context)
+    else:
+        grand_total = total + tax
+        context = {
+            'total': total,
+            'quantity': quantity,
+            'cart_items': cart_items,
+            'tax': tax,
+            'grand_total': grand_total,
+            'order': order,
+        }
+        messages.error(request, 'Coupon Does not Exist')
+        return render(request, 'checkout_review.html', context)

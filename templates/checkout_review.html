@@ -99,6 +99,33 @@
                             <h5 class="text-uppercase">Tax:</h5>
                             <h5>₹{{ tax }}</h5>
                         </div>
+                        <!-- coupen  -->
+                        <div>
+                            {% include 'alerts.html' %}
+                        </div>
+                        <h5 class="text-uppercase mb-3">Have a coupen?</h5>
+
+                        <form action="{% url 'coupon_apply' order.order_number %}" method="POST">
+                            {% csrf_token %}
+                            <div class="mb-5 col-12 d-flex justify-content-evenly">
+                                <div class="form-outline d-flex">
+                                    <input type="text" id="coupon" class="form-control form-control-lg" name="coupon"
+                                        placeholder="Enter the code" required/>
+                                    <button class="btn btn-primary ms-2" id="apply" type="submit">Apply</button>
+                                </div>
+                                {% if appliedcode %}
+                                <div class="d-flex align-items-center border border-success px-5">
+                                    <p style="color: #4BB543; font-size: 20px;">APPLIED COUPON: {{ appliedcode }}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </form>
+                        {% if appliedcode %}
+                        <div class="d-flex justify-content-between">
+                            <h5 class="text-uppercase">Coupen:&nbsp;&nbsp;</h5>
+                            <h5>₹ -{{ discount }}</h5>
+                        </div>
+                        {% endif %}
                         <div class="d-flex justify-content-between">
                             <h5 class="text-uppercase">Grand Total:</h5>
                             <h5>₹{{ grand_total }}</h5>
@@ -130,13 +157,18 @@
                                     <div class="d-flex justify-content-center">
 
                                         <!-- default -->
-                                        <div id="selectpayment" style="color: red;"><h3>Please select a payment method</h3></div>
+                                        <div id="selectpayment" style="color: red;">
+                                            <h3>Please select a payment method</h3>
+                                        </div>
 
                                         <!-- paypal -->
                                         <div id="paypal-button-container" style="display: none;"></div>
 
                                         <!-- cod -->
-                                        <a href="{% url 'cod' order.order_number %}"><div class="btn btn-primary" id="cod-continue-button" style="display: none;">Place Order</div></a> 
+                                        <a href="{% url 'cod' order.order_number %}">
+                                            <div class="btn btn-primary" id="cod-continue-button"
+                                                style="display: none;">Place Order</div>
+                                        </a>
 
                                     </div>
                                 </div>
@@ -154,23 +186,23 @@
 
 <script>
     function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
             }
         }
-    }
-    return cookieValue;
+        return cookieValue;
     }
 
     var amount = "{{ grand_total }}"
     var url = "{% url 'payments' %}"
-    var csrftoken = getCookie('csrftoken'); 
+    var csrftoken = getCookie('csrftoken');
     var orderID = "{{ order.order_number }}"
     var payment_method = "PayPal"
     var redirect_url = "{% url 'order_complete' %}"
@@ -182,6 +214,7 @@
             shape: 'rect',
             label: 'pay',
         },
+
         // Set up the transaction
         createOrder: function (data, actions) {
             return actions.order.create({
@@ -195,7 +228,7 @@
 
         // Finalize the transaction
         onApprove: function (data, actions) {
-            return actions.order.capture().then(function (details) { 
+            return actions.order.capture().then(function (details) {
                 console.log(details);
                 sendData();
                 // var transaction = details.purchase_units[0].payments.captures[0];
@@ -213,10 +246,10 @@
                             status: details.status,  //from paypal response
                         }),
                     })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        window.location.href = redirect_url + '?order_number=' + data.order_number + '&payment_id=' + data.transID;
-                    }); 
+                        .then((response) => response.json())
+                        .then((data) => {
+                            window.location.href = redirect_url + '?order_number=' + data.order_number + '&payment_id=' + data.transID;
+                        });
                 }
             });
         }
@@ -232,16 +265,16 @@
     const selectpayment = document.getElementById("selectpayment")
 
     document.querySelectorAll('input[name="payment_method"]').forEach((elem) => {
-        elem.addEventListener("change", function(event) {
+        elem.addEventListener("change", function (event) {
             const item = event.target.value;
-            if(item == ""){
+            if (item == "") {
                 paypalBtn.style.display = "none"
                 codBtn.style.display = "none"
-            }else if(item == "cod"){
+            } else if (item == "cod") {
                 selectpayment.style.display = "none"
                 paypalBtn.style.display = "none"
                 codBtn.style.display = "block"
-            }else {
+            } else {
                 selectpayment.style.display = "none"
                 paypalBtn.style.display = "block"
                 codBtn.style.display = "none"
@@ -249,5 +282,10 @@
         });
     });
 </script>
- 
+
+
+<script>
+
+</script>
+
 {% endblock body %}

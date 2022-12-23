@@ -35,7 +35,6 @@ def myaddress(request):
 
 
 def set_default_address(request, id):
-    # address_id = id
     shippingaddressall = ShippingAddress.objects.filter(user=request.user)
     for item in shippingaddressall:
         item.is_default = False
@@ -44,7 +43,7 @@ def set_default_address(request, id):
     shippingaddress = ShippingAddress.objects.get(user=request.user, id=id)
     shippingaddress.is_default = True
     shippingaddress.save()
-    # messages.success(request, 'Default address changed successfully')
+    messages.success(request, 'Default address changed successfully')
     return redirect('myaddress')
 
 
@@ -55,7 +54,7 @@ def addshippingaddress(request):
         form = ShippingAddressForm(request.POST, instance=shipping_address)
         if form.is_valid():
             form.save()
-            messages.success(request, "The address is added")
+            messages.success(request, "The address added successfully")
             return redirect('myaddress')
     context = {
         'shippingaddressform':form,
@@ -79,8 +78,11 @@ def editshippingaddress(request, id):
 
 def deleteshippingaddress(request, id):
     shipping_address = ShippingAddress.objects.get(id=id)
-    shipping_address.delete()
-    messages.success(request, "The address is deleted")
+    if shipping_address.is_default == True:
+        messages.error(request, "The addres is the default one. Please change default address and try again.")
+    else:
+        shipping_address.delete()
+        messages.success(request, "The address is deleted")
     return redirect('myaddress')
 
 

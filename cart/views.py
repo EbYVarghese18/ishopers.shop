@@ -15,8 +15,7 @@ def _cart_id(request):
         cart = request.session.create()
     return cart
 
-
-
+# Increase the quantity
 def add_cart(request, product_id):
     current_user = request.user
     product = Products.objects.get(id=product_id)  # get the product
@@ -137,9 +136,8 @@ def add_cart(request, product_id):
         return redirect('cart')
 
 
-
+# Decrease quantity
 def remove_cart(request, product_id, cart_item_id):
-
     product = get_object_or_404(Products, id=product_id)
     try:
         if request.user.is_authenticated:
@@ -157,7 +155,7 @@ def remove_cart(request, product_id, cart_item_id):
     return redirect('cart')
 
 
-
+# Delete an item
 def remove_cart_item(request, product_id, cart_item_id):
     product = get_object_or_404(Products, id=product_id)
     if request.user.is_authenticated:
