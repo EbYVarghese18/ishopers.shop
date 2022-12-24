@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from userprofile.models import UserProfile, ShippingAddress
 from userprofile.forms import UserForm, UserProfileForm, ShippingAddressForm
 
-
 from accounts.models import Account
 
 from orders.models import Order, OrderProduct

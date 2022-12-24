@@ -18,6 +18,8 @@ from django.template.loader import render_to_string
 
 from userprofile.models import ShippingAddress
 
+from coupon.models import UsedCoupons
+
 # Create your views here.
 
 
@@ -51,31 +53,8 @@ def checkout_address(request, total=0, quantity=0):
     return render(request, 'checkout_address.html', context)
 
 
-def order_cancel(request, order_number):
-    order_number = order_number
-    order = Order.objects.get(order_number=order_number)
-    order.status = "cancelled"
-    order.save()
-    return redirect('myorders')
-
-
 @login_required(login_url='signin')
 def checkout_review(request, total=0):
-
-    # current_user = request.user
-    # cart_items = CartItem.objects.filter(user=current_user)
-    # grand_total = 0
-    # tax = 0
-    # for cart_item in cart_items:
-    #     total += (cart_item.product.price * cart_item.quantity)
-    # tax = (18 * total/100)  # give the tax percentage here 
-    # grand_total = total + tax
-    # context = {
-    #     'cart_items': cart_items,
-    #     'total': total,
-    #     'tax': tax,
-    #     'grand_total': grand_total,
-    # }
     if request.method == 'POST':
         current_user = request.user
         cart_items = CartItem.objects.filter(user=current_user)
@@ -94,6 +73,7 @@ def checkout_review(request, total=0):
         city = shippingaddress.city
         state = shippingaddress.state
         country = shippingaddress.country
+        orderemail = shippingaddress.emailaddress
         # pincode = shippingaddress.pincode
         phonenumber = shippingaddress.phone_number
 
@@ -103,14 +83,17 @@ def checkout_review(request, total=0):
         data.last_name = last_name
         data.address_line_1 = addressline1
         data.address_line_2 = addressline2
+        data.orderemail = orderemail
         data.city = city
         data.state = state
         data.country = country
+
         # data.pincode = pincode
         data.phone = phonenumber
         data.order_total = grand_total
         data.tax = tax
         data.save()
+
         # to generate order number
         yr = int(datetime.date.today().strftime('%y'))
         dt = int(datetime.date.today().strftime('%d'))
@@ -149,6 +132,13 @@ def cod(request, order_number):
         status='Not Paid',
     )
     payment.save()
+
+    # saving coupon details to database
+    obj = UsedCoupons(
+        email = order.orderemail,
+        coupon_code = order.coupon,
+    )
+    obj.save()
 
     # store transactions details inside Order model 
     order.status = 'Placed'
@@ -206,6 +196,7 @@ def cod(request, order_number):
 
 # paypal payment
 def payments(request):
+
     # if request.method == 'POST':
     body = json.loads(request.body)
     # print(body)
@@ -224,6 +215,13 @@ def payments(request):
     order.payment = payment
     order.is_ordered = True
     order.save()
+
+    # saving coupon details to database
+    obj = UsedCoupons(
+        email = order.orderemail,
+        coupon_code = order.coupon,
+    )
+    obj.save()
 
     #move the cart items to order product table
     cart_items = CartItem.objects.filter(user=request.user)
@@ -270,7 +268,16 @@ def payments(request):
     return JsonResponse(data)
 
 
+def order_cancel(request, order_number):
+    order_number = order_number
+    order = Order.objects.get(order_number=order_number)
+    order.status = "Cancelled"
+    order.save()
+    return redirect('myorders')
+
+
 def order_complete(request):
+
     order_number = request.GET.get('order_number')
     transID = request.GET.get('payment_id')
     try:

@@ -26,6 +26,7 @@ class ShippingAddress(models.Model):
     last_name = models.CharField(blank=False, max_length=100)
     address_line_1 = models.CharField(blank=False, max_length=100)
     address_line_2 = models.CharField(blank=True, max_length=100)
+    emailaddress = models.EmailField(max_length=50, blank=False)
     city = models.CharField(blank=False, max_length=20)
     state = models.CharField(blank=False, max_length=20)
     country = models.CharField(blank=False, max_length=20)

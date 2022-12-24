@@ -12,7 +12,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_display= ('thumbnail', 'user', 'city', 'state', 'country')
 
 class ShippingAddressAdmin(admin.ModelAdmin):
-    list_display= ('user', 'first_name', 'last_name', 'city', 'state', 'country', 'is_default')
+    list_display= ('user', 'first_name', 'last_name', 'emailaddress', 'city', 'state', 'country', 'is_default')
 
 
 admin.site.register(UserProfile, UserProfileAdmin)

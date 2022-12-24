@@ -25,7 +25,7 @@
                             <h6 class="mt-2">{{ order.city }}</h6>
                             <h6 class="mt-2">{{ order.state }}</h6>
                             <h6 class="mt-2">{{ order.country }}</h6>
-                            <h6 class="mt-2">{{ order.email }}</h6>
+                            <h6 class="mt-2">{{ order.orderemail }}</h6>
                             <h6 class="mt-2">{{ order.phone }}</h6>
                             {% if order.order_note %}
                             <b>Order Note: {{ order.order_note }}</b>
@@ -120,6 +120,7 @@
                                 {% endif %}
                             </div>
                         </form>
+
                         {% if appliedcode %}
                         <div class="d-flex justify-content-between">
                             <h5 class="text-uppercase">Coupen:&nbsp;&nbsp;</h5>

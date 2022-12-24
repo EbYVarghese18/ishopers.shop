@@ -3,8 +3,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from accounts.models import Account
 
 
-
-
 # Create your models here.
 
 class Coupon(models.Model):
@@ -21,3 +19,10 @@ class Coupon(models.Model):
 
     def __str__(self):
         return self.coupon_code 
+
+class UsedCoupons(models.Model):
+    coupon_code = models.CharField( max_length=50)
+    email = models.CharField( max_length=50)
+
+    def __str__(self):
+        return self.email

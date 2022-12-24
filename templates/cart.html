@@ -90,24 +90,26 @@
                                         <!-- to delete a product -->
                                         <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                                             <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}"
-                                            class="text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            <i class="fa fa-times"></i>
-                                        </a>
+                                                class="text-white" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
+                                                <i class="fa fa-times"></i>
+                                            </a>
                                         </div>
                                         <!-- Modal -->
                                         <div class="modal fade" id="exampleModal" tabindex="-1"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
-                                                <div class="modal-content bg-dark">
-                                                    <div class="modal-header p-5">
-                                                        <h2 class="modal-title fs-5" id="exampleModalLabel">Are you sure?</h2>
-                                                    </div>
-                                                    <div class="modal-footer">
+                                                <div class="modal-content bg-dark p-5">
+                                                    <div lass="modal-content ">
+                                                        <h2 class="modal-title fs-5" id="exampleModalLabel">Are you
+                                                            sure?</h2>
+                                                        <br><br>
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Close</button>
                                                         <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}">
-                                                            <button type="button" class="btn btn-primary" class="text-white" data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModal">Delete</button>
+                                                            <button type="button" class="btn btn-primary"
+                                                                class="text-white" data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal">Delete</button>
                                                         </a>
                                                     </div>
                                                 </div>

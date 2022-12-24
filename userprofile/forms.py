@@ -29,7 +29,7 @@ class UserProfileForm(forms.ModelForm):
 class ShippingAddressForm(forms.ModelForm):
     class Meta:
         model = ShippingAddress
-        fields = ('first_name', 'last_name', 'address_line_1', 'address_line_2', 'city', 'state', 'country', 'pincode', 'phone_number')
+        fields = ('first_name', 'last_name', 'address_line_1', 'address_line_2',  'emailaddress', 'city', 'state', 'country', 'pincode', 'phone_number')
 
     def __init__(self, *args, **kwargs):
         super(ShippingAddressForm, self).__init__(*args, **kwargs) 
