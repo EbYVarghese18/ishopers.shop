@@ -4,11 +4,6 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.cache import cache_control
 from django.contrib.auth.decorators import login_required
-from accounts.models import Account
-from accounts.forms import RegistrationForm
-from cart.models import Cart, CartItem
-from cart.views import _cart_id
-
 #useractivation
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -16,12 +11,20 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
-
 import requests
+
+from accounts.models import Account
+from accounts.forms import RegistrationForm
+
+from cart.models import Cart, CartItem
+from cart.views import _cart_id
+
+from userprofile.models import UserProfile
 
 # Create your views here.
 
 # user view starts
+
 
 def register(request):
     if request.method == 'POST':    
@@ -34,9 +37,18 @@ def register(request):
             password = form.cleaned_data['password']
             username = email.split("@")[0]
             user = Account.objects.create_user(
-                first_name=first_name, last_name=last_name, email=email, username=username, password=password)
+                first_name=first_name, 
+                last_name=last_name, 
+                email=email, 
+                username=username, 
+                password=password
+            )
             user.phone_number = phone_number
             user.save()
+            
+            # # save the details to userprofile 
+            # obj = UserProfile(user=email)
+            # obj.save
 
             #user activation
             current_site = get_current_site(request)

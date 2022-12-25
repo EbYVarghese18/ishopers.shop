@@ -1,27 +1,32 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse 
-from cart.models import CartItem, Cart
-from cart.views import _cart_id
-from orders.forms import OrderForm
-import datetime
-from store.models import Products
-from orders.models import Order, Payment, OrderProduct
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-import razorpay
-# from ishop.settings import RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY
 from django.conf import settings
-import json
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+import json
+import datetime
+# import razorpay
+
+from cart.models import CartItem, Cart
+from cart.views import _cart_id
+
+from orders.forms import OrderForm
+from orders.models import Order, Payment, OrderProduct
+
+from store.models import Products
+
+# from ishop.settings import RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY
 
 from userprofile.models import ShippingAddress
 
 from coupon.models import UsedCoupons
 
-# Create your views here.
 
+
+# Create your views here.
 
 @login_required(login_url='signin')
 def checkout_address(request, total=0, quantity=0):
@@ -175,14 +180,14 @@ def cod(request, order_number):
     CartItem.objects.filter(user=request.user).delete()
 
     #send order received mail to customer
-    # mail_subject = 'Thank you for your order.'
-    # message = render_to_string('order_received.html', {
-    #     'user': request.user,
-    #     'order': order,
-    # })
-    # to_email = request.user.email
-    # send_email = EmailMessage(mail_subject, message, to=[to_email])
-    # send_email.send()
+    mail_subject = 'Thank you for your order.'
+    message = render_to_string('order_received.html', {
+        'user': request.user,
+        'order': order,
+    })
+    to_email = request.user.email
+    send_email = EmailMessage(mail_subject, message, to=[to_email])
+    send_email.send()
 
     order = Order.objects.get(order_number = order_number, is_ordered = True)
     context = {
@@ -251,14 +256,14 @@ def payments(request):
     CartItem.objects.filter(user=request.user).delete()
 
     #send order received mail to customer
-    # mail_subject = 'Thank you for your order.'
-    # message = render_to_string('order_received.html', {
-    #     'user': request.user,
-    #     'order': order,
-    # })
-    # to_email = request.user.email
-    # send_email = EmailMessage(mail_subject, message, to=[to_email])
-    # send_email.send()
+    mail_subject = 'Thank you for your order.'
+    message = render_to_string('order_received.html', {
+        'user': request.user,
+        'order': order,
+    })
+    to_email = request.user.email
+    send_email = EmailMessage(mail_subject, message, to=[to_email])
+    send_email.send()
 
     #send order number and transaction id back to sendData method via jsonresponse
     data = {

@@ -85,7 +85,6 @@ def deleteshippingaddress(request, id):
     return redirect('myaddress')
 
 
-
 def mywishlist(request):
     return render(request, 'mywishlist.html')
 
