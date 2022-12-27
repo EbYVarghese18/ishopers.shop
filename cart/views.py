@@ -7,8 +7,6 @@ from django.views.decorators.cache import cache_control
 
 
 # Create your views here.
-
-
 def _cart_id(request):
     cart = request.session.session_key
     if not cart:
@@ -28,7 +26,6 @@ def add_cart(request, product_id):
             for item in request.POST:
                 key = item
                 value = request.POST[key] 
-                
                 try:
                     variation = Variation.objects.get(product=product, variation_category__iexact=key, variation_value__iexact=value)
                     product_variation.append(variation)

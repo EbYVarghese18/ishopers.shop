@@ -3,6 +3,9 @@ from django.views.decorators.cache import cache_control
 from django.contrib.auth import authenticate
 from django.contrib import messages
 from django.utils.text import slugify
+from django.http import FileResponse
+
+from fpdf import FPDF
 
 from accounts.models import Account
 
@@ -306,3 +309,73 @@ def delete_coupon(request, id):
     deletecoupon.delete()
     messages.success(request, "The coupon is deleted")
     return redirect('admin_coupons')
+
+
+# reports view starts
+
+def admin_reports(request):
+    orders = Order.objects.filter(status = 'Delivered')
+    context = {
+        'orders': orders,
+    }
+    return render(request, 'admin_reports.html', context)
+
+# def generate_reports(request):
+
+
+def generate_report(request):
+
+    if request.method == 'POST':
+        fromdate = request.POST['fromdate']
+        todate = request.POST['todate']
+        print(fromdate)
+        print(todate)
+        class PDF(FPDF):
+
+            def header(self):
+                # Logo
+                # self.image('logo_pb.png', 10, 8, 33)
+                # Arial bold 15
+                self.set_font('Arial', 'B', 15)
+                # Move to the right
+                self.cell(80)
+                # title
+                self.cell(30, 10, 'iShop', 1, 0, 'C')
+                # Line break
+                self.ln(20)
+
+            # Page footer
+            def footer(self):
+                # Position at 1.5 cm from bottom
+                self.set_y(-15)
+                # Arial italic 8
+                self.set_font('Arial', 'I', 8)
+                # Page number
+                self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'C')
+
+        pdf = PDF('P', 'mm', 'A4')
+        pdf.alias_nb_pages()
+        pdf.add_page()
+        pdf.set_font('Times', '', 12) 
+        pdf.cell(60, 10, 'Order Number', border=True)
+        pdf.cell(60, 10, 'Username', border=True)
+        pdf.cell(60, 10, 'Order Total', border=True, ln=True)
+        grand_total = 0
+
+        orders = Order.objects.filter(status = 'Delivered')
+        for order in orders:
+            grand_total = grand_total + order.order_total
+            ordertotal = int(order.order_total)
+            ordertotal = str(ordertotal)
+            # (width,height, 'text', ln)
+            pdf.cell(60, 10, order.order_number, border=True)
+            pdf.cell(60, 10, order.first_name+  order.last_name, border=True)
+            pdf.cell(60, 10, ordertotal, border=True, ln=True)
+        
+        grand_total = int(grand_total)
+        grand_total = str(grand_total)
+        pdf.cell(60, 10, '', border=True)
+        pdf.cell(60, 10, 'Grand Total', border=True)
+        pdf.cell(60, 10, grand_total, border=True)
+        pdf.output('report.pdf', 'F')
+        return FileResponse(open('report.pdf', 'rb'), content_type='application/pdf')
