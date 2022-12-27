@@ -21,7 +21,9 @@ from ishop import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    
+    path('securelogin/', admin.site.urls),
     
     path('', views.home, name='home'),
 
