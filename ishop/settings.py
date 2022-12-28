@@ -93,11 +93,12 @@ AUTH_USER_MODEL = 'accounts.Account'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ishop',
-        'USER': 'eby',
-        'PASSWORD':'P@ssw0rd',
-        'HOST':'localhost'
+        'ENGINE': config('RDS_ENGINE'),
+        'NAME': config('RDS_NAME'),
+        'USER': config('RDS_USER'),
+        'PASSWORD': config('RDS_PASSWORD'),
+        'HOST': config('RDS_HOST'),
+        'PORT': config('RDS_PORT')
     }
 }
 
@@ -165,3 +166,12 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 
 # RAZORPAY_API_KEY = 'rzp_test_li9IyzTZMkKzf6'
 # RAZORPAY_API_SECRET_KEY = 'W8y    NYk7w8opJlsrJxNtjlZTy'
+
+
+# # AWS s3 buncket configuration
+# AWS_ACCESS_KEY_ID = 'AKIAUDQCLFDGGPXUCEHI'
+# AWS_SECRET_ACCESS_KEY = '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'
+# AWS_STORAGE_BUCKET_NAME = 'ishopers'
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.s3Boto3Storage'

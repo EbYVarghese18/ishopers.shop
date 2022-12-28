@@ -152,7 +152,8 @@
                                                         {% endfor %}
                                                         <button type="submit" class="" id="button-minus"
                                                             hx-post="{% url 'add_cart' cart_item.product.id %}"
-                                                            hx-swap='innerHTML' hx-target='#cart_page'>
+                                                            hx-swap='innerHTML' 
+                                                            hx-target='#cart_page'>
                                                             <i class="fa fa-plus"></i>
                                                         </button>
                                                     </form>
