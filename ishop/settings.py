@@ -27,9 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=True)
 
-# ALLOWED_HOSTS = ['http://ishop-env.eba-a4ep6p6u.us-west-2.elasticbeanstalk.com']
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -163,15 +161,3 @@ EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
-
-# RAZORPAY_API_KEY = 'rzp_test_li9IyzTZMkKzf6'
-# RAZORPAY_API_SECRET_KEY = 'W8y    NYk7w8opJlsrJxNtjlZTy'
-
-
-# # AWS s3 buncket configuration
-# AWS_ACCESS_KEY_ID = 'AKIAUDQCLFDGGPXUCEHI'
-# AWS_SECRET_ACCESS_KEY = '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'
-# AWS_STORAGE_BUCKET_NAME = 'ishopers'
-# AWS_S3_FILE_OVERWRITE = False
-# AWS_DEFAULT_ACL = None
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.s3Boto3Storage'
