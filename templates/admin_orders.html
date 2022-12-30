@@ -86,16 +86,56 @@
                                         <p class="text-white fa fa-info-circle fa-beat-fade"></p>
                                     </a>
 
-
                                     <a href="{% url 'orderstatus' item.order_number %}"
                                         class="text-white fa fa-edit fa-beat-fade ms-3"></a>
                                 </td>
+
                             </tr>
                             {% endfor %}
+
                         </tbody>
                     </table>
-
-
+                </div>
+                <div class="">
+                    <nav aria-label="Page navigation example">
+                        {% if orders.has_other_pages %}
+                            <ul class="pagination justify-content-center pt-5">
+                                {% if orders.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link px-3" href="?page={{orders.previous_page_number}}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link px-3" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% for i in orders.paginator.page_range %}
+                                    {% if orders.number == i %}
+                                        <li class="page-item active"><a class="page-link px-3" href="#">{{i}}</a></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link px-3" href="?page={{i}}">{{i}}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if orders.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link px-3" href="?page={{orders.next_page_number}}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link px-3" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        {% endif %}
+                    </nav>
                 </div>
             </div>
 

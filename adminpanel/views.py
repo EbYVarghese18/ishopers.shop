@@ -21,6 +21,7 @@ from adminpanel.forms import CategoryForm, ProductsForm
 from coupon.models import Coupon
 from coupon.forms import CouponForm
 
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
 # Create your views here.
@@ -60,6 +61,10 @@ def admin_home(request):
         order_shipped = Order.objects.filter(status__iexact='shipped').count()
         order_delivered = Order.objects.filter(status__iexact='delivered').count()
         order_cancelled = Order.objects.filter(status__iexact='cancelled').count()
+        order_total = Order.objects.filter(status = 'Delivered')
+        totalsale = 0 
+        for i in order_total:
+            totalsale = totalsale + i.order_total
 
         category_count = Category.objects.all().count()
 
@@ -72,6 +77,7 @@ def admin_home(request):
             'order_shipped': order_shipped,
             'order_delivered': order_delivered,
             'order_cancelled': order_cancelled,
+            'totalsale': totalsale,
         }
         return render(request, 'admin_home.html',context)
     else:
@@ -239,8 +245,12 @@ def admin_deleteproduct(requset, id):
 
 # Order view starts
 def admin_orders(request):
+    orders = Order.objects.order_by('order_number').all()
+    paginator = Paginator(orders, 10)
+    page = request.GET.get('page')
+    paged_orders = paginator.get_page(page)
     context = {
-            'orders': Order.objects.order_by('order_number').all()
+            'orders': paged_orders,
         }
     return render(request, 'admin_orders.html', context)
 
@@ -311,6 +321,7 @@ def delete_coupon(request, id):
     return redirect('admin_coupons')
 
 
+
 # reports view starts
 
 def admin_reports(request):
@@ -320,62 +331,55 @@ def admin_reports(request):
     }
     return render(request, 'admin_reports.html', context)
 
-# def generate_reports(request):
 
+def export_pdf(request):
 
-def generate_report(request):
+    class PDF(FPDF):
 
-    if request.method == 'POST':
-        fromdate = request.POST['fromdate']
-        todate = request.POST['todate']
-        print(fromdate)
-        print(todate)
-        class PDF(FPDF):
+        def header(self):
+            # Logo
+            # self.image('logo_pb.png', 10, 8, 33)
+            # Arial bold 15
+            self.set_font('Arial', 'B', 15)
+            # Move to the right
+            self.cell(80)
+            # title
+            self.cell(30, 10, 'iShop', 1, 0, 'C')
+            # Line break
+            self.ln(20)
 
-            def header(self):
-                # Logo
-                # self.image('logo_pb.png', 10, 8, 33)
-                # Arial bold 15
-                self.set_font('Arial', 'B', 15)
-                # Move to the right
-                self.cell(80)
-                # title
-                self.cell(30, 10, 'iShop', 1, 0, 'C')
-                # Line break
-                self.ln(20)
+        # Page footer
+        def footer(self):
+            # Position at 1.5 cm from bottom
+            self.set_y(-15)
+            # Arial italic 8
+            self.set_font('Arial', 'I', 8)
+            # Page number
+            self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'C')
 
-            # Page footer
-            def footer(self):
-                # Position at 1.5 cm from bottom
-                self.set_y(-15)
-                # Arial italic 8
-                self.set_font('Arial', 'I', 8)
-                # Page number
-                self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'C')
+    pdf = PDF('P', 'mm', 'A4')
+    pdf.alias_nb_pages()
+    pdf.add_page()
+    pdf.set_font('Times', '', 12) 
+    pdf.cell(60, 10, 'Order Number', border=True)
+    pdf.cell(60, 10, 'Username', border=True)
+    pdf.cell(60, 10, 'Order Total', border=True, ln=True)
+    grand_total = 0
 
-        pdf = PDF('P', 'mm', 'A4')
-        pdf.alias_nb_pages()
-        pdf.add_page()
-        pdf.set_font('Times', '', 12) 
-        pdf.cell(60, 10, 'Order Number', border=True)
-        pdf.cell(60, 10, 'Username', border=True)
-        pdf.cell(60, 10, 'Order Total', border=True, ln=True)
-        grand_total = 0
-
-        orders = Order.objects.filter(status = 'Delivered')
-        for order in orders:
-            grand_total = grand_total + order.order_total
-            ordertotal = int(order.order_total)
-            ordertotal = str(ordertotal)
-            # (width,height, 'text', ln)
-            pdf.cell(60, 10, order.order_number, border=True)
-            pdf.cell(60, 10, order.first_name+  order.last_name, border=True)
-            pdf.cell(60, 10, ordertotal, border=True, ln=True)
-        
-        grand_total = int(grand_total)
-        grand_total = str(grand_total)
-        pdf.cell(60, 10, '', border=True)
-        pdf.cell(60, 10, 'Grand Total', border=True)
-        pdf.cell(60, 10, grand_total, border=True)
-        pdf.output('report.pdf', 'F')
-        return FileResponse(open('report.pdf', 'rb'), content_type='application/pdf')
+    orders = Order.objects.filter(status = 'Delivered')
+    for order in orders:
+        grand_total = grand_total + order.order_total
+        ordertotal = int(order.order_total)
+        ordertotal = str(ordertotal)
+        # (width,height, 'text', ln)
+        pdf.cell(60, 10, order.order_number, border=True)
+        pdf.cell(60, 10, order.first_name+  order.last_name, border=True)
+        pdf.cell(60, 10, ordertotal, border=True, ln=True)
+    
+    grand_total = int(grand_total)
+    grand_total = str(grand_total)
+    pdf.cell(60, 10, '', border=True)
+    pdf.cell(60, 10, 'Grand Total', border=True)
+    pdf.cell(60, 10, grand_total, border=True)
+    pdf.output('report.pdf', 'F')
+    return FileResponse(open('report.pdf', 'rb'), content_type='application/pdf')

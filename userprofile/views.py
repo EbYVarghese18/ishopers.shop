@@ -9,6 +9,7 @@ from userprofile.forms import UserForm, UserProfileForm, ShippingAddressForm
 from accounts.models import Account
 
 from orders.models import Order, OrderProduct
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
 
@@ -91,13 +92,19 @@ def mywishlist(request):
 
 @login_required(login_url='signin')
 def myorders(request):
+
     orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_ordered=True)
-    orders_count = orders.count()
+    
+    paginator = Paginator(orders, 10)
+    page = request.GET.get('page')
+    paged_orders = paginator.get_page(page)
+
+    order_count = orders.count()
+    
     context = {
-        'orders_count': orders_count,
-        'orders': orders,
-    }
-    # orders = Order.objects.filter(user=request.user, is_ordered=True).order_by('-created_at')
+        'orders': paged_orders,
+        'order_count': order_count,
+        } 
     return render(request, 'myorders.html', context)
 
 

@@ -21,13 +21,10 @@
             <div class="mx-auto">
 
                 <div class="container p-5 d-flex align-items-center justify-content-center">
-                    <form action="{% url 'generate_report' %}" method="POST" target="_blank">
-                        {% csrf_token %}
-                        From:<input type="date" class="me-4" name="fromdate">
-                        To:<input type="date" class="" name="todate">
-                        <button type="POST" class="btn btn-primary p-2 ms-5">Generate
-                            Report</button>
-                    </form>
+                    
+                    <button class="btn btn-success p-2 ms-5"><a class="text-white" href="{% url 'export_pdf' %}">Generate Report</a></button>
+                    <button class="btn btn-success p-2 ms-5"><a class="text-white" href="{% url 'export_pdf' %}">Generate Report</a></button>
+                    
                 </div>
 
                 <div>
