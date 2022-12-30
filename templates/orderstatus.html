@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'baseadmin.html' %}
 
 {% block title %} User_profile {% endblock title %}
 
@@ -8,35 +8,42 @@
 
 
 
-<!-- userprofile starts -->
+<!-- starts -->
 
 
+<div class="container-fluid p-4 text-white">
 
-<div class="container-fluid px-5 text-white">
-    <div class="row g-0 d-flex justify-content-evenly">
-        <div class="col-12 col-sm-6 col-md-3 text-center my-2"
-            style="border-radius: 15px; background-color: #2e343a; width:330px;">
+    <div class="row g-0">
+        <div class="text-center p-4">
+            <img class="logo mb-2" src="{% static 'images/logo.png' %}" alt="">
+        </div>
+    </div>
+
+    <div class="row g-0 d-flex justify-content-center">
+        <div class="col-12 col-md-4 p-5" style="background-color: rgb(15, 15, 15); border-radius: 10px;">
+
+            <div>
+                <h4 class="text-center pb-3"><u>Update order status</u></h4>
+            </div>
+
             <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                   {{orderform.as_p}}
                    
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary"> Submit </button>
-                    </div> <!-- form-group// -->      
+                <div class="form-group text-center pt-4">
+                    <button type="submit" class="btn btn-primary"> Submit </button>
+                </div>  
+                <div class="pt-3 d-flex justify-content-start">
+                    <a href="{% url 'admin_orders' %}">
+                    <p class="text-white"><i class="fa fa-arrow-left"></i> Back to orders</p></a>
+                </div>   
                         
-                </form>
+            </form>
+
         </div>
     </div>
+
 </div>
-
-
-{% comment %} <div class="col-12 col-sm-6 col-md-3 text-center my-2"
-    style="border-radius: 15px; background-color: #2e343a; width:330px;">
-    <a href="{% url 'mywishlist' %}" class="text-white p-2">
-        <h5>My Wishlist</h5>
-        <p style="font-size: 12px;">Have a look at your favourite products</p>
-    </a>
-</div> {% endcomment %}
 
 <!-- userprofile ends -->
 

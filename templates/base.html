@@ -17,55 +17,52 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
 
 </head>
+<!-- head ends -->
 
+<!-- body starts -->
 <body style="background-color: #212529;">
 
 
-    <!-- navbar starts -->
-
+<!-- navbar starts -->
     <nav class="navbar navbar-light bg-dark">
         <div class="navbar_custom container-fluid">
 
             <a class="p-4 navbar-brand" href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}"
-                    alt=""></a>
+                    alt="logo"></a>
             <form action="{% url 'search' %}" method="GET" class="d-flex">
-                <input class="form-control me-2 text-white" type="search" placeholder="Search" aria-label="Search" name="keyword" style="background-color: #212529;">
+                <input class="form-control me-2 text-white" type="search" placeholder="Search" aria-label="Search" name="keyword" style="background-color: #212529;" required>
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
 
             <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
                 <a class="px-3 text-white" href="{% url 'store' %}"><b>Store</b></a>
-                <div class="d-flex align-items-center">
-                    <img class="" src="{% static 'images/location.png' %}" alt=""
-                        style="height: 15px; margin-right: 3px;">
-                    <p>673579</p>
-                    <a href=""><img src="{% static 'images/edit.png' %}" alt=""
-                            style="height: 14px; margin-left: 3px ;"></a>
-                </div>
                 {% if user.is_authenticated %}
-                    <div class="px-3">
-                        <p>Welcome, {{ user.first_name }}</p>
-                    </div>
-                    <div class="">
-                        <a href="{% url 'user_home' %}"><i class="fa fa-user text-white fa-lg"></i></a>
-                    </div>
-                    <div class="px-3">
-                        <a href="{% url 'cart' %}" class="widget-header">
-                            <div class="text-white">
-                                {% if cart_count >= 1 %}
-                                <i class="fa fa-shopping-cart fa-lg fa-flip" style="--fa-animation-duration: 3s;"></i>
-                                <span><b>{{ cart_count }}</b></span>
-                                {% else %}
-                                <i class="fa fa-shopping-cart fa-lg"></i>
-                                <span><b>{{ cart_count }}</b></span>
-                                {% endif %}
-                            </div>
-                        </a>
-                    </div>
-                    <div class="">
-                        <a href="{% url 'signout' %}"><i class="fa fa-sign-out fa-lg text-white"></i></a>
-                    </div>
+                <div class="">
+                    <p>Hi, {{ user.first_name }}</p>
+                </div>
+                <div class="px-3">
+                    <a href="{% url 'user_home' %}"><i class="fa fa-user text-white fa-lg"></i></a>
+                </div>
+                <div class="">
+                    <a href="{% url 'cart' %}" class="widget-header">
+                        <div class="text-white">
+                            {% if cart_count >= 1 %}
+                            <i class="fa fa-shopping-cart fa-lg fa-flip" style="--fa-animation-duration: 3s;"></i>
+                            <span><b>{{ cart_count }}</b></span>
+                            {% else %}
+                            <i class="fa fa-shopping-cart fa-lg"></i>
+                            <span><b>{{ cart_count }}</b></span>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+                <div class="px-3">
+                    <a href="{% url 'signout' %}"><i class="fa fa-sign-out fa-lg text-white"></i></a>
+                </div>
                 {% else %}
+                <div class="">
+                    <p>Hi, Guest</p>
+                </div>
                 <a class="text-white px-3" href="{% url 'signin' %}">Login</a>
                 {% endif %}
             </div>

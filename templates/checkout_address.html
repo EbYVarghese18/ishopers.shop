@@ -9,66 +9,66 @@
 
 
 <!-- Shipping address-->
-<section class="h-100 text-white">
-    <div class="container">
-        <div class="row justify-content-evenly">
-            {% for address in shippingaddress %}
-            <div class="col-12 col-md-6 m-5 p-5 align-items-center"
-                style="border-radius: 15px; background-color: #282d32; height:300px; width:500px;">
-                <div class="d-flex justify-content-end">
-                    <i class="fa fa-check fa-3x" style="color:green;"></i>
-                </div>
-                <div class="text-center" style="font-size: large;">
-                    {{ address.first_name }}&nbsp;{{ address.last_name }} <br>
-                    {{ address.emailaddress }} <br>
-                    {{ address.address_line_1 }},
-                    {{ address.address_line_2 }}<br>
-                    {{ address.city }}-
-                    {{ address.pincode }} <br>
-                    {{ address.country }},
-                    {{ address.state }} <br>
-                    {{ address.phone_number }}
-                    {{ address.emailaddress }}
-                </div>
+<div class="container text-white">
+    <div class="row justify-content-evenly">
+        {% for address in shippingaddress %}
+        <div class="m-2 col-12 col-md-5 p-5 align-items-center"
+            style="border-radius: 15px; background-color: #282d32;">
+            <div class="d-flex justify-content-end">
+                <i class="fa fa-check fa-3x" style="color:green;"></i>
             </div>
-            {% endfor %}
-            <!-- order summary starts -->
-            <div class="col-12 col-md-6 m-5 p-5 align-items-center"
-                style="border-radius: 15px; background-color: #282d32; height:300px; width:500px;">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">Order Summary:</h4>
-                    {% if not cart_items %}
-                    <h2 class="text-center mb-5">Your Cart is Empty!</h2>
-                    <div class="text-center">
-                        <a href="{% url 'store' %}" class="btn btn-success p-2">Continue Shopping</a>
-                    </div>
-                    {% else %}
-                    <hr class="my-4">
-                    <div class="d-flex justify-content-between mb-4">
-                        <h5 class="text-uppercase">Total:</h5>
-                        <h5>₹{{ total }}</h5>
-                    </div>
-                    <div class="d-flex justify-content-between mb-4">
-                        <h5 class="text-uppercase">Tax:</h5>
-                        <h5>₹{{ tax }}</h5>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <h5 class="text-uppercase">Grand Total:</h5>
-                        <h5>₹{{ grand_total }}</h5>
-                    </div>
-                    {% endif %}
+            <div class="text-center" style="font-size: large;">
+                {{ address.first_name }}&nbsp;{{ address.last_name }} <br>
+                {{ address.emailaddress }} <br>
+                {{ address.address_line_1 }},
+                {{ address.address_line_2 }}<br>
+                {{ address.city }}-
+                {{ address.pincode }} <br>
+                {{ address.country }},
+                {{ address.state }} <br>
+                {{ address.phone_number }}
+                {{ address.emailaddress }}
+            </div>
+        </div>
+        {% endfor %}
+        <!-- order summary starts -->
+        <div class="m-2 col-12 col-md-5 p-5 align-items-center"
+            style="border-radius: 15px; background-color: #282d32;">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Order Summary:</h4>
+                {% if not cart_items %}
+                <h2 class="text-center mb-5">Your Cart is Empty!</h2>
+                <div class="text-center">
+                    <a href="{% url 'store' %}" class="btn btn-success p-2">Continue Shopping</a>
                 </div>
+                {% else %}
+                <hr class="my-4">
+                <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase">Total:</h5>
+                    <h5>₹{{ total }}</h5>
+                </div>
+                <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase">Tax:</h5>
+                    <h5>₹{{ tax }}</h5>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <h5 class="text-uppercase">Grand Total:</h5>
+                    <h5>₹{{ grand_total }}</h5>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
-</section>
+</div>
+<!-- Shipping ends-->
 
 
 <!-- change address and use this address -->
-<div class="container pb-5 h-100">
+<div class="container my-5">
     <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-6 p-3 card card-registration card-registration-2"
+        <div class="p-3 card card-registration card-registration-2"
             style="border-radius: 15px; background-color: #282d32;">
+
             <div class="d-flex justify-content-center align-items-center">
 
                 <a href="{% url 'myaddress' %}">

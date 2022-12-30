@@ -30,23 +30,16 @@
                 name="keyword" style="background-color: #212529;">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
-
         <div class="p-4 d-flex align-items-center justify-content-evenly text-white">
             <a class="px-3 text-white" href="{% url 'store' %}"><b>Store</b></a>
-            <div class="d-flex align-items-center">
-                <img class="" src="{% static 'images/location.png' %}" alt="" style="height: 15px; margin-right: 3px;">
-                <p>673579</p>
-                <a href=""><img src="{% static 'images/edit.png' %}" alt=""
-                        style="height: 14px; margin-left: 3px ;"></a>
-            </div>
             {% if user.is_authenticated %}
-            <div class="px-3">
-                <p>Welcome, {{ user.first_name }}</p>
-            </div>
             <div class="">
+                <p>Hi, {{ user.first_name }}</p>
+            </div>
+            <div class="px-3">
                 <a href="{% url 'user_home' %}"><i class="fa fa-user text-white fa-lg"></i></a>
             </div>
-            <div class="px-3">
+            <div class="">
                 <a href="{% url 'cart' %}" class="widget-header">
                     <div class="text-white">
                         {% if cart_count >= 1 %}
@@ -59,10 +52,13 @@
                     </div>
                 </a>
             </div>
-            <div class="">
+            <div class="px-3">
                 <a href="{% url 'signout' %}"><i class="fa fa-sign-out fa-lg text-white"></i></a>
             </div>
             {% else %}
+            <div class="">
+                <p>Hi, Guest</p>
+            </div>
             <a class="text-white px-3" href="{% url 'signin' %}">Login</a>
             {% endif %}
         </div>
@@ -84,7 +80,7 @@
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12">
                     <div class="card card-registration card-registration-2"
-                        style="border-radius: 15px; background-color: #282d32;">
+                        style="border-radius: 15px ; background-color: #282d32;">
                         <div class="card-body p-0">
                             <div class="row g-0">
                                 <div class="col-lg-8">
@@ -230,11 +226,11 @@
                                             <h5 class="text-uppercase">Grand Total:</h5>
                                             <h5>₹{{ grand_total }}</h5>
                                         </div>
-
-                                        <a href="{% url 'checkout_address' %}"><button type="button"
+                                        <div class="text-center">
+                                            <a href="{% url 'checkout_address' %}"><button type="button"
                                                 class="btn btn-primary btn-block btn-lg"
                                                 data-mdb-ripple-color="dark">Proceed to buy</button></a>
-
+                                        </div>
                                     </div>
                                 </div>
                                 {% endif %}

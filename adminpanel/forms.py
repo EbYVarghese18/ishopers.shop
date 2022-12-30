@@ -33,10 +33,10 @@ class CategoryForm(forms.ModelForm):
 
 
 class ProductsForm(forms.ModelForm):
-
+    images = forms.ImageField(required=False, error_messages={'invalid':('image files only')}, widget=forms.FileInput)
     class Meta:
         model = Products
-        fields = ['product_name', 'slug', 'description', 'price', 'stock', 'category']
+        fields = ['product_name', 'slug', 'description', 'price', 'images', 'stock', 'category']
 
     def __init__(self,*args,**kwargs):
         super(ProductsForm,self).__init__(*args,**kwargs)
@@ -44,7 +44,7 @@ class ProductsForm(forms.ModelForm):
         self.fields['slug'].widget.attrs['placeholder']='Enter Product slug'
         self.fields['description'].widget.attrs['placeholder']='Enter Product Description'
         self.fields['price'].widget.attrs['placeholder']='Enter Product price'
-        # self.fields['images'].widget.attrs['placeholder']='Enter Product Description'
+        self.fields['images'].widget.attrs['placeholder']='Enter Product Description'
         self.fields['stock'].widget.attrs['placeholder']='Enter Product stock'
         # self.fields['is_available'].widget.attrs['placeholder']='Enter Product is_available'
         self.fields['category'].widget.attrs['placeholder']='Enter Product category'
