@@ -1,6 +1,6 @@
 from django import forms 
 from accounts.models import Account
-from userprofile.models import UserProfile, ShippingAddress
+from userprofile.models import ShippingAddress
 
 
 class UserForm(forms.ModelForm):
@@ -17,7 +17,7 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     profile_picture = forms.ImageField(required=False, error_messages={'invalid':('image files only')}, widget=forms.FileInput)
     class Meta:
-        model = UserProfile
+        model = Account
         fields = ('address_line_1', 'address_line_2', 'city', 'state', 'country', 'profile_picture')
         
     def __init__(self, *args, **kwargs):

@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from userprofile.models import UserProfile, ShippingAddress
+from userprofile.models import ShippingAddress
 from userprofile.forms import UserForm, UserProfileForm, ShippingAddressForm
 
 from accounts.models import Account
@@ -16,11 +16,14 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 # Create your views here.
 
 def user_home(request):
-    userprofile = get_object_or_404(UserProfile, user=request.user)
-    context = {
-        'userprofile':userprofile
-    } 
-    return render(request, 'userhome.html', context)
+    try:
+        userprofile = get_object_or_404(Account, user=request.user)
+        context = {
+            'userprofile':userprofile
+        } 
+        return render(request, 'userhome.html', context)
+    except:
+        return render(request, 'userhome.html')
 
 
 
@@ -111,7 +114,7 @@ def myorders(request):
 @login_required(login_url='signin')
 def editprofile(request):
          
-    userprofile = get_object_or_404(UserProfile, user=request.user)
+    userprofile = get_object_or_404(Account, email=request.user)
 
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)

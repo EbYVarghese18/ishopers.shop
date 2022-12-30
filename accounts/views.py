@@ -19,8 +19,6 @@ from accounts.forms import RegistrationForm
 from cart.models import Cart, CartItem
 from cart.views import _cart_id
 
-from userprofile.models import UserProfile
-
 # Create your views here.
 
 # user view starts
@@ -45,10 +43,6 @@ def register(request):
             )
             user.phone_number = phone_number
             user.save()
-            
-            # # save the details to userprofile 
-            # obj = UserProfile(user=email)
-            # obj.save
 
             #user activation
             current_site = get_current_site(request)
