@@ -8,7 +8,6 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 import json
 import datetime
-# import razorpay
 
 from cart.models import CartItem, Cart
 from cart.views import _cart_id
@@ -18,12 +17,9 @@ from orders.models import Order, Payment, OrderProduct
 
 from store.models import Products
 
-# from ishop.settings import RAZORPAY_API_KEY, RAZORPAY_API_SECRET_KEY
-
 from userprofile.models import ShippingAddress
 
 from coupon.models import UsedCoupons
-
 
 
 # Create your views here.
@@ -204,7 +200,6 @@ def payments(request):
 
     # if request.method == 'POST':
     body = json.loads(request.body)
-    # print(body)
 
     # store transactions details inside Payment model   
     order = Order.objects.get(

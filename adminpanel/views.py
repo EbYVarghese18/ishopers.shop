@@ -174,7 +174,6 @@ def admin_deletecategory(request, id):
 
 
 def admin_addcategory(request):
-    
     if request.method == 'POST':
         form = CategoryForm(request.POST)
         if form.is_valid():
