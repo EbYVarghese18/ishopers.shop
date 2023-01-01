@@ -39,8 +39,8 @@
                                 <th scope="col">Category ID</th>
                                 <th scope="col">Category Name</th>
                                 <th scope="col">Slug</th>
-                                <th scope="col">Description</th>
-                                {% comment %} <th scope="col">Image</th> {% endcomment %}
+                                <!-- <th scope="col">Description</th> -->
+                                <!-- <th scope="col">Image</th> -->
                                 <th scope="col">Edit</th>
                             </tr>
                         </thead>
@@ -50,8 +50,8 @@
                                 <td class="text-white">{{category.id}}</td>
                                 <td class="text-white">{{category.category_name}}</td>
                                 <td class="text-white">{{category.slug}}</td>
-                                <td class="text-white">{{category.description}}</td>
-                                {% comment %} <td class="text-white">{{category.image}}</td> {% endcomment %}
+                                <!-- <td class="text-white">{{category.description}}</td> -->
+                                <!-- <td class="text-white">{{category.image}}</td> -->
                                 <td><a class="text-white" href="{% url 'admin_editcategory' category.id %}"><i class="fa fa-edit fa-beat-fade"></i></a>&nbsp;
                                     <a class="text-white" href="{% url 'admin_deletecategory' category.id %}"><i class="fa fa-trash fa-beat-fade"></i></a></td>
                             </tr>
