@@ -227,6 +227,7 @@ def admin_editproduct(request, id):
         if form.is_valid():
             editproduct.slug=slugify(editproduct.product_name)
             form.save()
+            messages.success(request, "The product item is updated")
             return redirect("admin_products")     
     context={
             'productform':productform,
