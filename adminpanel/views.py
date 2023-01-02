@@ -204,7 +204,7 @@ def admin_products(request):
 
 def admin_addproduct(request):
     if request.method == 'POST':
-        form = ProductsForm(request.POST, request. FILES)
+        form = ProductsForm(request.POST, request.FILES)
         if form.is_valid():
             form.save() 
             messages.success(request, "The product item is added")
@@ -223,7 +223,7 @@ def admin_editproduct(request, id):
     editproduct=Products.objects.get(pk=id)
     productform=ProductsForm(instance=editproduct)
     if request.method == 'POST':
-        form = ProductsForm(request.POST, instance=editproduct)
+        form = ProductsForm(request.POST, request.FILES, instance=editproduct)
         if form.is_valid():
             editproduct.slug=slugify(editproduct.product_name)
             form.save()

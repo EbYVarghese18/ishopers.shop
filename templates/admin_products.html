@@ -59,7 +59,7 @@
                                 <td class="text-white">{{product.stock}}</td>
                                 <td class="text-white">{{product.is_available}}</td>
                                 <td class="text-white">{{product.category}}</td>
-                                <td class="d-flex align-items-center" style="height: 150px;">
+                                <td class="d-flex align-items-center">
                                     <a href="{% url 'admin_editproduct' product.id %}" class="text-white fa fa-edit fa-beat-fade"></a> &nbsp;&nbsp;
                                     <a href="{% url 'admin_deleteproduct' product.id %}" class="text-white fa fa-trash fa-beat-fade"></a>
                                 </td>
