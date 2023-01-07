@@ -19,7 +19,7 @@ urlpatterns = [
     path('userprofile/', include('userprofile.urls')),
     path('orders/', include('orders.urls')),
     path('coupon/', include('coupon.urls')),
-]  
+]
 
 # when debug=True
 if settings.DEBUG:
