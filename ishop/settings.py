@@ -90,27 +90,27 @@ AUTH_USER_MODEL = 'accounts.Account'
 
 
 # LOCAL DB CONFIGURATION
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'ishop',
-#         'USER': 'eby',
-#         'PASSWORD':'P@ssw0rd',
-#         'HOST': 'localhost',
-#     }
-# }
-
-# AWS RDS CONFIGURATION
 DATABASES = {
     'default': {
-        'ENGINE': config('RDS_ENGINE'),
-        'NAME': config('RDS_NAME'),
-        'USER': config('RDS_USER'),
-        'PASSWORD': config('RDS_PASSWORD'),
-        'HOST': config('RDS_HOST'),
-        'PORT': config('RDS_PORT')
+        'ENGINE': config('ENGINE'),
+        'NAME': config('NAME'),
+        'USER': config('USER'),
+        'PASSWORD': config('PASSWORD'),
+        'HOST': config('HOST'),
     }
 }
+
+# AWS RDS CONFIGURATION
+# DATABASES = {
+#     'default': {
+#         'ENGINE': config('ENGINE'),
+#         'NAME': config('NAME'),
+#         'USER': config('USER'),
+#         'PASSWORD': config('PASSWORD'),
+#         'HOST': config('HOST'),
+#         'PORT': config('PORT')
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -149,32 +149,34 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 # STATIC FILE CONFIGURATION - DEV ENVIRONENT
-# STATIC_URL = '/static/'
-# STATICFILES_DIRS = [    #telling django where the file is
-#     os.path.join(BASE_DIR, 'static'),
-# ]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [    #telling django where the file is
+    os.path.join(BASE_DIR, 'static'),
+]
 # STATIC_ROOT = os.path.join(BASE_DIR, 'assets')  #django defines its own folder for the static files. We just giving a name 'assets'
 
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # AWS S3 CONFIGURATION - FOR PRODUCTION ENVIRONMENT
-AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-AWS_DEFAULT_ACL = 'public-read'
+# AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+# AWS_DEFAULT_ACL = 'public-read'
 
-AWS_LOCATION = 'static'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-DEFAULT_FILE_STORAGE = 'ishop.storages.MediaStore'
+# AWS_LOCATION = 'static'
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+# ]
+# STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'ishop.storages.MediaStore'
 
 
 from django.contrib.messages import constants as messages
