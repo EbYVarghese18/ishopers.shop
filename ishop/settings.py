@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', cast=bool, default=True)
+DEBUG = False
 
-ALLOWED_HOSTS = ['*','localhost']
+ALLOWED_HOSTS = ['54.224.185.193', 'localhost']
 
 # Application definition
 
@@ -149,14 +149,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 # STATIC FILE CONFIGURATION - DEV ENVIRONENT
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [ 
-    BASE_DIR / "static",
-]
+#STATIC_URL = '/static/'
+#STATICFILES_DIRS = [ 
+#    BASE_DIR / "static",
+#]
 
 #STATIC FILE CONFIGURATION - PROD ENVIRONMENT
-#STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'assets') 
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets') 
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
