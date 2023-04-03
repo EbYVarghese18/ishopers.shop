@@ -13,8 +13,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 import requests
 
-from accounts.models import Account
-from accounts.forms import RegistrationForm
+from .models import Account
+from .forms import RegistrationForm
 
 from cart.models import Cart, CartItem
 from cart.views import _cart_id

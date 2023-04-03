@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from store.models import Products
+from .models import Products
 from category.models import Category
 from cart.views import _cart_id
 from django.http import HttpResponse

@@ -6,7 +6,7 @@ from cart.models import Cart, CartItem
 
 from orders.models import Order
 
-from coupon.models import Coupon,UsedCoupons
+from .models import Coupon,UsedCoupons
 
 # Create your views here.
 

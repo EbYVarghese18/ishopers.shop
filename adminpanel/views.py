@@ -16,7 +16,7 @@ from category.models import Category
 from orders.models import Order
 from orders.forms import OrderFormStatus
 
-from adminpanel.forms import CategoryForm, ProductsForm
+from .forms import CategoryForm, ProductsForm
 
 from coupon.models import Coupon
 from coupon.forms import CouponForm

@@ -12,8 +12,8 @@ import datetime
 from cart.models import CartItem, Cart
 from cart.views import _cart_id
 
-from orders.forms import OrderForm
-from orders.models import Order, Payment, OrderProduct
+from .forms import OrderForm
+from .models import Order, Payment, OrderProduct
 
 from store.models import Products
 

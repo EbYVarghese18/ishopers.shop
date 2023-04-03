@@ -92,11 +92,11 @@ AUTH_USER_MODEL = 'accounts.Account'
 # LOCAL DB CONFIGURATION
 DATABASES = {
     'default': {
-        'ENGINE': config('ENGINE'),
-        'NAME': config('NAME'),
-        'USER': config('USER'),
-        'PASSWORD': config('PASSWORD'),
-        'HOST': config('HOST'),
+        'ENGINE': config('DB_ENGINE'),
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
     }
 }
 
@@ -150,17 +150,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # STATIC FILE CONFIGURATION - DEV ENVIRONENT
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [    #telling django where the file is
-    os.path.join(BASE_DIR, 'static'),
+STATICFILES_DIRS = [ 
+    BASE_DIR / "static",
 ]
-# STATIC_ROOT = os.path.join(BASE_DIR, 'assets')  #django defines its own folder for the static files. We just giving a name 'assets'
+
+#STATIC FILE CONFIGURATION - PROD ENVIRONMENT
+#STATIC_URL = '/static/'
+#STATIC_ROOT = os.path.join(BASE_DIR, 'assets') 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # AWS S3 CONFIGURATION - FOR PRODUCTION ENVIRONMENT
 # AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
